@@ -11,8 +11,8 @@ class Settings(BaseSettings):
     app_port: int = 8000
     log_level: str = "info"
 
-    max_markdown_bytes: int = 1 * 1024 * 1024
-    max_upload_bytes: int = 2 * 1024 * 1024
+    max_markdown_bytes: int = 5 * 1024 * 1024
+    max_upload_bytes: int = 10 * 1024 * 1024
     owner_max_markdown_bytes: int = 20 * 1024 * 1024
     owner_max_upload_bytes: int = 50 * 1024 * 1024
 

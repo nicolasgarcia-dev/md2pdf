@@ -18,7 +18,7 @@ from .config import settings
 from .ratelimit import enforce
 from .rendering.chromium import chromium
 from .rendering.dispatcher import render
-from .rendering.themes import THEMES, is_valid
+from .rendering.themes import THEMES, get_preview_stylesheet, is_valid
 from .security import BYPASS_COOKIE_NAME, is_privileged
 
 logger = logging.getLogger("md2pdf")
@@ -60,6 +60,7 @@ class RenderRequest(BaseModel):
     title: str = Field("document", max_length=120)
     include_toc: bool = True
     force_high_fidelity: bool = False
+    custom_css: str = Field("", description="Custom CSS (only used when theme='custom')")
 
 
 _SAFE_FILENAME_RE = re.compile(r"[^A-Za-z0-9._-]+")
@@ -80,6 +81,16 @@ async def list_themes() -> list[dict[str, str]]:
     return [{"slug": t.slug, "name": t.name, "description": t.description} for t in THEMES]
 
 
+@app.get("/api/themes/{slug}/css")
+async def theme_preview_css(slug: str) -> Response:
+    """Return theme CSS scoped to #preview for the live preview pane."""
+    if not is_valid(slug) or slug == "custom":
+        slug = "github"
+    css = get_preview_stylesheet(slug)
+    return Response(content=css, media_type="text/css",
+                    headers={"Cache-Control": "public, max-age=3600"})
+
+
 @app.post("/api/render", dependencies=[Depends(enforce)])
 async def render_markdown(request: Request, payload: RenderRequest = Body(...)) -> Response:
     max_bytes = _effective_max_markdown(request)
@@ -93,6 +104,7 @@ async def render_markdown(request: Request, payload: RenderRequest = Body(...)) 
         title=payload.title or "document",
         include_toc=payload.include_toc,
         force_high_fidelity=payload.force_high_fidelity,
+        custom_css=payload.custom_css,
     )
     filename = _safe_filename(payload.title or "document")
     return Response(

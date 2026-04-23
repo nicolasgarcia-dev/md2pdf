@@ -25,6 +25,7 @@ async def render(
     title: str = "document",
     include_toc: bool = True,
     force_high_fidelity: bool = False,
+    custom_css: str = "",
 ) -> RenderResult:
     if not is_valid(theme):
         theme = "github"
@@ -37,6 +38,7 @@ async def render(
         include_toc=include_toc,
         enable_math=rendered.analysis.has_math,
         enable_mermaid=rendered.analysis.has_mermaid,
+        custom_css=custom_css,
     )
     html_document = build_html(rendered, options)
 
