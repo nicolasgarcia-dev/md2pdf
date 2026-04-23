@@ -1,0 +1,13 @@
+/* Modern theme: tight sans-serif, accented headings and links. */
+body {
+    font-family: "Inter", "Noto Sans", "Segoe UI", sans-serif;
+    color: #0f172a;
+}
+h1, h2, h3, h4 { color: #2563eb; letter-spacing: -0.015em; }
+h1 { font-weight: 800; }
+a { color: #2563eb; border-bottom: 1px solid rgba(37,99,235,0.3); }
+blockquote { border-left-color: #2563eb; background: #eff6ff; color: #1e3a8a; }
+th { background: #eff6ff; color: #1e3a8a; }
+pre, .codehilite { background: #0f172a; color: #e2e8f0; }
+.codehilite .c, .codehilite .c1, .codehilite .cm { color: #94a3b8; }
+code { background: #eef2ff; color: #3730a3; }

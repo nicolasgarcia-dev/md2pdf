@@ -1,0 +1,17 @@
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.9.2
+pydantic-settings==2.6.1
+python-multipart==0.0.18
+
+# Markdown pipeline
+markdown-it-py==3.0.0
+mdit-py-plugins==0.4.2
+pygments==2.18.0
+
+# PDF renderers
+weasyprint==63.1
+playwright==1.49.0
+
+# Sanitization
+bleach==6.2.0

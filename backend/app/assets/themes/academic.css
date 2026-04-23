@@ -1,0 +1,22 @@
+/* Academic theme: serif body, justified paragraphs, numbered headings. */
+body {
+    font-family: "Noto Serif", "Liberation Serif", Georgia, serif;
+    color: #1b1b1b;
+}
+main.document p { text-align: justify; hyphens: auto; }
+h1, h2, h3, h4 {
+    font-family: "Noto Serif", Georgia, serif;
+    font-weight: 700;
+}
+main.document { counter-reset: h2counter; }
+main.document h2 { counter-reset: h3counter; }
+main.document h2::before {
+    counter-increment: h2counter;
+    content: counter(h2counter) ". ";
+}
+main.document h3::before {
+    counter-increment: h3counter;
+    content: counter(h2counter) "." counter(h3counter) " ";
+}
+a { color: #8b0000; }
+blockquote { font-style: italic; }

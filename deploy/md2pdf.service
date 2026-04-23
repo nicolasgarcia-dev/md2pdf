@@ -1,0 +1,40 @@
+[Unit]
+Description=md2pdf - Markdown to PDF web app
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=md2pdf
+Group=md2pdf
+WorkingDirectory=/opt/md2pdf
+EnvironmentFile=/opt/md2pdf/.env
+ExecStart=/opt/md2pdf/.venv/bin/uvicorn backend.app.main:app \
+    --host 127.0.0.1 --port 8000 --workers 2
+Restart=on-failure
+RestartSec=5
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHostname=true
+ProtectClock=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+ReadWritePaths=/opt/md2pdf/tmp /opt/md2pdf/.cache
+CapabilityBoundingSet=
+AmbientCapabilities=
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+
+[Install]
+WantedBy=multi-user.target

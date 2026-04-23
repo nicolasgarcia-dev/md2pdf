@@ -1,0 +1,19 @@
+/* Elegant theme: warm serif body with contrasting sans-serif headings. */
+body {
+    font-family: "Source Serif Pro", "Noto Serif", Georgia, serif;
+    color: #2a2522;
+    background: #fdfbf7;
+}
+h1, h2, h3, h4 {
+    font-family: "Inter", "Noto Sans", sans-serif;
+    color: #3a2f29;
+    letter-spacing: -0.01em;
+}
+h1 { border-bottom: 2px solid #c9a47b; padding-bottom: 0.25em; }
+a { color: #a0522d; }
+blockquote {
+    border-left-color: #c9a47b;
+    background: #f6efe4;
+    color: #5a4a3e;
+}
+pre, .codehilite { background: #f6efe4; border: 1px solid #eadfce; }

@@ -1,0 +1,8 @@
+/* GitHub theme: clean sans-serif, familiar README-style output. */
+body {
+    font-family: "Noto Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: #24292f;
+}
+h1, h2 { border-bottom: 1px solid #d0d7de; padding-bottom: 0.3em; }
+a { color: #0969da; }
+blockquote { border-left-color: #d0d7de; }

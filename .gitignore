@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+.eggs/
+*.egg-info/
+dist/
+build/
+pip-wheel-metadata/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs and runtime data
+*.log
+logs/
+tmp/
+.cache/
+
+# Playwright browsers if vendored locally
+.playwright/
+.playwright-browsers/
+
+# Private documentation and internal notes
+docs/
+known-vulnerabilities.md
+
+# Test / coverage
+.coverage
+htmlcov/
+.pytest_cache/
