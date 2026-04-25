@@ -287,6 +287,13 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     color: #fff;
 }
 
+/* ─── Workbench (sidebar + workspace) ─────────────────────────────────── */
+.workbench {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+}
+
 /* ─── Workspace ───────────────────────────────────────────────────────── */
 .workspace {
     display: grid;
@@ -294,7 +301,228 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     gap: 14px;
     padding: 14px;
     flex: 1;
+    min-width: 0;
     min-height: 0;
+}
+
+/* ─── Save-state indicator ────────────────────────────────────────────── */
+.save-state {
+    margin-left: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--tb-muted);
+    letter-spacing: 0.02em;
+    opacity: 0.75;
+    transition: color var(--ease), opacity var(--ease);
+}
+.save-state.is-dirty { color: #f0b870; opacity: 1; }
+.save-state.is-saved { color: #7cc88a; opacity: 0.85; }
+
+/* ─── Toolbar shortcuts help button ───────────────────────────────────── */
+.btn-icon.toolbar-help {
+    width: 30px;
+    height: 30px;
+}
+
+/* ─── Documents sidebar ───────────────────────────────────────────────── */
+.docs-sidebar {
+    flex-shrink: 0;
+    display: flex;
+    align-items: stretch;
+    background: linear-gradient(180deg, var(--surface-2), var(--bg));
+    border-right: 1px solid var(--border);
+    width: 240px;
+    transition: width 180ms ease;
+    position: relative;
+    min-width: 0;
+}
+
+.docs-sidebar.is-collapsed { width: 28px; }
+
+.docs-toggle {
+    flex-shrink: 0;
+    width: 28px;
+    background: transparent;
+    border: 0;
+    border-right: 1px solid var(--border-soft);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0;
+    transition: background var(--ease), color var(--ease);
+}
+
+.docs-toggle:hover {
+    background: rgba(16, 96, 216, 0.06);
+    color: var(--accent);
+}
+
+.docs-toggle .icon-collapse { transition: transform 180ms ease; }
+.docs-sidebar.is-collapsed .docs-toggle .icon-collapse { transform: rotate(180deg); }
+
+.docs-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.docs-sidebar.is-collapsed .docs-body { display: none; }
+
+.docs-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    height: 34px;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-soft);
+    flex-shrink: 0;
+}
+
+.docs-action {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background var(--ease), color var(--ease), border-color var(--ease);
+}
+
+.docs-action:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.docs-list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 6px;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.docs-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: var(--text);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background var(--ease), border-color var(--ease);
+    min-width: 0;
+}
+
+.docs-item:hover {
+    background: var(--surface);
+    border-color: var(--border-soft);
+}
+
+.docs-item.is-active {
+    background: var(--accent-soft);
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.docs-item-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background: transparent;
+    border: 0;
+    outline: none;
+    color: inherit;
+    font: inherit;
+    padding: 0;
+}
+
+.docs-item-name[contenteditable="true"] {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 0 4px;
+}
+
+.docs-item-actions {
+    display: none;
+    gap: 2px;
+}
+
+.docs-item:hover .docs-item-actions,
+.docs-item.is-active .docs-item-actions { display: inline-flex; }
+
+.docs-item-btn {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.docs-item-btn:hover {
+    background: rgba(16, 96, 216, 0.1);
+    color: var(--accent);
+}
+
+.docs-item-btn.is-danger:hover {
+    background: rgba(212, 32, 32, 0.1);
+    color: var(--danger);
+}
+
+/* ─── Editor pane stats footer ────────────────────────────────────────── */
+.pane-stats {
+    margin-left: auto;
+    font-size: 10.5px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--text-muted);
+    opacity: 0.85;
+    font-feature-settings: "tnum";
+}
+
+/* ─── Shortcuts dialog ────────────────────────────────────────────────── */
+.shortcuts-dialog { width: min(480px, 92vw); }
+
+.shortcuts-table td:first-child { white-space: nowrap; }
+
+kbd {
+    display: inline-block;
+    padding: 1px 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    font-family: "JetBrains Mono", Consolas, monospace;
+    font-size: 11.5px;
+    color: var(--text);
+    line-height: 1.4;
 }
 
 /* ─── Panes ───────────────────────────────────────────────────────────── */
@@ -708,6 +936,16 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 
 /* ─── Responsive ──────────────────────────────────────────────────────── */
 @media (max-width: 920px) {
+    /* Sidebar overlays the workspace when expanded on small screens */
+    .docs-sidebar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 5;
+        box-shadow: var(--sh);
+    }
+    .workbench { position: relative; }
     .workspace { grid-template-columns: 1fr; }
     .preview-pane { min-height: 40vh; }
     .editor-pane  { min-height: 40vh; }

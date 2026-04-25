@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>md2pdf</title>
-    <link rel="stylesheet" href="/static/style.css?v=6">
+    <link rel="stylesheet" href="/static/style.css?v=7">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <link rel="icon" href="data:,">
@@ -18,6 +18,7 @@
                 <span></span><span></span><span></span>
             </div>
             <span class="brand-name">md2pdf</span>
+            <span id="save-state" class="save-state" title="Auto-save status">Saved</span>
         </div>
 
         <div class="controls">
@@ -43,6 +44,14 @@
             <label class="button" for="upload">Upload .md</label>
             <input type="file" id="upload" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden>
             <button id="download" class="button primary">Download PDF</button>
+            <button id="shortcuts-btn" class="btn-icon toolbar-help" type="button" title="Keyboard shortcuts (?)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+            </button>
         </div>
     </header>
 
@@ -95,16 +104,47 @@
         </div>
     </div>
 
-    <main class="workspace">
-        <section class="pane editor-pane">
-            <div class="pane-header">Editor</div>
-            <textarea id="editor" spellcheck="false" placeholder="Write or paste Markdown here..."></textarea>
-        </section>
-        <section class="pane preview-pane">
-            <div class="pane-header">Preview</div>
-            <article id="preview" class="preview"></article>
-        </section>
-    </main>
+    <div class="workbench">
+        <aside id="docs-sidebar" class="docs-sidebar is-collapsed" aria-label="Documents">
+            <button id="docs-toggle" class="docs-toggle" type="button" title="Documents (Ctrl+`)">
+                <svg class="icon-docs" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                </svg>
+                <svg class="icon-collapse" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+            </button>
+            <div class="docs-body">
+                <div class="docs-header">
+                    <span>Documents</span>
+                    <button id="docs-new" class="docs-action" type="button" title="New document">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </button>
+                </div>
+                <ul id="docs-list" class="docs-list"></ul>
+            </div>
+        </aside>
+        <main class="workspace">
+            <section class="pane editor-pane">
+                <div class="pane-header">
+                    <span>Editor</span>
+                    <span class="pane-stats" id="editor-stats" aria-live="polite"></span>
+                </div>
+                <textarea id="editor" spellcheck="false" placeholder="Write or paste Markdown here, or drop a .md file..."></textarea>
+            </section>
+            <section class="pane preview-pane">
+                <div class="pane-header">Preview</div>
+                <article id="preview" class="preview"></article>
+            </section>
+        </main>
+    </div>
 
     <div id="status" class="status" hidden></div>
 
@@ -264,9 +304,6 @@ blockquote {
                 <section class="help-section">
                     <h3>Tips</h3>
                     <ul class="help-tips">
-                        <li>Tick <strong>High fidelity</strong> in the toolbar to always route through Chromium —
-                            required when your CSS uses features WeasyPrint doesn't support (e.g. CSS Grid, custom
-                            properties in complex expressions).</li>
                         <li>Changes apply to the preview in real time. The PDF is only generated on download.</li>
                         <li>To colour the full page background, write <code>html, body { background: #colour; }</code> — the server automatically fills the margin area with the same colour so the entire page looks uniform.</li>
                         <li>Your CSS is saved automatically in the browser between sessions.</li>
@@ -276,6 +313,38 @@ blockquote {
                         </li>
                     </ul>
                 </section>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Keyboard shortcuts dialog -->
+    <dialog id="shortcuts-dialog" class="help-dialog shortcuts-dialog">
+        <div class="help-dialog-inner">
+            <div class="help-dialog-header">
+                <h2>Keyboard shortcuts</h2>
+                <button id="shortcuts-close" class="btn-icon" type="button" title="Close">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="help-dialog-body">
+                <table class="help-table shortcuts-table">
+                    <tbody>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>S</kbd></td><td>Download PDF</td></tr>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>B</kbd></td><td>Bold selection</td></tr>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>I</kbd></td><td>Italic selection</td></tr>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>K</kbd></td><td>Wrap selection in a link</td></tr>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd></td><td>Toggle documents sidebar</td></tr>
+                        <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Indent / outdent in editor</td></tr>
+                        <tr><td><kbd>?</kbd></td><td>Show this help</td></tr>
+                    </tbody>
+                </table>
+                <p class="help-lead" style="font-size:13px;color:var(--text-muted);margin-top:6px">
+                    Tip: drop a <code>.md</code> file anywhere on the editor to load it.
+                </p>
             </div>
         </div>
     </dialog>
@@ -290,7 +359,7 @@ blockquote {
         window.mermaid = mermaid;
         mermaid.initialize({ startOnLoad: false, securityLevel: "strict" });
     </script>
-    <script src="/static/app.js?v=5" defer></script>
+    <script src="/static/app.js?v=6" defer></script>
 </body>
 
 </html>
