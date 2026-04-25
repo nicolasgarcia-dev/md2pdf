@@ -1,56 +1,68 @@
 /* ─── Design tokens ──────────────────────────────────────────────────── */
 :root {
     /* Workspace */
-    --bg:          #d4e0ef;
-    --surface:     #ffffff;
-    --surface-2:   #f4f7fd;
-    --border:      #c0cedf;
+    --bg: #d4e0ef;
+    --surface: #ffffff;
+    --surface-2: #f4f7fd;
+    --border: #c0cedf;
     --border-soft: #d4dfee;
 
     /* Typography */
-    --text:        #18243e;
-    --text-muted:  #526080;
+    --text: #18243e;
+    --text-muted: #526080;
 
     /* Accent – clean blue, no purple */
-    --accent:      #1060d8;
-    --accent-mid:  #1870f0;
+    --accent: #1060d8;
+    --accent-mid: #1870f0;
     --accent-soft: #e6f0ff;
-    --accent-fg:   #ffffff;
+    --accent-fg: #ffffff;
 
     /* Toolbar palette */
-    --tb-from:     #0b1c38;
-    --tb-to:       #112a50;
-    --tb-text:     #c8daee;
-    --tb-muted:    #7090b8;
-    --tb-glass:    rgba(255,255,255,.08);
-    --tb-glass-bd: rgba(255,255,255,.14);
-    --tb-glass-hi: rgba(255,255,255,.06);  /* inset top highlight */
+    --tb-from: #0b1c38;
+    --tb-to: #112a50;
+    --tb-text: #c8daee;
+    --tb-muted: #7090b8;
+    --tb-glass: rgba(255, 255, 255, .08);
+    --tb-glass-bd: rgba(255, 255, 255, .14);
+    --tb-glass-hi: rgba(255, 255, 255, .06);
+    /* inset top highlight */
 
     /* Status */
-    --danger:      #d42020;
+    --danger: #d42020;
 
     /* Shadows – multi-layer for depth */
-    --sh-sm: 0 1px 2px rgba(12,28,72,.06), 0 2px 5px rgba(12,28,72,.05);
-    --sh:    0 1px 2px rgba(12,28,72,.05), 0 3px 10px rgba(12,28,72,.08), 0 6px 24px rgba(12,28,72,.06);
-    --sh-lg: 0 4px 16px rgba(12,28,72,.12), 0 16px 48px rgba(12,28,72,.10);
+    --sh-sm: 0 1px 2px rgba(12, 28, 72, .06), 0 2px 5px rgba(12, 28, 72, .05);
+    --sh: 0 1px 2px rgba(12, 28, 72, .05), 0 3px 10px rgba(12, 28, 72, .08), 0 6px 24px rgba(12, 28, 72, .06);
+    --sh-lg: 0 4px 16px rgba(12, 28, 72, .12), 0 16px 48px rgba(12, 28, 72, .10);
 
-    --radius:    10px;
+    --radius: 10px;
     --toolbar-h: 54px;
-    --ease:      140ms ease;
+    --ease: 140ms ease;
 }
 
 /* ─── Reset ──────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
-html, body {
-    margin: 0; padding: 0; height: 100%;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 14px;
     color: var(--text);
     background: var(--bg);
 }
 
-body { display: flex; flex-direction: column; min-height: 100vh; }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
 /* ─── Toolbar ─────────────────────────────────────────────────────────── */
 .toolbar {
@@ -62,8 +74,8 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     padding: 8px 24px;
     min-height: var(--toolbar-h);
     background: linear-gradient(135deg, var(--tb-from) 0%, var(--tb-to) 100%);
-    box-shadow: 0 1px 0 rgba(255,255,255,.04) inset,
-                0 3px 18px rgba(8,16,48,.38);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .04) inset,
+        0 3px 18px rgba(8, 16, 48, .38);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -96,21 +108,50 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     transform-origin: bottom center;
     transition: opacity 200ms ease;
 }
-.brand-mark span:nth-child(1) { height: 20px; background: linear-gradient(180deg, #7ab4ff, #4080f0); }
-.brand-mark span:nth-child(2) { height: 13px; background: linear-gradient(180deg, #5a9ae8, #3068d8); opacity: .72; }
-.brand-mark span:nth-child(3) { height: 8px;  background: linear-gradient(180deg, #4888d8, #2455be); opacity: .48; }
+
+.brand-mark span:nth-child(1) {
+    height: 20px;
+    background: linear-gradient(180deg, #7ab4ff, #4080f0);
+}
+
+.brand-mark span:nth-child(2) {
+    height: 13px;
+    background: linear-gradient(180deg, #5a9ae8, #3068d8);
+    opacity: .72;
+}
+
+.brand-mark span:nth-child(3) {
+    height: 8px;
+    background: linear-gradient(180deg, #4888d8, #2455be);
+    opacity: .48;
+}
 
 /* ─── Brand-mark render animation ─────────────────────────────────────── */
 @keyframes brand-pulse {
-    0%, 100% { transform: scaleY(0.75); }
-    50%      { transform: scaleY(1.10); filter: brightness(1.18); }
+
+    0%,
+    100% {
+        transform: scaleY(0.75);
+    }
+
+    50% {
+        transform: scaleY(1.10);
+        filter: brightness(1.18);
+    }
 }
+
 .brand-mark.is-rendering span {
     animation: brand-pulse 0.765s ease-in-out infinite;
     opacity: 1;
 }
-.brand-mark.is-rendering span:nth-child(2) { animation-delay: 108ms; }
-.brand-mark.is-rendering span:nth-child(3) { animation-delay: 216ms; }
+
+.brand-mark.is-rendering span:nth-child(2) {
+    animation-delay: 108ms;
+}
+
+.brand-mark.is-rendering span:nth-child(3) {
+    animation-delay: 216ms;
+}
 
 .brand-name {
     font-weight: 700;
@@ -143,7 +184,7 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     gap: 7px;
 }
 
-.field > span {
+.field>span {
     font-size: 10.5px;
     font-weight: 600;
     text-transform: uppercase;
@@ -181,10 +222,12 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     padding: 0 10px 0 6px;
     transition: border-color var(--ease), background var(--ease);
 }
+
 .scale-input:focus-within {
-    border-color: rgba(100,160,255,.5);
-    background: rgba(255,255,255,.13);
+    border-color: rgba(100, 160, 255, .5);
+    background: rgba(255, 255, 255, .13);
 }
+
 .field input#scale {
     font-size: 13px;
     font-family: inherit;
@@ -199,11 +242,13 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     -moz-appearance: textfield;
     appearance: textfield;
 }
+
 .field input#scale::-webkit-outer-spin-button,
 .field input#scale::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
 .scale-suffix {
     color: var(--tb-muted);
     font-size: 12px;
@@ -222,11 +267,14 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 .field select:focus,
 .field input[type="text"]:focus {
     outline: none;
-    border-color: rgba(100,160,255,.5);
-    background: rgba(255,255,255,.13);
+    border-color: rgba(100, 160, 255, .5);
+    background: rgba(255, 255, 255, .13);
 }
 
-.field select option { background: #132a50; color: #ddeaff; }
+.field select option {
+    background: #132a50;
+    color: #ddeaff;
+}
 
 .checkbox {
     display: inline-flex;
@@ -238,7 +286,9 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     user-select: none;
 }
 
-.checkbox input { accent-color: #5a9af5; }
+.checkbox input {
+    accent-color: #5a9af5;
+}
 
 /* ─── Buttons ─────────────────────────────────────────────────────────── */
 .button,
@@ -249,7 +299,7 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     font-family: inherit;
     cursor: pointer;
     transition: background var(--ease), border-color var(--ease),
-                color var(--ease), box-shadow var(--ease), filter var(--ease);
+        color var(--ease), box-shadow var(--ease), filter var(--ease);
 }
 
 /* Standard button – glass effect on dark toolbar */
@@ -267,24 +317,24 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 .button:hover {
-    background: rgba(255,255,255,.14);
-    border-color: rgba(255,255,255,.22);
+    background: rgba(255, 255, 255, .14);
+    border-color: rgba(255, 255, 255, .22);
     color: #fff;
 }
 
 /* Primary – gradient with glow */
 .button.primary {
     background: linear-gradient(135deg, var(--accent) 0%, var(--accent-mid) 100%);
-    border: 1px solid rgba(255,255,255,.15);
-    box-shadow: 0 2px 10px rgba(16,96,216,.45),
-                inset 0 1px 0 rgba(255,255,255,.18);
+    border: 1px solid rgba(255, 255, 255, .15);
+    box-shadow: 0 2px 10px rgba(16, 96, 216, .45),
+        inset 0 1px 0 rgba(255, 255, 255, .18);
     color: var(--accent-fg);
     font-weight: 600;
 }
 
 .button.primary:hover {
-    box-shadow: 0 4px 20px rgba(16,96,216,.60),
-                inset 0 1px 0 rgba(255,255,255,.20);
+    box-shadow: 0 4px 20px rgba(16, 96, 216, .60),
+        inset 0 1px 0 rgba(255, 255, 255, .20);
     filter: brightness(1.08);
 }
 
@@ -307,18 +357,33 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 .btn-icon:hover {
-    background: rgba(255,255,255,.14);
-    border-color: rgba(255,255,255,.22);
+    background: rgba(255, 255, 255, .14);
+    border-color: rgba(255, 255, 255, .22);
     color: #fff;
 }
 
 /* Toolbar toggle button (sync-scroll) — two-state icon */
 .btn-icon.toolbar-toggle .icon-link,
-.btn-icon.toolbar-toggle .icon-unlink { display: none; }
-.btn-icon.toolbar-toggle.is-on .icon-link { display: block; }
-.btn-icon.toolbar-toggle.is-on { color: #9ed0ff; border-color: rgba(120,180,255,.3); }
-.btn-icon.toolbar-toggle:not(.is-on) .icon-unlink { display: block; }
-.btn-icon.toolbar-toggle:not(.is-on) { color: var(--tb-muted); }
+.btn-icon.toolbar-toggle .icon-unlink {
+    display: none;
+}
+
+.btn-icon.toolbar-toggle.is-on .icon-link {
+    display: block;
+}
+
+.btn-icon.toolbar-toggle.is-on {
+    color: #9ed0ff;
+    border-color: rgba(120, 180, 255, .3);
+}
+
+.btn-icon.toolbar-toggle:not(.is-on) .icon-unlink {
+    display: block;
+}
+
+.btn-icon.toolbar-toggle:not(.is-on) {
+    color: var(--tb-muted);
+}
 
 /* ─── Workbench (sidebar + workspace) ─────────────────────────────────── */
 .workbench {
@@ -338,7 +403,9 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 /* Backdrop is only used by the mobile sidebar drawer; hidden on desktop. */
-.docs-backdrop { display: none; }
+.docs-backdrop {
+    display: none;
+}
 
 /* ─── Workspace ───────────────────────────────────────────────────────── */
 .workspace {
@@ -361,8 +428,16 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     opacity: 0.75;
     transition: color var(--ease), opacity var(--ease);
 }
-.save-state.is-dirty { color: #f0b870; opacity: 1; }
-.save-state.is-saved { color: #7cc88a; opacity: 0.85; }
+
+.save-state.is-dirty {
+    color: #f0b870;
+    opacity: 1;
+}
+
+.save-state.is-saved {
+    color: #7cc88a;
+    opacity: 0.85;
+}
 
 /* ─── Toolbar shortcuts help button ───────────────────────────────────── */
 .btn-icon.toolbar-help {
@@ -383,7 +458,9 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     min-width: 0;
 }
 
-.docs-sidebar.is-collapsed { width: 28px; }
+.docs-sidebar.is-collapsed {
+    width: 28px;
+}
 
 .docs-toggle {
     flex-shrink: 0;
@@ -406,8 +483,13 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     color: var(--accent);
 }
 
-.docs-toggle .icon-collapse { transition: transform 180ms ease; }
-.docs-sidebar.is-collapsed .docs-toggle .icon-collapse { transform: rotate(180deg); }
+.docs-toggle .icon-collapse {
+    transition: transform 180ms ease;
+}
+
+.docs-sidebar.is-collapsed .docs-toggle .icon-collapse {
+    transform: rotate(180deg);
+}
 
 .docs-body {
     flex: 1;
@@ -417,7 +499,9 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     overflow: hidden;
 }
 
-.docs-sidebar.is-collapsed .docs-body { display: none; }
+.docs-sidebar.is-collapsed .docs-body {
+    display: none;
+}
 
 .docs-header {
     display: flex;
@@ -516,7 +600,9 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 .docs-item:hover .docs-item-actions,
-.docs-item.is-active .docs-item-actions { display: inline-flex; }
+.docs-item.is-active .docs-item-actions {
+    display: inline-flex;
+}
 
 .docs-item-btn {
     width: 20px;
@@ -554,9 +640,13 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 /* ─── Shortcuts dialog ────────────────────────────────────────────────── */
-.shortcuts-dialog { width: min(480px, 92vw); }
+.shortcuts-dialog {
+    width: min(480px, 92vw);
+}
 
-.shortcuts-table td:first-child { white-space: nowrap; }
+.shortcuts-table td:first-child {
+    white-space: nowrap;
+}
 
 kbd {
     display: inline-block;
@@ -581,7 +671,7 @@ kbd {
     overflow: hidden;
     /* Layered shadow: contact shadow + lift + ambient */
     box-shadow: 0 0 0 1px var(--border-soft),
-                var(--sh);
+        var(--sh);
     min-height: 0;
 }
 
@@ -637,8 +727,16 @@ kbd {
     color: var(--text);
 }
 
-.preview h1 { font-size: 1.8em; margin-top: 0; }
-.preview h1, .preview h2 { border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+.preview h1 {
+    font-size: 1.8em;
+    margin-top: 0;
+}
+
+.preview h1,
+.preview h2 {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.3em;
+}
 
 /* No color set here — inherits from theme CSS or from .preview above.
    Prevents white-on-white when a light theme overrides background only. */
@@ -660,11 +758,28 @@ kbd {
     font-size: 0.91em;
 }
 
-.preview pre code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
+.preview pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+}
 
-.preview table { border-collapse: collapse; width: 100%; margin: 1em 0; }
-.preview th, .preview td { border: 1px solid var(--border); padding: 6px 10px; }
-.preview th { background: var(--surface-2); }
+.preview table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+}
+
+.preview th,
+.preview td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+}
+
+.preview th {
+    background: var(--surface-2);
+}
 
 .preview blockquote {
     margin: 0.8em 0;
@@ -674,9 +789,21 @@ kbd {
     border-radius: 0 6px 6px 0;
 }
 
-.preview a { color: var(--accent); }
-.preview img { max-width: 100%; height: auto; }
-.preview .mermaid { background: transparent; display: flex; justify-content: center; }
+.preview a {
+    color: var(--accent);
+}
+
+.preview img {
+    max-width: 100%;
+    height: auto;
+}
+
+.preview .mermaid {
+    background: transparent;
+    display: flex;
+    justify-content: center;
+}
+
 /* Wide display math: keep natural scale, no inner scrollbar.
    We don't override overflow here — KaTeX's defaults preserve the vertical
    layout that matrices and tall delimiters rely on. The .preview pane already
@@ -692,15 +819,35 @@ kbd {
     border-bottom: 2px solid var(--accent);
 }
 
-.custom-css-panel.is-open { display: flex; max-height: 250px; }
+.custom-css-panel.is-open {
+    display: flex;
+    max-height: 250px;
+}
 
-.icon-expand, .icon-restore { display: none; }
+.icon-expand,
+.icon-restore {
+    display: none;
+}
 
-.custom-css-panel.is-collapsed { max-height: unset; }
-.custom-css-panel.is-collapsed .custom-css-editor-wrapper { display: none; }
-.custom-css-panel.is-collapsed #css-expand-btn .icon-minimize { display: none; }
-.custom-css-panel.is-collapsed #css-expand-btn .icon-expand { display: block; }
-.custom-css-panel.is-collapsed #css-maximize-btn { display: none; }
+.custom-css-panel.is-collapsed {
+    max-height: unset;
+}
+
+.custom-css-panel.is-collapsed .custom-css-editor-wrapper {
+    display: none;
+}
+
+.custom-css-panel.is-collapsed #css-expand-btn .icon-minimize {
+    display: none;
+}
+
+.custom-css-panel.is-collapsed #css-expand-btn .icon-expand {
+    display: block;
+}
+
+.custom-css-panel.is-collapsed #css-maximize-btn {
+    display: none;
+}
 
 .custom-css-panel.is-maximized {
     position: fixed;
@@ -715,10 +862,22 @@ kbd {
     box-shadow: 0 0 0 100vmax rgba(8, 16, 44, 0.52), var(--sh-lg);
     background: var(--surface-2);
 }
-.custom-css-panel.is-maximized #css-expand-btn { display: none; }
-.custom-css-panel.is-maximized #css-maximize-btn .icon-maximize { display: none; }
-.custom-css-panel.is-maximized #css-maximize-btn .icon-restore { display: block; }
-.custom-css-panel.is-maximized .custom-css-header { border-radius: var(--radius) var(--radius) 0 0; }
+
+.custom-css-panel.is-maximized #css-expand-btn {
+    display: none;
+}
+
+.custom-css-panel.is-maximized #css-maximize-btn .icon-maximize {
+    display: none;
+}
+
+.custom-css-panel.is-maximized #css-maximize-btn .icon-restore {
+    display: block;
+}
+
+.custom-css-panel.is-maximized .custom-css-header {
+    border-radius: var(--radius) var(--radius) 0 0;
+}
 
 .css-actions {
     margin-left: auto;
@@ -783,7 +942,8 @@ kbd {
     padding: 12px 20px;
     display: flex;
     flex-direction: column;
-    flex: 1; /* For maximized */
+    flex: 1;
+    /* For maximized */
 }
 
 /* Stack: holds the textarea and a transparent overlay that draws color
@@ -796,7 +956,7 @@ kbd {
     border: 1px solid var(--border);
     border-radius: 8px;
     background: var(--surface);
-    box-shadow: inset 0 2px 5px rgba(12,28,72,.02);
+    box-shadow: inset 0 2px 5px rgba(12, 28, 72, .02);
     overflow: hidden;
 }
 
@@ -849,13 +1009,13 @@ kbd {
 .css-overlay .swatch::before {
     content: "";
     position: absolute;
-    /* Sit centered in the whitespace that precedes the color value, so it
-       never overlaps the `:` or the color text itself. */
-    left: -1px;
+    /* Sit on top of the first character of the color token (e.g. `#`),
+       leaving the preceding whitespace and `:` untouched. */
+    left: -3px;
     top: 50%;
-    width: 0.6em;
-    height: 0.6em;
-    transform: translate(-100%, -50%);
+    width: 0.8em;
+    height: 0.8em;
+    transform: translateY(-50%);
     background: var(--swatch-color, transparent);
     border-radius: 3px;
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.32);
@@ -876,7 +1036,11 @@ kbd {
     gap: 10px;
     font-size: 12px;
 }
-.color-popover[hidden] { display: none; }
+
+.color-popover[hidden] {
+    display: none;
+}
+
 .color-popover .cp-native {
     width: 100%;
     height: 38px;
@@ -886,11 +1050,13 @@ kbd {
     background: transparent;
     cursor: pointer;
 }
+
 .color-popover .cp-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 6px;
 }
+
 .color-popover label {
     display: flex;
     flex-direction: column;
@@ -901,6 +1067,7 @@ kbd {
     letter-spacing: 0.06em;
     color: var(--text-muted);
 }
+
 .color-popover input[type="number"],
 .color-popover input[type="text"] {
     width: 100%;
@@ -913,24 +1080,29 @@ kbd {
     background: var(--surface);
     outline: none;
 }
+
 .color-popover input:focus {
     border-color: var(--accent);
 }
+
 .color-popover .cp-actions {
     display: flex;
     gap: 6px;
     justify-content: flex-end;
 }
+
 .color-popover .cp-actions .button {
     padding: 6px 12px;
     font-size: 12px;
 }
+
 .color-popover #cp-cancel {
     background: var(--surface);
     color: var(--text);
     border: 1px solid var(--border);
     box-shadow: none;
 }
+
 .color-popover #cp-cancel:hover {
     background: #fbe5e5;
     border-color: #d96363;
@@ -952,15 +1124,26 @@ kbd {
     z-index: 20;
     max-width: 320px;
     animation: toast-in 180ms ease;
-    border: 1px solid rgba(255,255,255,.1);
+    border: 1px solid rgba(255, 255, 255, .1);
 }
 
 @keyframes toast-in {
-    from { transform: translateY(8px); opacity: 0; }
-    to   { transform: translateY(0);   opacity: 1; }
+    from {
+        transform: translateY(8px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-.status.error { background: var(--danger); color: #fff; border-color: transparent; }
+.status.error {
+    background: var(--danger);
+    color: #fff;
+    border-color: transparent;
+}
 
 /* ─── Help dialog ─────────────────────────────────────────────────────── */
 .help-dialog {
@@ -975,11 +1158,20 @@ kbd {
     animation: dialog-in 200ms ease;
 }
 
-.help-dialog[open] { display: flex; }
+.help-dialog[open] {
+    display: flex;
+}
 
 @keyframes dialog-in {
-    from { transform: translateY(14px) scale(.98); opacity: 0; }
-    to   { transform: none; opacity: 1; }
+    from {
+        transform: translateY(14px) scale(.98);
+        opacity: 0;
+    }
+
+    to {
+        transform: none;
+        opacity: 1;
+    }
 }
 
 .help-dialog::backdrop {
@@ -1005,7 +1197,7 @@ kbd {
     padding: 16px 22px;
     border-bottom: 1px solid var(--border);
     background: linear-gradient(135deg, var(--tb-from) 0%, var(--tb-to) 100%);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
     flex-shrink: 0;
 }
 
@@ -1018,14 +1210,14 @@ kbd {
 }
 
 .help-dialog-header .btn-icon {
-    background: rgba(255,255,255,.1);
-    border-color: rgba(255,255,255,.16);
+    background: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .16);
     color: #88a8cc;
 }
 
 .help-dialog-header .btn-icon:hover {
-    background: rgba(255,255,255,.18);
-    border-color: rgba(255,255,255,.28);
+    background: rgba(255, 255, 255, .18);
+    border-color: rgba(255, 255, 255, .28);
     color: #fff;
 }
 
@@ -1044,7 +1236,11 @@ kbd {
     color: var(--text);
 }
 
-.help-section { display: flex; flex-direction: column; gap: 10px; }
+.help-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
 .help-section h3 {
     margin: 0;
@@ -1065,7 +1261,10 @@ kbd {
     border-radius: 8px;
 }
 
-.help-font-list span { font-size: 15px; color: var(--text); }
+.help-font-list span {
+    font-size: 15px;
+    color: var(--text);
+}
 
 .help-table {
     width: 100%;
@@ -1089,7 +1288,9 @@ kbd {
     color: var(--text-muted);
 }
 
-.help-table td:first-child { white-space: nowrap; }
+.help-table td:first-child {
+    white-space: nowrap;
+}
 
 .help-code {
     margin: 0;
@@ -1118,12 +1319,30 @@ kbd {
 
 /* ─── Responsive ──────────────────────────────────────────────────────── */
 @media (max-width: 920px) {
-    .workbench { position: relative; }
-    .workspace { grid-template-columns: 1fr; }
-    .preview-pane { min-height: 40vh; }
-    .editor-pane  { min-height: 40vh; }
-    .controls { gap: 6px; }
-    .field select, .field input[type="text"] { min-width: 90px; }
+    .workbench {
+        position: relative;
+    }
+
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-pane {
+        min-height: 40vh;
+    }
+
+    .editor-pane {
+        min-height: 40vh;
+    }
+
+    .controls {
+        gap: 6px;
+    }
+
+    .field select,
+    .field input[type="text"] {
+        min-width: 90px;
+    }
 
     /* Collapsed: stays as a 28px rail in normal flow so it never covers
        the editor or preview, and the toggle remains tappable. */
@@ -1158,16 +1377,16 @@ kbd {
         background: rgba(0, 0, 0, 0.4);
         z-index: 49;
     }
-    .docs-backdrop.is-visible { display: block; }
 
-    /* Color swatches + picker are desktop-only to avoid jitter on touch
-       layouts and to keep the editor footprint small. */
-    .css-overlay { display: none; }
-    .color-popover { display: none !important; }
+    .docs-backdrop.is-visible {
+        display: block;
+    }
+
 }
 
 /* ─── Mobile (cascade layout) ─────────────────────────────────────────── */
 @media (max-width: 640px) {
+
     /* Toolbar stacks vertically; height grows to fit content */
     .toolbar {
         flex-direction: column;
@@ -1175,14 +1394,17 @@ kbd {
         height: auto;
         padding: 10px 12px;
         gap: 10px;
-        position: static; /* avoid sticky eating viewport on tiny screens */
+        position: static;
+        /* avoid sticky eating viewport on tiny screens */
     }
 
     .brand {
         justify-content: flex-start;
     }
 
-    .brand-name { display: inline; }
+    .brand-name {
+        display: inline;
+    }
 
     /* Controls cascade: one item per row, full width */
     .controls {
@@ -1226,17 +1448,37 @@ kbd {
         gap: 8px;
         width: 100%;
     }
-    .controls-compact .field { width: auto; flex: 0 1 auto; gap: 6px; }
-    .controls-compact .field > span { font-size: 10.5px; }
-    .controls-compact .field input#scale { width: 48px; }
+
+    .controls-compact .field {
+        width: auto;
+        flex: 0 1 auto;
+        gap: 6px;
+    }
+
+    .controls-compact .field>span {
+        font-size: 10.5px;
+    }
+
+    .controls-compact .field input#scale {
+        width: 48px;
+    }
+
     .controls-compact .checkbox {
         width: auto;
         flex: 1 1 auto;
         min-width: 0;
         font-size: 11.5px;
     }
-    .controls-compact .checkbox span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .controls-compact .btn-icon { flex-shrink: 0; }
+
+    .controls-compact .checkbox span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .controls-compact .btn-icon {
+        flex-shrink: 0;
+    }
 
     /* Group: Upload + Download share one row. */
     .controls-actions {
@@ -1245,7 +1487,11 @@ kbd {
         gap: 8px;
         width: 100%;
     }
-    .controls-actions .button { flex: 1 1 0; width: auto; }
+
+    .controls-actions .button {
+        flex: 1 1 0;
+        width: auto;
+    }
 
     /* Workspace padding tightened so panes don't overflow */
     .workspace {
@@ -1255,8 +1501,13 @@ kbd {
 
     /* On phones the drawer takes over the full screen so it cleanly
        replaces the editor/preview instead of half-overlapping them. */
-    .docs-sidebar:not(.is-collapsed) { width: 100vw; }
-    .docs-backdrop { display: none !important; }
+    .docs-sidebar:not(.is-collapsed) {
+        width: 100vw;
+    }
+
+    .docs-backdrop {
+        display: none !important;
+    }
 
     /* Custom CSS panel — keep within margins on mobile but keep title +
        hint on the same row so the header stays compact. */
@@ -1265,9 +1516,13 @@ kbd {
         gap: 8px;
     }
 
-    .css-actions { margin-left: auto; }
+    .css-actions {
+        margin-left: auto;
+    }
 
-    .custom-css-editor-wrapper { padding: 10px 12px; }
+    .custom-css-editor-wrapper {
+        padding: 10px 12px;
+    }
 
     .custom-css-panel.is-maximized {
         top: 10px;
