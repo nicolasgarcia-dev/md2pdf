@@ -59,7 +59,6 @@ class RenderRequest(BaseModel):
     theme: str = Field("github", description="Theme slug")
     title: str = Field("document", max_length=120)
     include_toc: bool = True
-    force_high_fidelity: bool = False
     custom_css: str = Field("", description="Custom CSS (only used when theme='custom')")
     scale: float = Field(1.0, ge=0.6, le=1.4, description="PDF zoom factor (1.0 = 100%)")
 
@@ -104,7 +103,6 @@ async def render_markdown(request: Request, payload: RenderRequest = Body(...)) 
         theme=payload.theme,
         title=payload.title or "document",
         include_toc=payload.include_toc,
-        force_high_fidelity=payload.force_high_fidelity,
         custom_css=payload.custom_css,
         scale=payload.scale,
     )
@@ -126,7 +124,6 @@ async def render_upload(
     theme: str = Form("github"),
     title: str = Form("document"),
     include_toc: bool = Form(True),
-    force_high_fidelity: bool = Form(False),
     scale: float = Form(1.0),
 ) -> Response:
     max_bytes = _effective_max_upload(request)
@@ -147,7 +144,6 @@ async def render_upload(
         theme=theme,
         title=derived_title,
         include_toc=include_toc,
-        force_high_fidelity=force_high_fidelity,
         scale=scale,
     )
     filename = _safe_filename(derived_title)

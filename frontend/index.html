@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>md2pdf</title>
-    <link rel="stylesheet" href="/static/style.css?v=5">
+    <link rel="stylesheet" href="/static/style.css?v=6">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <link rel="icon" href="data:,">
@@ -39,10 +39,6 @@
             <label class="checkbox">
                 <input type="checkbox" id="toc">
                 <span>Table of contents</span>
-            </label>
-            <label class="checkbox" title="Always render through Chromium for maximum fidelity (larger PDFs).">
-                <input type="checkbox" id="hifi">
-                <span>High fidelity</span>
             </label>
             <label class="button" for="upload">Upload .md</label>
             <input type="file" id="upload" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden>
@@ -294,7 +290,7 @@ blockquote {
         window.mermaid = mermaid;
         mermaid.initialize({ startOnLoad: false, securityLevel: "strict" });
     </script>
-    <script src="/static/app.js?v=4" defer></script>
+    <script src="/static/app.js?v=5" defer></script>
 </body>
 
 </html>

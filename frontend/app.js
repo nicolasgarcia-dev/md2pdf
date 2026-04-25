@@ -15,7 +15,6 @@
         return n;
     }
     const tocCheckbox = document.getElementById("toc");
-    const hifiCheckbox = document.getElementById("hifi");
     const uploadInput = document.getElementById("upload");
     const downloadButton = document.getElementById("download");
     const statusEl = document.getElementById("status");
@@ -212,7 +211,6 @@
             theme: themeSelect.value,
             title: titleInput.value || "document",
             include_toc: tocCheckbox.checked,
-            force_high_fidelity: hifiCheckbox.checked,
             custom_css: themeSelect.value === "custom" ? customCssEditor.value : "",
             scale: readScale() / 100,
         };

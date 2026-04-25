@@ -1,8 +1,16 @@
-"""Pick the lightest renderer that produces a faithful PDF."""
+"""Render dispatcher.
+
+Chromium is the primary engine because it produces the most faithful output
+(GFM checkboxes, math, Mermaid, true content scaling). WeasyPrint is kept as
+a fallback so the service stays available if Chromium fails to start or
+render — for example, if the browser crashes or the host is missing the
+shared libraries Playwright needs.
+"""
 
 from __future__ import annotations
 
 import asyncio
+import logging
 from dataclasses import dataclass
 
 from .chromium import chromium
@@ -10,6 +18,8 @@ from .document import BuildOptions, build_html
 from .markdown import render_markdown
 from .weasy import render_pdf as weasy_render
 from .themes import is_valid
+
+logger = logging.getLogger("md2pdf")
 
 
 @dataclass
@@ -36,7 +46,6 @@ async def render(
     theme: str = "github",
     title: str = "document",
     include_toc: bool = True,
-    force_high_fidelity: bool = False,
     custom_css: str = "",
     scale: float = 1.0,
 ) -> RenderResult:
@@ -44,11 +53,6 @@ async def render(
         theme = "github"
     scale = _clamp_scale(scale)
     rendered = render_markdown(markdown)
-    # Any non-default scale is routed through Chromium: WeasyPrint's `zoom`
-    # is a viewport hint rather than a true content rescale, and Chromium
-    # also handles GFM checkboxes and other elements with higher fidelity.
-    scale_changed = abs(scale - 1.0) > 1e-6
-    needs_chromium = force_high_fidelity or rendered.analysis.needs_chromium or scale_changed
 
     options = BuildOptions(
         theme=theme,
@@ -60,7 +64,8 @@ async def render(
     )
     html_document = build_html(rendered, options)
 
-    if needs_chromium:
+    # Primary path: Chromium for everything.
+    try:
         await chromium.start()
         pdf = await chromium.render_pdf(
             html_document,
@@ -69,8 +74,10 @@ async def render(
             scale=scale,
         )
         return RenderResult(pdf=pdf, engine="chromium")
-
-    # WeasyPrint is blocking; run in a thread to avoid stalling the event loop.
-    # Scale is always 1.0 here (non-default scale is routed through Chromium).
-    pdf = await asyncio.to_thread(weasy_render, html_document)
-    return RenderResult(pdf=pdf, engine="weasyprint")
+    except Exception as exc:
+        # Fallback to WeasyPrint to keep the service available.
+        # WeasyPrint cannot honour `scale` faithfully (its `zoom` is not a
+        # true content rescale), so the fallback PDF is rendered at 1.0.
+        logger.warning("Chromium render failed, falling back to WeasyPrint: %s", exc)
+        pdf = await asyncio.to_thread(weasy_render, html_document)
+        return RenderResult(pdf=pdf, engine="weasyprint")
