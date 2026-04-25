@@ -56,9 +56,11 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 .toolbar {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    row-gap: 8px;
     gap: 12px;
-    padding: 0 24px;
-    height: var(--toolbar-h);
+    padding: 8px 24px;
+    min-height: var(--toolbar-h);
     background: linear-gradient(135deg, var(--tb-from) 0%, var(--tb-to) 100%);
     box-shadow: 0 1px 0 rgba(255,255,255,.04) inset,
                 0 3px 18px rgba(8,16,48,.38);
@@ -124,6 +126,13 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     align-items: center;
     flex-wrap: wrap;
     margin-left: auto;
+}
+
+/* On desktop the compact + actions groups behave like inline siblings —
+   they only take on a special layout once the toolbar collapses on mobile. */
+.controls-compact,
+.controls-actions {
+    display: contents;
 }
 
 /* Horizontal label + input layout — keeps the field within toolbar height */
@@ -317,6 +326,19 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     flex: 1;
     min-height: 0;
 }
+
+/* Right column: holds the optional Custom CSS panel + the workspace, so
+   the docs sidebar stays full-height alongside both. */
+.workbench-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+}
+
+/* Backdrop is only used by the mobile sidebar drawer; hidden on desktop. */
+.docs-backdrop { display: none; }
 
 /* ─── Workspace ───────────────────────────────────────────────────────── */
 .workspace {
@@ -963,22 +985,47 @@ kbd {
 
 /* ─── Responsive ──────────────────────────────────────────────────────── */
 @media (max-width: 920px) {
-    /* Sidebar overlays the workspace when expanded on small screens */
-    .docs-sidebar {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 5;
-        box-shadow: var(--sh);
-    }
     .workbench { position: relative; }
     .workspace { grid-template-columns: 1fr; }
     .preview-pane { min-height: 40vh; }
     .editor-pane  { min-height: 40vh; }
     .controls { gap: 6px; }
     .field select, .field input[type="text"] { min-width: 90px; }
-    .brand-name { display: none; }
+
+    /* Collapsed: stays as a 28px rail in normal flow so it never covers
+       the editor or preview, and the toggle remains tappable. */
+    .docs-sidebar.is-collapsed {
+        position: relative;
+        width: 28px;
+        align-self: stretch;
+    }
+
+    /* Expanded: becomes a full-height drawer fixed to the viewport so it
+       always reaches the bottom of the page and floats above the panes
+       without squishing them. */
+    .docs-sidebar:not(.is-collapsed) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        height: 100vh;
+        height: 100dvh;
+        width: 320px;
+        max-width: 100vw;
+        z-index: 50;
+        box-shadow: var(--sh);
+    }
+
+    /* Backdrop behind the open drawer — clicking it collapses the sidebar
+       (handled in app.js via the .docs-backdrop element). */
+    .docs-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 49;
+    }
+    .docs-backdrop.is-visible { display: block; }
 }
 
 /* ─── Mobile (cascade layout) ─────────────────────────────────────────── */
@@ -1033,20 +1080,52 @@ kbd {
         padding: 9px 13px;
     }
 
+    /* Group: Scale + TOC + sync + shortcuts share one row to save space. */
+    .controls-compact {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+    .controls-compact .field { width: auto; flex: 0 1 auto; gap: 6px; }
+    .controls-compact .field > span { font-size: 10.5px; }
+    .controls-compact .field input#scale { width: 48px; }
+    .controls-compact .checkbox {
+        width: auto;
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 11.5px;
+    }
+    .controls-compact .checkbox span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .controls-compact .btn-icon { flex-shrink: 0; }
+
+    /* Group: Upload + Download share one row. */
+    .controls-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        width: 100%;
+    }
+    .controls-actions .button { flex: 1 1 0; width: auto; }
+
     /* Workspace padding tightened so panes don't overflow */
     .workspace {
         padding: 10px;
         gap: 10px;
     }
 
-    /* Custom CSS panel — keep within margins on mobile */
+    /* On phones the drawer takes over the full screen so it cleanly
+       replaces the editor/preview instead of half-overlapping them. */
+    .docs-sidebar:not(.is-collapsed) { width: 100vw; }
+    .docs-backdrop { display: none !important; }
+
+    /* Custom CSS panel — keep within margins on mobile but keep title +
+       hint on the same row so the header stays compact. */
     .custom-css-header {
-        flex-wrap: wrap;
         padding: 8px 12px;
         gap: 8px;
     }
-
-    .custom-css-hint { flex-basis: 100%; order: 3; }
 
     .css-actions { margin-left: auto; }
 

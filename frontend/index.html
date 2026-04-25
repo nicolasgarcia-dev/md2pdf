@@ -23,13 +23,14 @@
 
         <div class="controls">
             <label class="field">
-                <span>Theme</span>
-                <select id="theme"></select>
-            </label>
-            <label class="field">
                 <span>Title</span>
                 <input type="text" id="title" value="document" maxlength="120">
             </label>
+            <label class="field">
+                <span>Theme</span>
+                <select id="theme"></select>
+            </label>
+            <div class="controls-compact">
             <label class="field" title="PDF scale, 60–140% (100% = original size). Any value other than 100% renders via Chromium for full fidelity.">
                 <span>Scale</span>
                 <div class="scale-input">
@@ -59,9 +60,6 @@
                     <line x1="3" y1="3" x2="21" y2="21" />
                 </svg>
             </button>
-            <label class="button" for="upload">Upload .md</label>
-            <input type="file" id="upload" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden>
-            <button id="download" class="button primary">Download PDF</button>
             <button id="shortcuts-btn" class="btn-icon toolbar-help" type="button" title="Keyboard shortcuts (?)">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -70,59 +68,17 @@
                     <line x1="12" y1="17" x2="12.01" y2="17" />
                 </svg>
             </button>
+            </div>
+            <div class="controls-actions">
+            <label class="button" for="upload">Upload .md</label>
+            <input type="file" id="upload" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden>
+            <button id="download" class="button primary">Download PDF</button>
+            </div>
         </div>
     </header>
 
-    <!-- Custom CSS editor — only shown when "Custom CSS" theme is selected -->
-    <div id="custom-css-panel" class="custom-css-panel">
-        <div class="custom-css-header">
-            <span>Custom CSS</span>
-            <span class="custom-css-hint">You can find more info in the <code>help button -></code>.</span>
-            <div class="css-actions">
-                <button id="css-expand-btn" class="css-action-btn" type="button" title="Minimize/Expand">
-                    <svg class="icon-minimize" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    <svg class="icon-expand" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                </button>
-                <button id="css-maximize-btn" class="css-action-btn" type="button" title="Maximize/Restore">
-                    <svg class="icon-maximize" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <polyline points="9 21 3 21 3 15"></polyline>
-                        <line x1="21" y1="3" x2="14" y2="10"></line>
-                        <line x1="3" y1="21" x2="10" y2="14"></line>
-                    </svg>
-                    <svg class="icon-restore" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="4 14 10 14 10 20"></polyline>
-                        <polyline points="20 10 14 10 14 4"></polyline>
-                        <line x1="14" y1="10" x2="21" y2="3"></line>
-                        <line x1="3" y1="21" x2="10" y2="14"></line>
-                    </svg>
-                </button>
-                <button id="css-help-btn" class="css-action-btn" type="button" title="Learn more about Custom CSS">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                        <line x1="12" y1="17" x2="12.01" y2="17" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <div class="custom-css-editor-wrapper">
-            <textarea id="custom-css-editor" spellcheck="false"
-                placeholder="/* Write your custom CSS here */"></textarea>
-        </div>
-    </div>
-
     <div class="workbench">
+        <div id="docs-backdrop" class="docs-backdrop" aria-hidden="true"></div>
         <aside id="docs-sidebar" class="docs-sidebar is-collapsed" aria-label="Documents">
             <button id="docs-toggle" class="docs-toggle" type="button" title="Documents (Ctrl+`)">
                 <svg class="icon-docs" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -149,19 +105,69 @@
                 <ul id="docs-list" class="docs-list"></ul>
             </div>
         </aside>
-        <main class="workspace">
-            <section class="pane editor-pane">
-                <div class="pane-header">
-                    <span>Editor</span>
-                    <span class="pane-stats" id="editor-stats" aria-live="polite"></span>
+        <div class="workbench-main">
+            <!-- Custom CSS editor — only shown when "Custom CSS" theme is selected -->
+            <div id="custom-css-panel" class="custom-css-panel">
+                <div class="custom-css-header">
+                    <span>Custom CSS</span>
+                    <span class="custom-css-hint">You can find more info in the <code>help button -></code>.</span>
+                    <div class="css-actions">
+                        <button id="css-expand-btn" class="css-action-btn" type="button" title="Minimize/Expand">
+                            <svg class="icon-minimize" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            <svg class="icon-expand" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                        <button id="css-maximize-btn" class="css-action-btn" type="button" title="Maximize/Restore">
+                            <svg class="icon-maximize" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                            <svg class="icon-restore" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="4 14 10 14 10 20"></polyline>
+                                <polyline points="20 10 14 10 14 4"></polyline>
+                                <line x1="14" y1="10" x2="21" y2="3"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                        </button>
+                        <button id="css-help-btn" class="css-action-btn" type="button" title="Learn more about Custom CSS">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                <line x1="12" y1="17" x2="12.01" y2="17" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-                <textarea id="editor" spellcheck="false" placeholder="Write or paste Markdown here, or drop a .md file..."></textarea>
-            </section>
-            <section class="pane preview-pane">
-                <div class="pane-header">Preview</div>
-                <article id="preview" class="preview"></article>
-            </section>
-        </main>
+                <div class="custom-css-editor-wrapper">
+                    <textarea id="custom-css-editor" spellcheck="false"
+                        placeholder="/* Write your custom CSS here */"></textarea>
+                </div>
+            </div>
+            <main class="workspace">
+                <section class="pane editor-pane">
+                    <div class="pane-header">
+                        <span>Editor</span>
+                        <span class="pane-stats" id="editor-stats" aria-live="polite"></span>
+                    </div>
+                    <textarea id="editor" spellcheck="false" placeholder="Write or paste Markdown here, or drop a .md file..."></textarea>
+                </section>
+                <section class="pane preview-pane">
+                    <div class="pane-header">Preview</div>
+                    <article id="preview" class="preview"></article>
+                </section>
+            </main>
+        </div>
     </div>
 
     <div id="status" class="status" hidden></div>

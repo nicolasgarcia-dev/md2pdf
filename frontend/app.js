@@ -27,6 +27,7 @@
     const shortcutsClose = document.getElementById("shortcuts-close");
     const docsSidebar = document.getElementById("docs-sidebar");
     const docsToggle = document.getElementById("docs-toggle");
+    const docsBackdrop = document.getElementById("docs-backdrop");
     const docsList = document.getElementById("docs-list");
     const docsNewBtn = document.getElementById("docs-new");
 
@@ -175,6 +176,7 @@
                 if (e.target.closest(".docs-item-btn")) return;
                 if (name.isContentEditable) return;
                 if (d.id !== activeId) switchDoc(d.id);
+                if (window.matchMedia("(max-width: 920px)").matches) setSidebar(false);
             });
 
             renameBtn.addEventListener("click", function (e) {
@@ -619,10 +621,11 @@
         editor.dispatchEvent(new Event("input", { bubbles: true }));
     }
 
-    function indentSelection(outdent) {
-        const start = editor.selectionStart;
-        const end = editor.selectionEnd;
-        const value = editor.value;
+    function indentSelection(outdent, target) {
+        const ta = target || editor;
+        const start = ta.selectionStart;
+        const end = ta.selectionEnd;
+        const value = ta.value;
         const lineStart = value.lastIndexOf("\n", start - 1) + 1;
         const block = value.slice(lineStart, end);
         const lines = block.split("\n");
@@ -634,10 +637,10 @@
             }
             return "    " + ln;
         }).join("\n");
-        editor.value = value.slice(0, lineStart) + transformed + value.slice(end);
+        ta.value = value.slice(0, lineStart) + transformed + value.slice(end);
         const delta = transformed.length - block.length;
-        editor.setSelectionRange(lineStart, end + delta);
-        editor.dispatchEvent(new Event("input", { bubbles: true }));
+        ta.setSelectionRange(lineStart, end + delta);
+        ta.dispatchEvent(new Event("input", { bubbles: true }));
     }
 
     editor.addEventListener("keydown", function (e) {
@@ -657,7 +660,11 @@
     // ─── Sidebar collapse/expand ───────────────────────────────────────
     function setSidebar(open) {
         docsSidebar.classList.toggle("is-collapsed", !open);
+        if (docsBackdrop) docsBackdrop.classList.toggle("is-visible", open);
         localStorage.setItem(SIDEBAR_KEY, open ? "1" : "0");
+    }
+    if (docsBackdrop) {
+        docsBackdrop.addEventListener("click", function () { setSidebar(false); });
     }
     docsToggle.addEventListener("click", function () {
         setSidebar(docsSidebar.classList.contains("is-collapsed"));
@@ -717,6 +724,13 @@
             customCssPanel.classList.toggle("is-maximized");
         });
     }
+
+    customCssEditor.addEventListener("keydown", function (e) {
+        if (e.key === "Tab") {
+            e.preventDefault();
+            indentSelection(e.shiftKey, customCssEditor);
+        }
+    });
 
     customCssEditor.addEventListener("input", debounce(function () {
         localStorage.setItem(CUSTOM_CSS_KEY, customCssEditor.value);
