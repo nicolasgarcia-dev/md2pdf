@@ -41,7 +41,7 @@ class ChromiumRenderer:
             await self._playwright.stop()
             self._playwright = None
 
-    async def render_pdf(self, html_document: str, *, wait_for_math: bool, wait_for_mermaid: bool) -> bytes:
+    async def render_pdf(self, html_document: str, *, wait_for_math: bool, wait_for_mermaid: bool, scale: float = 1.0) -> bytes:
         assert self._browser is not None, "ChromiumRenderer.start() must be called first"
         context = await self._browser.new_context()
         try:
@@ -59,6 +59,7 @@ class ChromiumRenderer:
                 format="A4",
                 print_background=True,
                 prefer_css_page_size=True,
+                scale=scale,
                 margin={"top": "0", "bottom": "0", "left": "0", "right": "0"},  # @page margin in CSS handles spacing
             )
         finally:

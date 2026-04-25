@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>md2pdf</title>
-    <link rel="stylesheet" href="/static/style.css?v=3">
+    <link rel="stylesheet" href="/static/style.css?v=5">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <link rel="icon" href="data:,">
@@ -28,6 +28,13 @@
             <label class="field">
                 <span>Title</span>
                 <input type="text" id="title" value="document" maxlength="120">
+            </label>
+            <label class="field" title="PDF scale, 60–140% (100% = original size). Any value other than 100% renders via Chromium for full fidelity.">
+                <span>Scale</span>
+                <div class="scale-input">
+                    <input type="number" id="scale" min="60" max="140" step="1" value="100">
+                    <span class="scale-suffix">%</span>
+                </div>
             </label>
             <label class="checkbox">
                 <input type="checkbox" id="toc">
@@ -287,7 +294,7 @@ blockquote {
         window.mermaid = mermaid;
         mermaid.initialize({ startOnLoad: false, securityLevel: "strict" });
     </script>
-    <script src="/static/app.js?v=2" defer></script>
+    <script src="/static/app.js?v=4" defer></script>
 </body>
 
 </html>

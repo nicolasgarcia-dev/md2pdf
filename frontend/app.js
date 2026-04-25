@@ -5,6 +5,15 @@
     const preview = document.getElementById("preview");
     const themeSelect = document.getElementById("theme");
     const titleInput = document.getElementById("title");
+    const scaleInput = document.getElementById("scale");
+
+    function readScale() {
+        let n = parseInt(scaleInput.value, 10);
+        if (!Number.isFinite(n)) n = 100;
+        if (n < 60) n = 60;
+        if (n > 140) n = 140;
+        return n;
+    }
     const tocCheckbox = document.getElementById("toc");
     const hifiCheckbox = document.getElementById("hifi");
     const uploadInput = document.getElementById("upload");
@@ -20,6 +29,7 @@
 
     const STORAGE_KEY = "md2pdf:last";
     const CUSTOM_CSS_KEY = "md2pdf:custom-css";
+    const SCALE_KEY = "md2pdf:scale";
     const DEFAULT_MARKDOWN = [
         "# Welcome to md2pdf",
         "",
@@ -204,6 +214,7 @@
             include_toc: tocCheckbox.checked,
             force_high_fidelity: hifiCheckbox.checked,
             custom_css: themeSelect.value === "custom" ? customCssEditor.value : "",
+            scale: readScale() / 100,
         };
         downloadButton.disabled = true;
         showStatus("Rendering...");
@@ -270,6 +281,11 @@
         uploadInput.value = "";
     });
     themeSelect.addEventListener("change", function () { applyTheme(themeSelect.value); });
+    scaleInput.addEventListener("change", function () {
+        const n = readScale();
+        scaleInput.value = String(n);
+        localStorage.setItem(SCALE_KEY, String(n));
+    });
 
     // Help dialog — open / close
     cssHelpBtn.addEventListener("click", function () { cssHelpDialog.showModal(); });
@@ -308,6 +324,10 @@
         await loadThemes();
         const savedCss = localStorage.getItem(CUSTOM_CSS_KEY);
         if (savedCss) customCssEditor.value = savedCss;
+        const savedScale = parseInt(localStorage.getItem(SCALE_KEY) || "", 10);
+        if (Number.isFinite(savedScale) && savedScale >= 60 && savedScale <= 140) {
+            scaleInput.value = String(savedScale);
+        }
         await applyTheme(themeSelect.value);
         const saved = localStorage.getItem(STORAGE_KEY);
         editor.value = saved && saved.trim() ? saved : DEFAULT_MARKDOWN;
