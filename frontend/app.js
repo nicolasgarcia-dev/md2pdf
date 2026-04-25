@@ -20,6 +20,8 @@
     const cssMaximizeBtn = document.getElementById("css-maximize-btn");
     const cssHelpDialog = document.getElementById("css-help-dialog");
     const cssHelpClose = document.getElementById("css-help-close");
+    const syncScrollBtn = document.getElementById("sync-scroll-btn");
+    const brandMark = document.querySelector(".brand-mark");
     const shortcutsBtn = document.getElementById("shortcuts-btn");
     const shortcutsDialog = document.getElementById("shortcuts-dialog");
     const shortcutsClose = document.getElementById("shortcuts-close");
@@ -35,6 +37,7 @@
     const DOCS_KEY = "md2pdf:docs";
     const ACTIVE_DOC_KEY = "md2pdf:active-doc";
     const SIDEBAR_KEY = "md2pdf:sidebar-open";
+    const SYNC_SCROLL_KEY = "md2pdf:sync-scroll";
 
     const DEFAULT_MARKDOWN = [
         "# Welcome to md2pdf",
@@ -492,7 +495,7 @@
             scale: readScale() / 100,
         };
         downloadButton.disabled = true;
-        showStatus("Rendering...");
+        if (brandMark) brandMark.classList.add("is-rendering");
         try {
             const res = await fetch("/api/render", {
                 method: "POST",
@@ -511,6 +514,7 @@
             showStatus("Error: " + err.message, true);
         } finally {
             downloadButton.disabled = false;
+            if (brandMark) brandMark.classList.remove("is-rendering");
         }
     }
 
@@ -550,8 +554,10 @@
     }
 
     // ─── Sync scroll between editor and preview ────────────────────────
+    let syncEnabled = true;
     let syncSource = null;
     function syncFrom(source, target) {
+        if (!syncEnabled) return;
         if (syncSource && syncSource !== source) return;
         syncSource = source;
         const sMax = source.scrollHeight - source.clientHeight;
@@ -564,6 +570,17 @@
     }
     editor.addEventListener("scroll", function () { syncFrom(editor, preview); });
     preview.addEventListener("scroll", function () { syncFrom(preview, editor); });
+
+    function setSyncScroll(on) {
+        syncEnabled = on;
+        syncScrollBtn.classList.toggle("is-on", on);
+        syncScrollBtn.setAttribute("aria-pressed", on ? "true" : "false");
+        syncScrollBtn.title = on
+            ? "Sync scroll: ON (click to unlink)"
+            : "Sync scroll: OFF (click to link)";
+        localStorage.setItem(SYNC_SCROLL_KEY, on ? "1" : "0");
+    }
+    syncScrollBtn.addEventListener("click", function () { setSyncScroll(!syncEnabled); });
 
     // ─── Drag & drop .md onto editor ───────────────────────────────────
     function isMdFile(f) {
@@ -748,6 +765,9 @@
 
         // Sidebar: collapsed by default, restore previous choice.
         setSidebar(localStorage.getItem(SIDEBAR_KEY) === "1");
+
+        // Sync-scroll: on by default, restore previous choice.
+        setSyncScroll(localStorage.getItem(SYNC_SCROLL_KEY) !== "0");
 
         await applyTheme(themeSelect.value);
         updatePreview();
