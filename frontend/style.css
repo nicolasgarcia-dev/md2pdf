@@ -631,7 +631,10 @@ kbd {
 .preview a { color: var(--accent); }
 .preview img { max-width: 100%; height: auto; }
 .preview .mermaid { background: transparent; display: flex; justify-content: center; }
-.preview .katex-display { overflow-x: auto; }
+/* Wide display math: keep natural scale, no inner scrollbar.
+   We don't override overflow here — KaTeX's defaults preserve the vertical
+   layout that matrices and tall delimiters rely on. The .preview pane already
+   has overflow:auto, so very wide formulas scroll at the pane level. */
 
 /* ─── Custom CSS panel ────────────────────────────────────────────────── */
 /* Controlled by .is-open, not the hidden attribute, to prevent

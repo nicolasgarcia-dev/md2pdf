@@ -327,6 +327,46 @@
     };
     marked.use({ renderer });
 
+    // ─── Math extension for marked ─────────────────────────────────────
+    // Without this, marked's escape rules collapse `\\` to `\` inside math,
+    // which breaks LaTeX row separators in matrices (e.g. \begin{matrix}).
+    // The extension tokenises $$…$$ and $…$ as opaque blocks and re-emits
+    // their contents verbatim so KaTeX can render them downstream.
+    marked.use({
+        extensions: [
+            {
+                name: "mathBlock",
+                level: "block",
+                start(src) {
+                    const idx = src.indexOf("$$");
+                    return idx >= 0 ? idx : undefined;
+                },
+                tokenizer(src) {
+                    const m = /^\$\$([\s\S]+?)\$\$/.exec(src);
+                    if (m) return { type: "mathBlock", raw: m[0], text: m[1] };
+                },
+                renderer(token) {
+                    return "<p>$$" + escapeHtml(token.text) + "$$</p>";
+                },
+            },
+            {
+                name: "mathInline",
+                level: "inline",
+                start(src) {
+                    const m = src.match(/(?<!\\)\$(?!\$)/);
+                    return m ? m.index : undefined;
+                },
+                tokenizer(src) {
+                    const m = /^\$((?:\\\$|[^\$\n])+?)\$(?!\$)/.exec(src);
+                    if (m) return { type: "mathInline", raw: m[0], text: m[1] };
+                },
+                renderer(token) {
+                    return "$" + escapeHtml(token.text) + "$";
+                },
+            },
+        ],
+    });
+
     // ─── Preview rendering ─────────────────────────────────────────────
     let mermaidCounter = 0;
     let renderToken = 0;
