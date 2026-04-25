@@ -673,3 +673,90 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     .field select, .field input[type="text"] { min-width: 90px; }
     .brand-name { display: none; }
 }
+
+/* ─── Mobile (cascade layout) ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+    /* Toolbar stacks vertically; height grows to fit content */
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+        padding: 10px 12px;
+        gap: 10px;
+        position: static; /* avoid sticky eating viewport on tiny screens */
+    }
+
+    .brand {
+        justify-content: flex-start;
+    }
+
+    .brand-name { display: inline; }
+
+    /* Controls cascade: one item per row, full width */
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .field {
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .field select,
+    .field input[type="text"] {
+        flex: 1;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .checkbox {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 2px 0;
+    }
+
+    .button {
+        width: 100%;
+        justify-content: center;
+        padding: 9px 13px;
+    }
+
+    /* Workspace padding tightened so panes don't overflow */
+    .workspace {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    /* Custom CSS panel — keep within margins on mobile */
+    .custom-css-header {
+        flex-wrap: wrap;
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    .custom-css-hint { flex-basis: 100%; order: 3; }
+
+    .css-actions { margin-left: auto; }
+
+    .custom-css-editor-wrapper { padding: 10px 12px; }
+
+    .custom-css-panel.is-maximized {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+    }
+
+    /* Status toast — don't overflow viewport */
+    .status {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        max-width: none;
+    }
+}
