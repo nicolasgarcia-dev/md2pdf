@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>md2pdf</title>
-    <link rel="stylesheet" href="/static/style.css?v=14">
+    <link rel="stylesheet" href="/static/style.css?v=17">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <link rel="icon" href="data:,">
@@ -150,8 +150,11 @@
                     </div>
                 </div>
                 <div class="custom-css-editor-wrapper">
-                    <textarea id="custom-css-editor" spellcheck="false"
-                        placeholder="/* Write your custom CSS here */"></textarea>
+                    <div class="css-editor-stack">
+                        <textarea id="custom-css-editor" spellcheck="false"
+                            placeholder="/* Write your custom CSS here */"></textarea>
+                        <pre id="custom-css-overlay" class="css-overlay" aria-hidden="true"></pre>
+                    </div>
                 </div>
             </div>
             <main class="workspace">
@@ -171,6 +174,21 @@
     </div>
 
     <div id="status" class="status" hidden></div>
+
+    <!-- Color picker popover (opened from clicking a swatch in the CSS editor) -->
+    <div id="color-popover" class="color-popover" hidden>
+        <input type="color" id="cp-native" class="cp-native" aria-label="Color picker">
+        <div class="cp-grid">
+            <label>R<input type="number" id="cp-r" min="0" max="255"></label>
+            <label>G<input type="number" id="cp-g" min="0" max="255"></label>
+            <label>B<input type="number" id="cp-b" min="0" max="255"></label>
+        </div>
+        <label class="cp-hex">HEX<input type="text" id="cp-hex" maxlength="7" spellcheck="false"></label>
+        <div class="cp-actions">
+            <button id="cp-cancel" class="button" type="button">Cancel</button>
+            <button id="cp-apply" class="button primary" type="button">Apply</button>
+        </div>
+    </div>
 
     <!-- Custom CSS help dialog -->
     <dialog id="css-help-dialog" class="help-dialog">

@@ -786,22 +786,155 @@ kbd {
     flex: 1; /* For maximized */
 }
 
-#custom-css-editor {
+/* Stack: holds the textarea and a transparent overlay that draws color
+   swatches behind/over the matching text. The overlay shares typography
+   with the textarea so its content wraps identically. */
+.css-editor-stack {
+    position: relative;
     flex: 1;
+    min-height: 110px;
     border: 1px solid var(--border);
     border-radius: 8px;
-    outline: none;
-    resize: none;
+    background: var(--surface);
+    box-shadow: inset 0 2px 5px rgba(12,28,72,.02);
+    overflow: hidden;
+}
+
+#custom-css-editor,
+.css-overlay {
+    position: absolute;
+    inset: 0;
+    margin: 0;
     padding: 14px 18px;
     font-family: "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
     font-size: 13.5px;
     line-height: 1.65;
+    tab-size: 2;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    border: 0;
+    border-radius: 8px;
+}
+
+#custom-css-editor {
+    outline: none;
+    resize: none;
+    color: var(--text);
+    background: transparent;
+    caret-color: var(--accent);
+    overflow: auto;
+    z-index: 1;
+}
+
+.css-overlay {
+    pointer-events: none;
+    color: transparent;
+    background: transparent;
+    overflow: hidden;
+    z-index: 2;
+    user-select: none;
+}
+
+/* Swatch wraps the color token but renders only a small colored chip via
+   a ::before placed just before the text — the text itself stays visible
+   (it comes from the textarea below). The chip sits in the whitespace
+   that normally precedes a color value (e.g. after `:` or a space). */
+.css-overlay .swatch {
+    position: relative;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.css-overlay .swatch::before {
+    content: "";
+    position: absolute;
+    /* Sit centered in the whitespace that precedes the color value, so it
+       never overlaps the `:` or the color text itself. */
+    left: -1px;
+    top: 50%;
+    width: 0.6em;
+    height: 0.6em;
+    transform: translate(-100%, -50%);
+    background: var(--swatch-color, transparent);
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.32);
+}
+
+/* ─── Color picker popover ────────────────────────────────────────────── */
+.color-popover {
+    position: fixed;
+    z-index: 200;
+    width: 220px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--sh-lg);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 12px;
+}
+.color-popover[hidden] { display: none; }
+.color-popover .cp-native {
+    width: 100%;
+    height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}
+.color-popover .cp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+}
+.color-popover label {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+}
+.color-popover input[type="number"],
+.color-popover input[type="text"] {
+    width: 100%;
+    padding: 5px 7px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: inherit;
     color: var(--text);
     background: var(--surface);
-    box-shadow: inset 0 2px 5px rgba(12,28,72,.02);
-    tab-size: 2;
-    min-height: 110px;
-    caret-color: var(--accent);
+    outline: none;
+}
+.color-popover input:focus {
+    border-color: var(--accent);
+}
+.color-popover .cp-actions {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+}
+.color-popover .cp-actions .button {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+.color-popover #cp-cancel {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    box-shadow: none;
+}
+.color-popover #cp-cancel:hover {
+    background: #fbe5e5;
+    border-color: #d96363;
+    color: #c13b3b;
 }
 
 /* ─── Status toast ────────────────────────────────────────────────────── */
@@ -1026,6 +1159,11 @@ kbd {
         z-index: 49;
     }
     .docs-backdrop.is-visible { display: block; }
+
+    /* Color swatches + picker are desktop-only to avoid jitter on touch
+       layouts and to keep the editor footprint small. */
+    .css-overlay { display: none; }
+    .color-popover { display: none !important; }
 }
 
 /* ─── Mobile (cascade layout) ─────────────────────────────────────────── */

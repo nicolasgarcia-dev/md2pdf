@@ -15,6 +15,15 @@
     const editorStatsEl = document.getElementById("editor-stats");
     const customCssPanel = document.getElementById("custom-css-panel");
     const customCssEditor = document.getElementById("custom-css-editor");
+    const customCssOverlay = document.getElementById("custom-css-overlay");
+    const colorPopover = document.getElementById("color-popover");
+    const cpNative = document.getElementById("cp-native");
+    const cpR = document.getElementById("cp-r");
+    const cpG = document.getElementById("cp-g");
+    const cpB = document.getElementById("cp-b");
+    const cpHex = document.getElementById("cp-hex");
+    const cpApply = document.getElementById("cp-apply");
+    const cpCancel = document.getElementById("cp-cancel");
     const cssHelpBtn = document.getElementById("css-help-btn");
     const cssExpandBtn = document.getElementById("css-expand-btn");
     const cssMaximizeBtn = document.getElementById("css-maximize-btn");
@@ -737,6 +746,200 @@
         applyTheme("custom");
     }, 300));
 
+    // ─── CSS color swatches + picker ───────────────────────────────────
+    // Tokens are kept simple on purpose: 6-digit hex, 3-digit hex, and
+    // rgb(r,g,b). 6-digit listed first so it wins over the 3-digit prefix.
+    const COLOR_RE = /#[0-9a-fA-F]{6}(?![0-9a-fA-F])|#[0-9a-fA-F]{3}(?![0-9a-fA-F])|rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)/g;
+
+    function escapeHtml(s) {
+        return s.replace(/[&<>]/g, function (c) {
+            return c === "&" ? "&amp;" : c === "<" ? "&lt;" : "&gt;";
+        });
+    }
+
+    function clamp255(n) { return Math.max(0, Math.min(255, n | 0)); }
+
+    function parseColor(s) {
+        if (s[0] === "#") {
+            let h = s.slice(1);
+            if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+            return {
+                r: parseInt(h.slice(0, 2), 16),
+                g: parseInt(h.slice(2, 4), 16),
+                b: parseInt(h.slice(4, 6), 16),
+            };
+        }
+        const m = s.match(/\d+/g) || [0, 0, 0];
+        return { r: clamp255(+m[0]), g: clamp255(+m[1]), b: clamp255(+m[2]) };
+    }
+
+    function toHex(c) {
+        const h = function (n) { return clamp255(n).toString(16).padStart(2, "0"); };
+        return "#" + h(c.r) + h(c.g) + h(c.b);
+    }
+
+    // Format the new color string in the same shape as the original token,
+    // so a hex stays hex and rgb() stays rgb().
+    function formatLikeOriginal(original, c) {
+        if (original[0] === "#") {
+            if (original.length === 4) {
+                // Only collapse to 3-digit if each channel is a duplicated nibble.
+                const hex = toHex(c);
+                if (hex[1] === hex[2] && hex[3] === hex[4] && hex[5] === hex[6]) {
+                    return "#" + hex[1] + hex[3] + hex[5];
+                }
+                return hex;
+            }
+            return toHex(c);
+        }
+        return "rgb(" + c.r + ", " + c.g + ", " + c.b + ")";
+    }
+
+    function renderOverlay() {
+        const text = customCssEditor.value;
+        let html = "";
+        let last = 0;
+        let m;
+        COLOR_RE.lastIndex = 0;
+        while ((m = COLOR_RE.exec(text)) !== null) {
+            const start = m.index;
+            const end = start + m[0].length;
+            html += escapeHtml(text.slice(last, start));
+            const swatchColor = toHex(parseColor(m[0]));
+            html += '<span class="swatch" style="--swatch-color:' + swatchColor +
+                '" data-start="' + start + '" data-end="' + end + '">' +
+                escapeHtml(m[0]) + "</span>";
+            last = end;
+        }
+        // Trailing newline mirrors textarea behavior so the last line aligns.
+        html += escapeHtml(text.slice(last)) + "\n";
+        customCssOverlay.innerHTML = html;
+        syncOverlayScroll();
+    }
+
+    function syncOverlayScroll() {
+        customCssOverlay.scrollTop = customCssEditor.scrollTop;
+        customCssOverlay.scrollLeft = customCssEditor.scrollLeft;
+    }
+
+    customCssEditor.addEventListener("input", renderOverlay);
+    customCssEditor.addEventListener("scroll", syncOverlayScroll);
+    window.addEventListener("resize", syncOverlayScroll);
+
+    // ─── Color picker popover ──────────────────────────────────────────
+    let pickerCtx = null; // { start, end, original }
+    let updatingPicker = false;
+
+    function setPickerColor(c, sourceField) {
+        updatingPicker = true;
+        const hex = toHex(c);
+        if (sourceField !== cpR) cpR.value = c.r;
+        if (sourceField !== cpG) cpG.value = c.g;
+        if (sourceField !== cpB) cpB.value = c.b;
+        if (sourceField !== cpHex) cpHex.value = hex;
+        if (sourceField !== cpNative) cpNative.value = hex;
+        updatingPicker = false;
+    }
+
+    function getPickerColor() {
+        return { r: clamp255(+cpR.value), g: clamp255(+cpG.value), b: clamp255(+cpB.value) };
+    }
+
+    function positionPopover(rect) {
+        // Make sure dimensions are measured before clamping.
+        colorPopover.style.left = "0px";
+        colorPopover.style.top = "0px";
+        const pw = colorPopover.offsetWidth;
+        const ph = colorPopover.offsetHeight;
+        const margin = 8;
+        let left = rect.left;
+        let top = rect.bottom + 6;
+        if (left + pw + margin > window.innerWidth) left = window.innerWidth - pw - margin;
+        if (top + ph + margin > window.innerHeight) top = rect.top - ph - 6;
+        if (left < margin) left = margin;
+        if (top < margin) top = margin;
+        colorPopover.style.left = left + "px";
+        colorPopover.style.top = top + "px";
+    }
+
+    function openPicker(swatchEl) {
+        const start = +swatchEl.dataset.start;
+        const end = +swatchEl.dataset.end;
+        const original = customCssEditor.value.slice(start, end);
+        if (!COLOR_RE.test(original)) { COLOR_RE.lastIndex = 0; return; }
+        COLOR_RE.lastIndex = 0;
+        pickerCtx = { start: start, end: end, original: original };
+        setPickerColor(parseColor(original), null);
+        colorPopover.hidden = false;
+        positionPopover(swatchEl.getBoundingClientRect());
+        cpHex.focus();
+        cpHex.select();
+    }
+
+    function closePicker() {
+        colorPopover.hidden = true;
+        pickerCtx = null;
+    }
+
+    function applyPicker() {
+        if (!pickerCtx) { closePicker(); return; }
+        // Re-validate the range still matches the original token (user may
+        // have typed elsewhere, shifting indices). If not, abort silently.
+        const cur = customCssEditor.value.slice(pickerCtx.start, pickerCtx.end);
+        if (cur !== pickerCtx.original) { closePicker(); return; }
+        const c = getPickerColor();
+        const next = formatLikeOriginal(pickerCtx.original, c);
+        const v = customCssEditor.value;
+        customCssEditor.value = v.slice(0, pickerCtx.start) + next + v.slice(pickerCtx.end);
+        closePicker();
+        // Trigger save + theme reapply + overlay re-render.
+        customCssEditor.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    customCssOverlay.addEventListener("click", function (e) {
+        const sw = e.target.closest(".swatch");
+        if (!sw) return;
+        e.preventDefault();
+        openPicker(sw);
+    });
+
+    cpNative.addEventListener("input", function () {
+        setPickerColor(parseColor(cpNative.value), cpNative);
+    });
+    [cpR, cpG, cpB].forEach(function (inp) {
+        inp.addEventListener("input", function () {
+            if (updatingPicker) return;
+            setPickerColor(getPickerColor(), inp);
+        });
+    });
+    cpHex.addEventListener("input", function () {
+        if (updatingPicker) return;
+        const v = cpHex.value.trim();
+        if (/^#?[0-9a-fA-F]{6}$/.test(v) || /^#?[0-9a-fA-F]{3}$/.test(v)) {
+            setPickerColor(parseColor(v[0] === "#" ? v : "#" + v), cpHex);
+        }
+    });
+    cpApply.addEventListener("click", applyPicker);
+    cpCancel.addEventListener("click", closePicker);
+
+    // Close the picker if the user edits the textarea (indices may shift)
+    // or clicks outside the popover. Escape also closes.
+    document.addEventListener("mousedown", function (e) {
+        if (colorPopover.hidden) return;
+        if (colorPopover.contains(e.target)) return;
+        if (e.target.closest(".swatch")) return;
+        closePicker();
+    });
+    document.addEventListener("keydown", function (e) {
+        if (!colorPopover.hidden && e.key === "Escape") {
+            e.preventDefault();
+            closePicker();
+        }
+    });
+    customCssEditor.addEventListener("keydown", function () {
+        if (!colorPopover.hidden) closePicker();
+    });
+
     // ─── Global keyboard shortcuts ─────────────────────────────────────
     document.addEventListener("keydown", function (e) {
         const inField = e.target instanceof HTMLInputElement
@@ -765,6 +968,7 @@
 
         const savedCss = localStorage.getItem(CUSTOM_CSS_KEY);
         if (savedCss) customCssEditor.value = savedCss;
+        renderOverlay();
 
         const savedScale = parseInt(localStorage.getItem(SCALE_KEY) || "", 10);
         if (Number.isFinite(savedScale) && savedScale >= 60 && savedScale <= 140) {
