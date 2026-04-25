@@ -146,8 +146,8 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><code>body</code></td>
-                                <td>Base font family, text colour, background</td>
+                                <td><code>html, body</code></td>
+                                <td>Font family, text colour, page background (use with <code>@page { background-color }</code> for full coverage)</td>
                             </tr>
                             <tr>
                                 <td><code>h1 – h4</code></td>
@@ -200,8 +200,8 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><code>@page { margin: … }</code></td>
-                                <td>Page margins (e.g. <code>15mm 20mm</code>)</td>
+                                <td><code>body { padding: … }</code></td>
+                                <td>Page margins (e.g. <code>15mm 20mm</code>) — default is <code>20mm 18mm</code></td>
                             </tr>
                             <tr>
                                 <td><code>page-break-inside: avoid</code></td>
@@ -217,6 +217,20 @@
                             </tr>
                         </tbody>
                     </table>
+                </section>
+
+                <section class="help-section">
+                    <h3>Example — full page background colour</h3>
+                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
+                        One rule is enough — the server automatically extends the colour to the margin area so the entire page (including gutters) gets the same fill. No need to write an <code>@page</code> rule yourself.
+                    </p>
+                    <pre class="help-code">/* Warm cream paper */
+html, body { background: #fdf6e3; }
+
+/* Slate dark page */
+html, body { background: #1e1e2e; color: #cdd6f4; }
+h1, h2, h3 { color: #89b4fa; }
+a { color: #89dceb; }</pre>
                 </section>
 
                 <section class="help-section">
@@ -251,6 +265,7 @@ blockquote {
                             required when your CSS uses features WeasyPrint doesn't support (e.g. CSS Grid, custom
                             properties in complex expressions).</li>
                         <li>Changes apply to the preview in real time. The PDF is only generated on download.</li>
+                        <li>To colour the full page background, write <code>html, body { background: #colour; }</code> — the server automatically fills the margin area with the same colour so the entire page looks uniform.</li>
                         <li>Your CSS is saved automatically in the browser between sessions.</li>
                         <li>To turn a custom style into a permanent server-side theme, copy it to
                             <code>backend/app/assets/themes/my-theme.css</code> and register it in

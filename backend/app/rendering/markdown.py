@@ -98,7 +98,52 @@ class Rendered:
     analysis: RenderAnalysis
 
 
+_DISPLAY_MATH_INLINE = re.compile(r"([$]{2}(?:(?![$]{2}).)+[$]{2})")
+
+
+def _ensure_display_math_paragraphs(md: str) -> str:
+    """Guarantee blank lines around $$ blocks so dollarmath_plugin emits display math.
+
+    Handles two forms:
+    - Standalone delimiter lines ($$\\n...\\n$$) — adds blank lines around delimiters.
+    - Single-line blocks embedded in text (text $$formula$$ text) — hoists to own paragraph.
+    """
+    lines = md.split("\n")
+    out: list[str] = []
+    in_block = False
+
+    for i, line in enumerate(lines):
+        if line.strip() == "$$":
+            if not in_block:
+                if out and out[-1].strip() != "":
+                    out.append("")
+            out.append(line)
+            if in_block:
+                next_line = lines[i + 1] if i + 1 < len(lines) else ""
+                if next_line.strip() != "":
+                    out.append("")
+            in_block = not in_block
+        elif not in_block and _DISPLAY_MATH_INLINE.search(line):
+            # Single-line $$...$$ embedded with surrounding text — hoist to its own paragraph.
+            parts = _DISPLAY_MATH_INLINE.split(line)
+            for j, part in enumerate(parts):
+                if _DISPLAY_MATH_INLINE.match(part):
+                    if out and out[-1].strip() != "":
+                        out.append("")
+                    out.append(part)
+                    rest = "".join(parts[j + 1:])
+                    if rest.strip():
+                        out.append("")
+                elif part.strip():
+                    out.append(part.strip())
+        else:
+            out.append(line)
+
+    return "\n".join(out)
+
+
 def render_markdown(markdown: str) -> Rendered:
+    markdown = _ensure_display_math_paragraphs(markdown)
     analysis = analyze(markdown)
     body = _parser.render(markdown)
     toc = _build_toc(markdown)

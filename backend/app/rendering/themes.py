@@ -46,6 +46,28 @@ def _read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _inject_page_background(custom_css: str) -> str:
+    """Auto-add @page background-color matching body/html background.
+
+    This ensures the full page (content area + margin gutters) gets the same
+    color so there is no visible boundary between the margin and content area.
+    Skipped when the user has already written an @page rule with a background.
+    """
+    if re.search(r"@page\s*\{[^}]*background", custom_css, re.DOTALL):
+        return custom_css
+    m = re.search(
+        r"(?:html\s*,\s*body|body\s*,\s*html|html|body)\s*\{([^}]*)\}",
+        custom_css,
+        re.DOTALL,
+    )
+    if m:
+        bg = re.search(r"background(?:-color)?\s*:\s*([^;}\n]+)", m.group(1))
+        if bg:
+            color = bg.group(1).strip()
+            return f"@page {{ background-color: {color}; }}\n" + custom_css
+    return custom_css
+
+
 def get_stylesheet(slug: str, custom_css: str = "") -> str:
     """Return the concatenated CSS for a theme.
 
@@ -53,7 +75,10 @@ def get_stylesheet(slug: str, custom_css: str = "") -> str:
     """
     if slug == "custom":
         base = _read(_THEMES_DIR / "base.css")
-        return f"{base}\n{custom_css}" if custom_css.strip() else base
+        if custom_css.strip():
+            patched = _inject_page_background(custom_css)
+            return f"{base}\n{patched}"
+        return base
     if not is_valid(slug):
         slug = "github"
     base = _read(_THEMES_DIR / "base.css")

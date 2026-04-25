@@ -126,8 +126,10 @@ nav.toc ul { padding-left: 1.2em; margin: 0; }
 .task-list-item { list-style: none; margin-left: -1.2em; }
 .task-list-item-checkbox { margin-right: 0.4em; }
 
-/* KaTeX display blocks should not break across pages when possible. */
-.katex-display { page-break-inside: avoid; }
+/* KaTeX math blocks — ensure display mode renders as a centred block
+   regardless of whether the KaTeX CDN stylesheet has loaded. */
+.math.block { display: block; margin: 1em 0; text-align: center; }
+.katex-display { display: block !important; text-align: center; margin: 1em 0; page-break-inside: avoid; }
 
 /* Ensure emoji glyphs fall back to a color emoji font. */
 body, h1, h2, h3, h4, h5, h6, p, li, td, th, code, pre {

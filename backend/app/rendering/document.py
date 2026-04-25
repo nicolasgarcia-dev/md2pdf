@@ -69,10 +69,13 @@ def build_html(rendered: Rendered, options: BuildOptions) -> str:
             "window.__mathReady=true;});</script>"
         )
     if options.enable_mermaid:
+        scripts.append(
+            "<script>setTimeout(function(){window.__mermaidReady=true;},15000);</script>"
+        )
         scripts.append(f'<script type="module">'
                        f"import mermaid from '{_MERMAID_JS_CDN.replace('.min.js','.esm.min.mjs')}';"
                        "mermaid.initialize({startOnLoad:false,securityLevel:'strict'});"
-                       "(async()=>{await mermaid.run({querySelector:'pre.mermaid'});"
+                       "(async()=>{try{await mermaid.run({querySelector:'pre.mermaid'});}catch(_){}"
                        "window.__mermaidReady=true;})();"
                        "</script>")
 

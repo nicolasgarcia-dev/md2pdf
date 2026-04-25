@@ -51,12 +51,15 @@ class ChromiumRenderer:
             if wait_for_math:
                 await page.wait_for_function("window.__mathReady === true", timeout=15000)
             if wait_for_mermaid:
-                await page.wait_for_function("window.__mermaidReady === true", timeout=20000)
+                try:
+                    await page.wait_for_function("window.__mermaidReady === true", timeout=20000)
+                except Exception:
+                    pass  # mermaid CDN unreachable — render PDF without diagrams
             return await page.pdf(
                 format="A4",
                 print_background=True,
                 prefer_css_page_size=True,
-                margin={"top": "20mm", "bottom": "20mm", "left": "18mm", "right": "18mm"},
+                margin={"top": "0", "bottom": "0", "left": "0", "right": "0"},  # @page margin in CSS handles spacing
             )
         finally:
             await context.close()
