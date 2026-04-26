@@ -752,7 +752,7 @@
     async function fetchBasePreviewCss() {
         if (_baseCssCache !== null) return _baseCssCache;
         try {
-            const res = await fetch("/api/themes/custom/css?v=10");
+            const res = await fetch("/api/themes/custom/css?v=12");
             if (!res.ok) return "";
             _baseCssCache = await res.text();
             return _baseCssCache;
@@ -804,7 +804,7 @@
         setPresetBadge(null);
         customCssPanel.classList.remove("is-open");
         try {
-            const res = await fetch("/api/themes/" + encodeURIComponent(slug) + "/css?v=10");
+            const res = await fetch("/api/themes/" + encodeURIComponent(slug) + "/css?v=12");
             if (!res.ok) return;
             applyPreviewCss(await res.text());
         } catch (_e) { /* preview still works without theme CSS */ }

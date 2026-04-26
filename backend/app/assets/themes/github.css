@@ -7,30 +7,47 @@ body {
     color: #24292f;
 }
 
-h1, h2 { border-bottom: 1px solid #d0d7de; padding-bottom: 0.3em; }
+h1, h2 { border-bottom: 2px solid #d0d7de; padding-bottom: 0.3em; }
 
 a { color: #0969da; }
 
 blockquote {
-    border-left-color: #d0d7de;
-    background: #f6f8fa;
+    border-left: 4px solid #0969da;
+    background: #f0f6fc;
     color: #57606a;
+    padding: 0.8em 1.2em;
+    border-radius: 0 6px 6px 0;
 }
 
 code {
-    background: rgba(175, 184, 193, 0.36);
-    color: #24292f;
+    background: #f0f6fc;
+    color: #0969da;
     border-radius: 6px;
-    padding: 0.18em 0.46em;
-    font-size: 0.88em;
+    padding: 0.2em 0.4em;
+    font-size: 0.85em;
+    border: 1px solid #c8e1ff;
 }
 
 pre {
-    background: #f6f8fa;
-    border: 1px solid #d0d7de;
+    background: #f6faff;
+    color: #24292f;
+    border: 1px solid #c8e1ff;
+    border-left: 4px solid #0969da;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(9,105,218,0.05);
+    --syn-keyword: #cf222e;
+    --syn-string:  #0a3069;
+    --syn-comment: #6e7781;
+    --syn-number:  #0550ae;
+    --syn-function:#8250df;
+    --syn-builtin: #0550ae;
+    --syn-operator:#cf222e;
+    --syn-type:    #0550ae;
+    --syn-attr:    #0550ae;
+    --syn-meta:    #8250df;
 }
 
-th { background: #f6f8fa; color: #24292f; }
+th { background: #f6f8fa; color: #24292f; border-bottom: 2px solid #d0d7de; }
 tbody tr:nth-child(even) td { background: #fafbfc; }
 
-nav.toc { background: #f6f8fa; border-color: #d0d7de; }
+nav.toc { background: #f6f8fa; border: 1px solid #d0d7de; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
