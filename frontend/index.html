@@ -206,8 +206,8 @@
 
             <div class="help-dialog-body">
                 <p class="help-lead">
-                    Your CSS is loaded <strong>after</strong> <code>base.css</code>, so you can override
-                    any default style. It applies to both the live preview and the downloaded PDF.
+                    Your CSS is loaded <strong>after</strong> the default styles, so you can override
+                    anything. It applies to both the live preview and the downloaded PDF.
                 </p>
 
                 <section class="help-section">
@@ -349,10 +349,166 @@ blockquote {
                         <li>Changes apply to the preview in real time. The PDF is only generated on download.</li>
                         <li>To colour the full page background, write <code>html, body { background: #colour; }</code> — the server automatically fills the margin area with the same colour so the entire page looks uniform.</li>
                         <li>Your CSS is saved automatically in the browser between sessions.</li>
-                        <li>To turn a custom style into a permanent server-side theme, copy it to
-                            <code>backend/app/assets/themes/my-theme.css</code> and register it in
-                            <code>themes.py</code> — see <code>docs/THEMES.md</code>.
-                        </li>
+                    </ul>
+                </section>
+
+                <section class="help-section">
+                    <h3>Styling code blocks</h3>
+                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
+                        Fenced code blocks render as <code>&lt;div class="codehilite"&gt;&lt;pre&gt;…&lt;/pre&gt;&lt;/div&gt;</code> when a language is recognised, or just <code>&lt;pre&gt;&lt;code&gt;…&lt;/code&gt;&lt;/pre&gt;</code> otherwise. Style both <code>pre</code> and <code>.codehilite</code> together to be safe.
+                    </p>
+                    <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Recreate the default boxed look</h4>
+                    <pre class="help-code">pre, .codehilite {
+    background: #f6f8fa;
+    border-radius: 6px;
+}
+pre {
+    padding: 0.8em 1em;
+}</pre>
+                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Boxed code with a border</h4>
+                    <pre class="help-code">pre, .codehilite {
+    background: #fafafa;
+    border: 1px solid #e2e2e2;
+    border-radius: 6px;
+}
+pre { padding: 0.8em 1em; }</pre>
+                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Dark code block</h4>
+                    <pre class="help-code">pre, .codehilite {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    border-radius: 6px;
+}
+pre { padding: 0.9em 1.1em; }</pre>
+                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Inline <code>`code`</code> chips</h4>
+                    <pre class="help-code">code {
+    background: #eef2ff;
+    color: #3730a3;
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    font-size: 0.92em;
+}</pre>
+                </section>
+
+                <section class="help-section">
+                    <h3>Syntax highlighting</h3>
+                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
+                        Recognised languages are tokenised by Pygments. Each token is wrapped in a <code>&lt;span&gt;</code> with a short class. Always scope rules with <code>.codehilite</code> so they only affect highlighted blocks.
+                    </p>
+                    <table class="help-table">
+                        <thead>
+                            <tr>
+                                <th>Class</th>
+                                <th>Token</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>.k .kd .kn .kr</code></td><td>Keywords (<code>def</code>, <code>class</code>, <code>import</code>…)</td></tr>
+                            <tr><td><code>.kt</code></td><td>Built-in types (<code>int</code>, <code>string</code>)</td></tr>
+                            <tr><td><code>.s .s1 .s2</code></td><td>Strings (<code>'…'</code>, <code>"…"</code>)</td></tr>
+                            <tr><td><code>.se</code></td><td>String escapes (<code>\n</code>)</td></tr>
+                            <tr><td><code>.c .c1 .cm</code></td><td>Comments (line / block)</td></tr>
+                            <tr><td><code>.cp</code></td><td>Preprocessor directives</td></tr>
+                            <tr><td><code>.nf</code></td><td>Function names</td></tr>
+                            <tr><td><code>.nc</code></td><td>Class names</td></tr>
+                            <tr><td><code>.nb</code></td><td>Built-ins (<code>print</code>, <code>len</code>)</td></tr>
+                            <tr><td><code>.nv</code></td><td>Variables</td></tr>
+                            <tr><td><code>.nd</code></td><td>Decorators (<code>@foo</code>)</td></tr>
+                            <tr><td><code>.nt</code></td><td>HTML / XML tags</td></tr>
+                            <tr><td><code>.na</code></td><td>Attributes</td></tr>
+                            <tr><td><code>.o .ow</code></td><td>Operators (<code>+</code>, <code>and</code>)</td></tr>
+                            <tr><td><code>.m .mi .mf</code></td><td>Numbers (int / float)</td></tr>
+                            <tr><td><code>.p</code></td><td>Punctuation</td></tr>
+                            <tr><td><code>.gi .gd</code></td><td>Diff added / removed lines</td></tr>
+                        </tbody>
+                    </table>
+                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Example — full custom colour scheme</h4>
+                    <pre class="help-code">pre, .codehilite {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    border-radius: 6px;
+}
+pre { padding: 0.9em 1.1em; }
+
+.codehilite .k,
+.codehilite .kd,
+.codehilite .kn  { color: #cba6f7; font-weight: bold; } /* keywords */
+.codehilite .s,
+.codehilite .s1,
+.codehilite .s2  { color: #a6e3a1; }                    /* strings */
+.codehilite .c,
+.codehilite .c1,
+.codehilite .cm  { color: #6c7086; font-style: italic; }/* comments */
+.codehilite .nf  { color: #89b4fa; }                    /* functions */
+.codehilite .nc  { color: #f9e2af; }                    /* classes */
+.codehilite .nb  { color: #fab387; }                    /* builtins */
+.codehilite .m,
+.codehilite .mi,
+.codehilite .mf  { color: #fab387; }                    /* numbers */
+.codehilite .o   { color: #94e2d5; }                    /* operators */</pre>
+                    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
+                        To tweak just one aspect (e.g. only comments), override that single class:
+                        <code>.codehilite .c1 { color: #888; font-style: italic; }</code>
+                    </p>
+                </section>
+
+                <section class="help-section">
+                    <h3>More selectors</h3>
+                    <table class="help-table">
+                        <thead>
+                            <tr>
+                                <th>Selector</th>
+                                <th>What it controls</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>h1::before</code>, <code>h2::before</code></td><td>Add numbering or ornaments before headings (e.g. <code>content: counter(h2) ". "</code>)</td></tr>
+                            <tr><td><code>ul, ol, li</code></td><td>List spacing, custom bullets via <code>list-style</code></td></tr>
+                            <tr><td><code>li::marker</code></td><td>Bullet / number colour and size</td></tr>
+                            <tr><td><code>hr</code></td><td>Horizontal rule colour and thickness</td></tr>
+                            <tr><td><code>img</code></td><td>Image max-width, borders, drop shadow</td></tr>
+                            <tr><td><code>figure, figcaption</code></td><td>Image captions</td></tr>
+                            <tr><td><code>table tr:nth-child(even)</code></td><td>Zebra-striped table rows</td></tr>
+                            <tr><td><code>thead th</code></td><td>Table header background and colour</td></tr>
+                            <tr><td><code>nav.toc a</code></td><td>Links inside the table of contents</td></tr>
+                            <tr><td><code>nav.toc ul ul</code></td><td>Nested TOC indentation</td></tr>
+                            <tr><td><code>.footnote</code></td><td>Footnote section at the end of the document</td></tr>
+                            <tr><td><code>sup.footnote-ref</code></td><td>Footnote reference superscripts</td></tr>
+                            <tr><td><code>.task-list-item</code></td><td>GitHub-style checkbox list items</td></tr>
+                            <tr><td><code>.math.inline</code>, <code>.math.block</code></td><td>KaTeX-rendered math (inline / display)</td></tr>
+                            <tr><td><code>pre.mermaid</code></td><td>Mermaid diagram container</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="help-section">
+                    <h3>Page layout &amp; print control</h3>
+                    <table class="help-table">
+                        <thead>
+                            <tr>
+                                <th>Rule</th>
+                                <th>Effect</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>@page { size: A4; margin: 18mm 16mm; }</code></td><td>Override page size and margins (also <code>Letter</code>, <code>Legal</code>, <code>landscape</code>)</td></tr>
+                            <tr><td><code>@page { background-color: #colour; }</code></td><td>Fill the entire page including margin gutters</td></tr>
+                            <tr><td><code>@page :first { … }</code></td><td>Style only the first page (e.g. cover)</td></tr>
+                            <tr><td><code>page-break-before: always</code></td><td>Force a new page before the element</td></tr>
+                            <tr><td><code>page-break-after: avoid</code></td><td>Keep the next block on the same page (great for headings)</td></tr>
+                            <tr><td><code>page-break-inside: avoid</code></td><td>Keep the element together on one page</td></tr>
+                            <tr><td><code>orphans: 3; widows: 3;</code></td><td>Minimum lines kept together at page breaks</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="help-section">
+                    <h3>Specificity &amp; cascade tips</h3>
+                    <ul class="help-tips">
+                        <li>Your CSS loads after the built-in styles and the syntax-highlighting stylesheet, so plain selectors like <code>pre { … }</code> usually win.</li>
+                        <li>If a default rule still wins, it&apos;s because of higher specificity. Match it: replace <code>pre</code> with <code>pre, .codehilite</code> or use <code>.codehilite pre</code>.</li>
+                        <li>As a last resort, append <code>!important</code> to a single declaration — but try a more specific selector first.</li>
+                        <li>Use any web-safe CSS unit: <code>px</code>, <code>em</code>, <code>rem</code>, <code>%</code>, plus print units <code>mm</code>, <code>cm</code>, <code>pt</code>, <code>in</code>.</li>
+                        <li>CSS custom properties work too: define them on <code>html</code> and reuse with <code>var(--name)</code>.</li>
                     </ul>
                 </section>
             </div>

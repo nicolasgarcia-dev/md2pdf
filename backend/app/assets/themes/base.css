@@ -109,8 +109,8 @@ pre.mermaid {
     justify-content: center;
 }
 
-.codehilite { background: #f6f8fa; border-radius: 6px; padding: 0.8em 1em; page-break-inside: avoid; }
-.codehilite pre { background: transparent; padding: 0; margin: 0; }
+.codehilite { background: transparent; padding: 0; page-break-inside: avoid; }
+.codehilite pre { margin: 0; }
 
 nav.toc {
     margin: 0 0 1.6em;

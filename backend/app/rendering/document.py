@@ -35,8 +35,8 @@ def build_html(rendered: Rendered, options: BuildOptions) -> str:
     head: list[str] = [
         '<meta charset="utf-8">',
         f"<title>{html.escape(options.title)}</title>",
-        f"<style>{get_stylesheet(options.theme, options.custom_css)}</style>",
         f"<style>{PYGMENTS_CSS}</style>",
+        f"<style>{get_stylesheet(options.theme, options.custom_css)}</style>",
     ]
 
     if options.enable_math:
