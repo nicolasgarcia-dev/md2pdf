@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>md2pdf</title>
-    <link rel="stylesheet" href="/static/style.css?v=25">
+    <link rel="stylesheet" href="/static/style.css?v=37">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <link rel="icon" href="data:,">
@@ -106,12 +106,29 @@
             </div>
         </aside>
         <div class="workbench-main">
+            <!-- Backdrop shown only when the Custom CSS panel is maximized;
+                 clicking it restores the panel (mirrors the dialog UX). -->
+            <div id="css-panel-backdrop" class="css-panel-backdrop" aria-hidden="true"></div>
             <!-- Custom CSS editor — only shown when "Custom CSS" theme is selected -->
             <div id="custom-css-panel" class="custom-css-panel">
                 <div class="custom-css-header">
-                    <span>Custom CSS</span>
+                    <span>Custom CSS<span id="css-preset-badge" class="css-preset-badge" hidden></span></span>
                     <span class="custom-css-hint">You can find more info in the <code>help button -></code>.</span>
                     <div class="css-actions">
+                        <button id="css-save-preset-btn" class="css-action-btn" type="button" title="Save as preset (adds it to themes)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                            </svg>
+                        </button>
+                        <button id="css-delete-preset-btn" class="css-action-btn is-danger" type="button" title="Delete this preset" hidden>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                <path d="M10 11v6M14 11v6" />
+                            </svg>
+                        </button>
                         <button id="css-expand-btn" class="css-action-btn" type="button" title="Minimize/Expand">
                             <svg class="icon-minimize" width="14" height="14" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -216,6 +233,8 @@
                         <span style="font-family:'Noto Sans',sans-serif">Noto Sans</span>
                         <span style="font-family:'Noto Serif',serif">Noto Serif</span>
                         <span style="font-family:'Inter',sans-serif">Inter</span>
+                        <span style="font-family:'EB Garamond',serif">EB Garamond</span>
+                        <span style="font-family:'Roboto Slab',serif">Roboto Slab</span>
                         <span style="font-family:'JetBrains Mono',monospace">JetBrains Mono</span>
                     </div>
                 </section>
@@ -309,13 +328,35 @@
                     <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
                         One rule is enough — the server automatically extends the colour to the margin area so the entire page (including gutters) gets the same fill. No need to write an <code>@page</code> rule yourself.
                     </p>
-                    <pre class="help-code">/* Warm cream paper */
-html, body { background: #fdf6e3; }
+                    <pre class="help-code">/* Warm cream paper — keep code, tables and quotes
+   on the same warm palette so nothing falls back
+   to the default light-blue defaults. */
+html, body { background: #fdf6e3; color: #2a2a2a; }
+a { color: #b58900; }
+blockquote { border-left-color: #d8c98c; background: #faecc6; color: #5a4d22; }
+code { background: #faecc6; color: #5a4d22; border: 1px solid #ead49a; }
+pre, .codehilite {
+    background: #faecc6;
+    color: #2a2a2a;
+    border: 1px solid #ead49a;
+}
+th { background: #faecc6; color: #2a2a2a; }
 
-/* Slate dark page */
+/* Slate dark page — recolor every neighbouring
+   surface so the page reads as one block. */
 html, body { background: #1e1e2e; color: #cdd6f4; }
 h1, h2, h3 { color: #89b4fa; }
-a { color: #89dceb; }</pre>
+a { color: #89dceb; }
+blockquote { border-left-color: #585b70; background: #2a2b3c; color: #cdd6f4; }
+code { background: #2a2b3c; color: #f5c2e7; border: 1px solid #45475a; }
+pre, .codehilite {
+    background: #181825;
+    color: #cdd6f4;
+    border: 1px solid #313244;
+}
+th { background: #2a2b3c; color: #cdd6f4; border-color: #45475a; }
+td { border-color: #313244; }
+hr { border-top: 1px solid #313244; }</pre>
                 </section>
 
                 <section class="help-section">
@@ -340,6 +381,36 @@ blockquote {
     border-left: 4px solid #c9834a;
     background: #fdf0e0;
     font-style: italic;
+}
+
+/* Match the warm palette in code, tables and the TOC. */
+code {
+    background: #fdf0e0;
+    color: #5a3325;
+    border: 1px solid #f0dabb;
+}
+pre, .codehilite {
+    background: #fbf2e1;
+    color: #2a201a;
+    border: 1px solid #f0dabb;
+}
+th { background: #f4e3c4; color: #1c1410; border-color: #d8b58a; }
+nav.toc { background: #fdf0e0; border: 1px solid #f0dabb; }</pre>
+                </section>
+
+                <section class="help-section">
+                    <h3>Task list checkboxes</h3>
+                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
+                        Use <code>- [ ]</code> and <code>- [x]</code> in your Markdown to render checkboxes. The single-line CSS below recolours them and works the same in the live preview and the downloaded PDF.
+                    </p>
+                    <pre class="help-code">/* One-liner — recolours the native check */
+input[type="checkbox"] { accent-color: #16a34a; }
+
+/* Slightly bigger and a touch of breathing room */
+input[type="checkbox"] {
+    accent-color: #2563eb;
+    transform: scale(1.15);
+    margin-right: 0.55em;
 }</pre>
                 </section>
 
@@ -372,11 +443,21 @@ pre {
     border-radius: 6px;
 }
 pre { padding: 0.8em 1em; }</pre>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Dark code block</h4>
+                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Dark code block (with readable tokens)</h4>
                     <pre class="help-code">pre, .codehilite {
     background: #1e1e2e;
     color: #cdd6f4;
+    border: 1px solid #313244;
     border-radius: 6px;
+    /* Override the syntax palette so red/blue tokens
+       don't disappear against the dark background. */
+    --syn-keyword: #cba6f7;
+    --syn-string:  #a6e3a1;
+    --syn-comment: #7f849c;
+    --syn-number:  #fab387;
+    --syn-function:#89b4fa;
+    --syn-builtin: #f9e2af;
+    --syn-operator:#94e2d5;
 }
 pre { padding: 0.9em 1.1em; }</pre>
                     <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Inline <code>`code`</code> chips</h4>
@@ -392,7 +473,23 @@ pre { padding: 0.9em 1.1em; }</pre>
                 <section class="help-section">
                     <h3>Syntax highlighting</h3>
                     <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        Recognised languages are tokenised by Pygments. Each token is wrapped in a <code>&lt;span&gt;</code> with a short class. Always scope rules with <code>.codehilite</code> so they only affect highlighted blocks.
+                        The fastest way to recolor highlighted code is to set the palette variables on <code>pre, .codehilite</code>. They drive both the live preview (highlight.js) and the downloaded PDF (Pygments) at once, so you don't need to write two sets of rules.
+                    </p>
+                    <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Recommended — set the palette variables</h4>
+                    <pre class="help-code">pre, .codehilite {
+    --syn-keyword:  #cf222e;
+    --syn-string:   #0a3069;
+    --syn-comment:  #6e7781;
+    --syn-number:   #0550ae;
+    --syn-function: #8250df;
+    --syn-builtin:  #0550ae;
+    --syn-operator: #cf222e;
+    --syn-type:     #0550ae;
+    --syn-attr:     #0550ae;
+    --syn-meta:     #8250df;
+}</pre>
+                    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
+                        If you need finer control you can still target individual Pygments classes directly. Each token is wrapped in a <code>&lt;span&gt;</code> with a short class — always scope rules with <code>.codehilite</code> so they don't leak elsewhere.
                     </p>
                     <table class="help-table">
                         <thead>
@@ -421,33 +518,27 @@ pre { padding: 0.9em 1.1em; }</pre>
                             <tr><td><code>.gi .gd</code></td><td>Diff added / removed lines</td></tr>
                         </tbody>
                     </table>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Example — full custom colour scheme</h4>
+                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Example — Catppuccin Mocha-flavored block</h4>
                     <pre class="help-code">pre, .codehilite {
     background: #1e1e2e;
     color: #cdd6f4;
+    border: 1px solid #313244;
     border-radius: 6px;
-}
-pre { padding: 0.9em 1.1em; }
-
-.codehilite .k,
-.codehilite .kd,
-.codehilite .kn  { color: #cba6f7; font-weight: bold; } /* keywords */
-.codehilite .s,
-.codehilite .s1,
-.codehilite .s2  { color: #a6e3a1; }                    /* strings */
-.codehilite .c,
-.codehilite .c1,
-.codehilite .cm  { color: #6c7086; font-style: italic; }/* comments */
-.codehilite .nf  { color: #89b4fa; }                    /* functions */
-.codehilite .nc  { color: #f9e2af; }                    /* classes */
-.codehilite .nb  { color: #fab387; }                    /* builtins */
-.codehilite .m,
-.codehilite .mi,
-.codehilite .mf  { color: #fab387; }                    /* numbers */
-.codehilite .o   { color: #94e2d5; }                    /* operators */</pre>
+    padding: 0.9em 1.1em;
+    --syn-keyword:  #cba6f7;
+    --syn-string:   #a6e3a1;
+    --syn-comment:  #7f849c;
+    --syn-number:   #fab387;
+    --syn-function: #89b4fa;
+    --syn-builtin:  #f9e2af;
+    --syn-operator: #94e2d5;
+    --syn-type:     #f9e2af;
+    --syn-attr:     #fab387;
+    --syn-meta:     #cba6f7;
+}</pre>
                     <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
-                        To tweak just one aspect (e.g. only comments), override that single class:
-                        <code>.codehilite .c1 { color: #888; font-style: italic; }</code>
+                        Need to nudge only one token? Layer a single rule on top, e.g.
+                        <code>.codehilite .c1 { color: #888; font-style: italic; }</code>.
                     </p>
                 </section>
 
@@ -502,6 +593,58 @@ pre { padding: 0.9em 1.1em; }
                 </section>
 
                 <section class="help-section">
+                    <h3>Auto-numbered headings</h3>
+                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
+                        CSS counters can prefix every heading with a numeric label automatically — this is how the <em>Academic</em> theme produces output like <code>1.</code>, <code>1.1</code>, <code>1.2</code>. You can drop the snippet below into Custom CSS to get the same effect on any other theme. Works identically in the preview and the PDF.
+                    </p>
+                    <pre class="help-code">/* Reset the counter on the document root,
+   then re-reset h3 every time h2 changes. */
+main.document               { counter-reset: h2counter; }
+main.document h2            { counter-reset: h3counter; }
+
+main.document h2::before {
+    counter-increment: h2counter;
+    content: counter(h2counter) ". ";
+}
+
+main.document h3::before {
+    counter-increment: h3counter;
+    content: counter(h2counter) "." counter(h3counter) " ";
+}</pre>
+                    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
+                        Add an <code>h4</code> level the same way, or drop the <code>h3</code> rule if you only want top-level numbering. <code>::before</code> is what places the number; the <code>counter-reset</code> on <code>h2</code> ensures every section restarts its sub-counter.
+                    </p>
+                </section>
+
+                <section class="help-section">
+                    <h3>Page numbers</h3>
+                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
+                        CSS Paged Media defines <code>@page</code> margin boxes (<code>@top-left</code>, <code>@bottom-center</code>, …) with the <code>counter(page)</code> and <code>counter(pages)</code> counters. These rules only render in the PDF (not the live preview, which has no notion of pages):
+                    </p>
+                    <pre class="help-code">@page {
+    @bottom-center {
+        content: "Page " counter(page) " of " counter(pages);
+        font-family: "Inter", sans-serif;
+        font-size: 9pt;
+        color: #888;
+    }
+}
+
+/* No numbers on the cover page (optional) */
+@page :first {
+    @bottom-center { content: ""; }
+}
+
+/* Different positions are also valid */
+@page {
+    @top-right { content: counter(page); font-size: 9pt; color: #888; }
+}</pre>
+                    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
+                        <strong>Engine support:</strong> the WeasyPrint fallback honours these rules in full. The primary Chromium renderer has only partial support — depending on the document, page numbers via <code>@page</code> margin boxes may or may not appear. The simplest way to test it: paste the snippet, download the PDF, and check the corner of every page.
+                    </p>
+                </section>
+
+                <section class="help-section">
                     <h3>Specificity &amp; cascade tips</h3>
                     <ul class="help-tips">
                         <li>Your CSS loads after the built-in styles and the syntax-highlighting stylesheet, so plain selectors like <code>pre { … }</code> usually win.</li>
@@ -532,19 +675,52 @@ pre { padding: 0.9em 1.1em; }
                 <table class="help-table shortcuts-table">
                     <tbody>
                         <tr><td><kbd>Ctrl</kbd> + <kbd>S</kbd></td><td>Download PDF</td></tr>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>N</kbd></td><td>New document</td></tr>
                         <tr><td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td><td>Undo</td></tr>
                         <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></td><td>Redo</td></tr>
                         <tr><td><kbd>Ctrl</kbd> + <kbd>B</kbd></td><td>Bold selection</td></tr>
                         <tr><td><kbd>Ctrl</kbd> + <kbd>I</kbd></td><td>Italic selection</td></tr>
                         <tr><td><kbd>Ctrl</kbd> + <kbd>K</kbd></td><td>Wrap selection in a link</td></tr>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>A</kbd></td><td>Select all</td></tr>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>C</kbd></td><td>Copy selection</td></tr>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>X</kbd></td><td>Cut selection</td></tr>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>V</kbd></td><td>Paste from clipboard</td></tr>
                         <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd></td><td>Toggle documents sidebar</td></tr>
                         <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Indent / outdent in editor</td></tr>
-                        <tr><td><kbd>?</kbd></td><td>Show this help</td></tr>
+                        <tr><td><kbd>?</kbd></td><td>Toggle this help (only when the editor isn't focused)</td></tr>
                     </tbody>
                 </table>
                 <p class="help-lead" style="font-size:13px;color:var(--text-muted);margin-top:6px">
+                    Note: the <kbd>?</kbd> shortcut only opens this panel when your cursor isn't inside a text field — while you're typing in the editor or any input, <kbd>?</kbd> just types the character. Click outside first (or use the <kbd>?</kbd> button in the toolbar, which also toggles this panel).
+                </p>
+                <p class="help-lead" style="font-size:13px;color:var(--text-muted);margin-top:2px">
                     Tip: drop a <code>.md</code> file anywhere on the editor to load it.
                 </p>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Generic prompt / confirm dialog (replaces window.prompt + window.confirm
+         for preset save / delete so the look matches the rest of the app). -->
+    <dialog id="prompt-dialog" class="help-dialog prompt-dialog">
+        <div class="help-dialog-inner">
+            <div class="help-dialog-header">
+                <h2 id="prompt-title">Title</h2>
+                <button id="prompt-close" class="btn-icon" type="button" title="Close">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="help-dialog-body prompt-body">
+                <p id="prompt-message" class="prompt-message"></p>
+                <input id="prompt-input" type="text" class="prompt-input" autocomplete="off" spellcheck="false">
+                <div class="prompt-actions">
+                    <button id="prompt-cancel" class="button prompt-btn" type="button">Cancel</button>
+                    <button id="prompt-ok" class="button primary prompt-btn" type="button">OK</button>
+                </div>
             </div>
         </div>
     </dialog>
@@ -557,9 +733,9 @@ pre { padding: 0.9em 1.1em; }
     <script type="module">
         import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.esm.min.mjs";
         window.mermaid = mermaid;
-        mermaid.initialize({ startOnLoad: false, securityLevel: "strict" });
+        mermaid.initialize({ startOnLoad: false, securityLevel: "strict", suppressErrorRendering: true });
     </script>
-    <script src="/static/app.js?v=10" defer></script>
+    <script src="/static/app.js?v=31" defer></script>
 </body>
 
 </html>

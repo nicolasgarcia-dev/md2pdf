@@ -1,13 +1,68 @@
-/* Modern theme: tight sans-serif, accented headings and links. */
+/* Modern theme: tight sans-serif, accent color on headings and links,
+   dark code blocks tuned to be readable against the navy background. */
+
 body {
     font-family: "Inter", "Noto Sans", "Segoe UI", sans-serif;
     color: #0f172a;
 }
-h1, h2, h3, h4 { color: #2563eb; letter-spacing: -0.015em; }
-h1 { font-weight: 800; }
-a { color: #2563eb; border-bottom: 1px solid rgba(37,99,235,0.3); }
-blockquote { border-left-color: #2563eb; background: #eff6ff; color: #1e3a8a; }
-th { background: #eff6ff; color: #1e3a8a; }
-pre, .codehilite { background: #0f172a; color: #e2e8f0; }
-.codehilite .c, .codehilite .c1, .codehilite .cm { color: #94a3b8; }
-code { background: #eef2ff; color: #3730a3; }
+
+h1, h2, h3, h4 { color: #1d4ed8; letter-spacing: -0.015em; }
+h1 { font-weight: 800; border-bottom: 2px solid #dbeafe; padding-bottom: 0.25em; }
+h2 { font-weight: 700; }
+
+a {
+    color: #2563eb;
+    border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+    text-decoration: none;
+}
+a:hover { border-bottom-color: #2563eb; }
+
+blockquote {
+    border-left: 4px solid #2563eb;
+    background: #eff6ff;
+    color: #1e3a8a;
+}
+
+hr { border-top: 1px solid #e2e8f0; }
+
+code {
+    background: #dbeafe;
+    color: #1e3a8a;
+    border-radius: 5px;
+    padding: 0.14em 0.48em;
+    font-size: 0.9em;
+}
+
+pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    --syn-keyword: #c4b5fd;
+    --syn-string:  #86efac;
+    --syn-comment: #94a3b8;
+    --syn-number:  #fbbf24;
+    --syn-function:#93c5fd;
+    --syn-builtin: #fdba74;
+    --syn-operator:#67e8f9;
+    --syn-type:    #fdba74;
+    --syn-attr:    #fcd34d;
+    --syn-meta:    #c4b5fd;
+}
+
+th {
+    background: #eff6ff;
+    color: #1e3a8a;
+    border-color: #c7d2fe;
+    font-weight: 600;
+}
+td { border-color: #e2e8f0; }
+tbody tr:nth-child(even) td { background: #f8fafc; }
+
+nav.toc {
+    background: #eff6ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 8px;
+}
+nav.toc h2 { color: #1e3a8a; border: 0; padding: 0; }
+nav.toc a { color: #1d4ed8; border: 0; }

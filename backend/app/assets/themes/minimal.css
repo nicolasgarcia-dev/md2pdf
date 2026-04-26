@@ -1,14 +1,84 @@
-/* Minimal theme: low contrast, generous whitespace. */
+/* Minimal theme: low contrast, generous whitespace, no decorative color.
+   Tokens are rendered in the same neutral grayscale so code blocks read
+   as quiet typographic blocks rather than rainbow noise. */
+
 @page { margin: 24mm 22mm; }
+
 body {
     font-family: "Inter", "Noto Sans", sans-serif;
     color: #2b2b2b;
     font-size: 10.5pt;
     line-height: 1.65;
 }
-h1, h2, h3, h4 { font-weight: 500; letter-spacing: -0.01em; }
+
+h1, h2, h3, h4 { font-weight: 500; letter-spacing: -0.01em; color: #1a1a1a; }
 h1 { font-size: 1.8em; }
-a { color: #555; text-decoration: underline; text-underline-offset: 2px; }
-blockquote { border-left-color: #bbb; background: transparent; color: #555; }
-pre, .codehilite { background: #fafafa; border: 1px solid #eee; }
-nav.toc { background: transparent; border: none; padding: 0; }
+h2 { font-size: 1.45em; }
+
+a {
+    color: #2b2b2b;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: #888;
+}
+a:hover { color: #000; text-decoration-color: #000; }
+
+blockquote {
+    border-left: 3px solid #bbb;
+    background: transparent;
+    color: #555;
+    font-style: italic;
+}
+
+hr { border-top: 1px solid #e5e5e5; }
+
+code {
+    background: #ececec;
+    color: #1a1a1a;
+    border: 1px solid #d4d4d4;
+    border-radius: 3px;
+    padding: 0.12em 0.42em;
+    font-size: 0.88em;
+}
+
+pre {
+    background: #fafafa;
+    color: #2b2b2b;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    --syn-keyword: #2b2b2b;
+    --syn-string:  #555;
+    --syn-comment: #999;
+    --syn-number:  #444;
+    --syn-function:#222;
+    --syn-builtin: #555;
+    --syn-operator:#666;
+    --syn-type:    #555;
+    --syn-attr:    #555;
+    --syn-meta:    #444;
+}
+.codehilite .k, .codehilite .kd, .codehilite .kn, .codehilite .kr,
+.codehilite .nt,
+.hljs-keyword, .hljs-selector-tag, .hljs-subst, .hljs-tag {
+    font-weight: 600;
+}
+.codehilite .nf, .codehilite .nc,
+.hljs-title, .hljs-section, .hljs-name {
+    font-weight: 500;
+}
+
+th {
+    background: transparent;
+    color: #1a1a1a;
+    border-color: #ddd;
+    border-bottom: 2px solid #999;
+    font-weight: 600;
+}
+td { border-color: #ececec; }
+
+nav.toc {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+nav.toc h2 { font-size: 1.1em; }

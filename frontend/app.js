@@ -27,6 +27,9 @@
     const cssHelpBtn = document.getElementById("css-help-btn");
     const cssExpandBtn = document.getElementById("css-expand-btn");
     const cssMaximizeBtn = document.getElementById("css-maximize-btn");
+    const cssSavePresetBtn = document.getElementById("css-save-preset-btn");
+    const cssDeletePresetBtn = document.getElementById("css-delete-preset-btn");
+    const cssPresetBadge = document.getElementById("css-preset-badge");
     const cssHelpDialog = document.getElementById("css-help-dialog");
     const cssHelpClose = document.getElementById("css-help-close");
     const syncScrollBtn = document.getElementById("sync-scroll-btn");
@@ -39,6 +42,13 @@
     const docsBackdrop = document.getElementById("docs-backdrop");
     const docsList = document.getElementById("docs-list");
     const docsNewBtn = document.getElementById("docs-new");
+    const promptDialog = document.getElementById("prompt-dialog");
+    const promptTitle = document.getElementById("prompt-title");
+    const promptMessage = document.getElementById("prompt-message");
+    const promptInput = document.getElementById("prompt-input");
+    const promptOkBtn = document.getElementById("prompt-ok");
+    const promptCancelBtn = document.getElementById("prompt-cancel");
+    const promptCloseBtn = document.getElementById("prompt-close");
 
     // ─── Storage keys ──────────────────────────────────────────────────
     const LEGACY_KEY = "md2pdf:last";
@@ -48,34 +58,93 @@
     const ACTIVE_DOC_KEY = "md2pdf:active-doc";
     const SIDEBAR_KEY = "md2pdf:sidebar-open";
     const SYNC_SCROLL_KEY = "md2pdf:sync-scroll";
+    const CSS_PRESETS_KEY = "md2pdf:css-presets";
+    const ACTIVE_THEME_KEY = "md2pdf:active-theme";
 
     const DEFAULT_MARKDOWN = [
         "# Welcome to md2pdf",
         "",
-        "Write Markdown on the left; preview updates live on the right.",
+        "Write Markdown on the left; the preview updates live on the right. Everything you're reading is built from this very document — it doubles as a quick tour of what md2pdf can do.",
         "",
-        "## Features",
+        "## At a glance",
         "",
-        "- GitHub-flavored tables, lists and task lists",
-        "- [x] Syntax-highlighted code blocks",
-        "- Math with KaTeX, inline $E=mc^2$ or display:",
+        "- **Live preview** with GitHub-flavored Markdown",
+        "- Upload your own **`.md`** with *Upload .md* or grab the result as PDF with *Download PDF* — both buttons live in the top-right of the toolbar",
+        "- Toggle the **table of contents** checkbox to auto-build an index from your headings",
+        "- Pick a **theme**, tweak the **scale** (60 % – 140 %), and lock or unlock **scroll sync** between the editor and the preview — all from the same toolbar",
+        "- Press **`?`** any time for the keyboard shortcuts, including **`Ctrl + Alt + N`** to drop a fresh document and see this welcome again",
+        "",
+        "## Markdown that just works",
+        "",
+        "Lists, **bold**, _italic_, `inline code`, and [links](https://github.com/nicolasgarcia-dev/md2pdf) — like that one pointing at the project on GitHub. If md2pdf saves you some time, a ⭐ on the repo goes a long way.",
+        "",
+        "### Task lists",
+        "",
+        "- [x] Type some Markdown",
+        "- [x] Watch it render on the right",
+        "- [ ] Hit **Download PDF** when you're done",
+        "",
+        "### Tables",
+        "",
+        "| Feature | Where to find it | What it does |",
+        "| --- | --- | --- |",
+        "| Theme | Toolbar → *Theme* | Pick a built-in style or *Custom CSS* |",
+        "| Scale | Toolbar → *Scale* | Resize the generated PDF, 60 – 140 % |",
+        "| Sync scroll | Toolbar (link icon) | Click to detach editor / preview scrolling |",
+        "| Table of contents | Toolbar checkbox | Generates an index from your headings |",
+        "| Documents | Sidebar (top-left) | Keep multiple docs side by side, autosaved |",
+        "",
+        "## Code, math and diagrams",
+        "",
+        "Fenced code blocks are syntax-highlighted out of the box:",
+        "",
+        "```python",
+        "def greet(name: str) -> str:",
+        "    return f\"Hello, {name}!\"",
+        "```",
+        "",
+        "KaTeX renders inline math like $E = mc^2$ as well as display blocks — matrices, integrals, anything you'd expect:",
         "",
         "$$",
-        "\\int_0^\\infty e^{-x^2}\\,dx = \\frac{\\sqrt{\\pi}}{2}",
+        "A \\;=\\; \\begin{bmatrix}",
+        "1 & 2 & 3 \\\\",
+        "4 & 5 & 6 \\\\",
+        "7 & 8 & 9",
+        "\\end{bmatrix}",
+        "\\qquad",
+        "\\int_{0}^{\\infty} e^{-x^{2}}\\,dx \\;=\\; \\frac{\\sqrt{\\pi}}{2}",
         "$$",
         "",
-        "- Mermaid diagrams:",
+        "Mermaid diagrams render straight in the preview — no extra setup:",
         "",
         "```mermaid",
         "graph LR",
-        "  A[Markdown] --> B{Renderer}",
-        "  B -->|primary| C[Chromium]",
-        "  B -->|fallback| D[WeasyPrint]",
+        "  A[Your Markdown] --> B{md2pdf}",
+        "  B -->|live| C[Preview]",
+        "  B -->|export| D[PDF]",
         "```",
         "",
-        "- Emoji support: check, rocket, sparkles (native Unicode)",
+        "Native Unicode emoji work everywhere: 🎉 🚀 ✨ ✅",
         "",
-        "Enjoy!",
+        "## Make it your own",
+        "",
+        "Open the **Theme** dropdown and pick *Custom CSS* to get a live stylesheet editor — every change you make applies to both the preview and the downloaded PDF. Custom CSS gives you practically complete control over how the document looks: typography, colors, spacing, table styles, code block themes — and even print-specific rules like automatic page number counters via `@page`. The **`?`** button in that panel's header opens a full reference of selectors, fonts and print-specific tricks you can use.",
+        "",
+        "Happy with the result? Click the **bookmark icon** to save the configuration as a named preset; it joins the Theme dropdown under **Saved** and is one click away on any document. The trash icon next to it removes presets you no longer need.",
+        "",
+        "## Private by design",
+        "",
+        "> **No account, no tracking, no cloud.** Your documents and saved CSS presets live entirely in your browser's local storage — they never leave your machine. The only round-trip to the server happens when you click **Download PDF**, and even then nothing is stored: the file is rendered on the fly, streamed back to you, and discarded.",
+        "",
+        "## Open source",
+        "",
+        "md2pdf is open source — code, themes, all of it: <https://github.com/nicolasgarcia-dev/md2pdf>",
+        "",
+        "You can self-host it in seconds with the included `Dockerfile` / `docker-compose.yml`, or just [drop a ⭐ on the repo](https://github.com/nicolasgarcia-dev/md2pdf) if it's useful to you. PRs and ideas always welcome.",
+        "",
+        "---",
+        "",
+        "Want to start a new document? Press **`Ctrl + Alt + N`** or click the **`+`** in the documents sidebar — every new doc starts with this onboarding, so the tour is always one click away. Enjoy! ✨",
     ].join("\n");
 
     // ─── Helpers ───────────────────────────────────────────────────────
@@ -112,6 +181,80 @@
     function uid() {
         return "d-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);
     }
+
+    // ─── In-app prompt / confirm dialog ────────────────────────────────
+    // Resolves with the entered string (prompt mode), true/false (confirm
+    // mode), or null on cancel. Replaces window.prompt/window.confirm so
+    // the look matches the rest of the app.
+    let promptResolve = null;
+    let promptMode = "prompt";
+
+    function closePrompt(value) {
+        if (!promptDialog.open) return;
+        const r = promptResolve;
+        promptResolve = null;
+        try { promptDialog.close(); } catch (_e) { /* ignore */ }
+        if (r) r(value);
+    }
+
+    function openDialog(opts) {
+        // opts: { mode: "prompt"|"confirm", title, message, value, okLabel,
+        //         cancelLabel, danger }
+        return new Promise(function (resolve) {
+            // If a previous one is still open, dismiss it as cancel.
+            if (promptResolve) closePrompt(promptMode === "confirm" ? false : null);
+            promptMode = opts.mode || "prompt";
+            promptResolve = resolve;
+            promptTitle.textContent = opts.title || "";
+            promptMessage.textContent = opts.message || "";
+            promptMessage.style.display = opts.message ? "" : "none";
+            promptInput.value = opts.value != null ? String(opts.value) : "";
+            promptInput.placeholder = opts.placeholder || "";
+            promptDialog.classList.toggle("is-confirm", promptMode === "confirm");
+            promptOkBtn.textContent = opts.okLabel || (promptMode === "confirm" ? "Confirm" : "Save");
+            promptCancelBtn.textContent = opts.cancelLabel || "Cancel";
+            promptOkBtn.classList.toggle("is-danger", !!opts.danger);
+            promptOkBtn.classList.toggle("primary", !opts.danger);
+            promptDialog.showModal();
+            // Focus the input (or the OK button in confirm mode) after the
+            // dialog has settled.
+            setTimeout(function () {
+                if (promptMode === "confirm") promptOkBtn.focus();
+                else { promptInput.focus(); promptInput.select(); }
+            }, 0);
+        });
+    }
+
+    function customPrompt(opts) {
+        return openDialog(Object.assign({ mode: "prompt" }, opts || {}))
+            .then(function (v) { return v; });
+    }
+    function customConfirm(opts) {
+        return openDialog(Object.assign({ mode: "confirm" }, opts || {}))
+            .then(function (v) { return v === true; });
+    }
+
+    promptOkBtn.addEventListener("click", function () {
+        if (promptMode === "confirm") closePrompt(true);
+        else closePrompt(promptInput.value.trim());
+    });
+    promptCancelBtn.addEventListener("click", function () {
+        closePrompt(promptMode === "confirm" ? false : null);
+    });
+    promptCloseBtn.addEventListener("click", function () {
+        closePrompt(promptMode === "confirm" ? false : null);
+    });
+    promptDialog.addEventListener("cancel", function (e) {
+        // Native ESC closes the dialog; route it through our resolver.
+        e.preventDefault();
+        closePrompt(promptMode === "confirm" ? false : null);
+    });
+    promptDialog.addEventListener("click", function (e) {
+        if (e.target === promptDialog) closePrompt(promptMode === "confirm" ? false : null);
+    });
+    promptInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") { e.preventDefault(); promptOkBtn.click(); }
+    });
 
     // ─── Documents store ───────────────────────────────────────────────
     let docs = [];
@@ -248,10 +391,12 @@
 
     function newDoc() {
         commitActive();
-        const doc = { id: uid(), name: "Untitled", content: "", updatedAt: Date.now() };
+        // Seed every new document with the onboarding content so the tour is
+        // always one click / shortcut away.
+        const doc = { id: uid(), name: "New document", content: DEFAULT_MARKDOWN, updatedAt: Date.now() };
         docs.unshift(doc);
         activeId = doc.id;
-        editor.value = "";
+        editor.value = doc.content;
         titleInput.value = doc.name;
         saveDocs();
         renderDocsList();
@@ -266,8 +411,9 @@
         if (idx < 0) return;
         const isActive = id === activeId;
         if (docs.length === 1) {
-            // Don't leave the user with zero docs — reset the only one.
-            docs[0] = { id: uid(), name: "Untitled", content: "", updatedAt: Date.now() };
+            // Don't leave the user with zero docs — reset the only one to
+            // the onboarding so the user always lands on something useful.
+            docs[0] = { id: uid(), name: "New document", content: DEFAULT_MARKDOWN, updatedAt: Date.now() };
             activeId = docs[0].id;
         } else {
             docs.splice(idx, 1);
@@ -313,31 +459,31 @@
     }
 
     // ─── Marked configuration ──────────────────────────────────────────
+    // Code blocks are highlighted post-render via hljs.highlightElement in
+    // updatePreview() — marked v14 removed the `highlight` setOptions hook.
     marked.setOptions({
         gfm: true,
         breaks: false,
-        headerIds: true,
-        mangle: false,
-        highlight: function (code, lang) {
-            if (lang === "mermaid") return code;
-            try {
-                if (lang && hljs.getLanguage(lang)) {
-                    return hljs.highlight(code, { language: lang }).value;
-                }
-                return hljs.highlightAuto(code).value;
-            } catch (_e) {
-                return code;
-            }
-        },
     });
 
     const renderer = new marked.Renderer();
     const originalCode = renderer.code.bind(renderer);
     renderer.code = function (code, infostring) {
-        if ((infostring || "").trim().toLowerCase() === "mermaid") {
-            return '<pre class="mermaid">' + escapeHtml(code) + "</pre>";
+        // marked v14 passes a token object as the first (and only) arg, while
+        // older versions pass (code, infostring, escaped). Handle both so the
+        // mermaid branch reliably triggers.
+        let text, lang;
+        if (code && typeof code === "object") {
+            text = code.text;
+            lang = code.lang;
+        } else {
+            text = code;
+            lang = infostring;
         }
-        return originalCode(code, infostring);
+        if ((lang || "").trim().toLowerCase().split(/\s+/)[0] === "mermaid") {
+            return '<pre class="mermaid">' + escapeHtml(text) + "</pre>";
+        }
+        return originalCode.apply(renderer, arguments);
     };
     marked.use({ renderer });
 
@@ -385,6 +531,20 @@
     let mermaidCounter = 0;
     let renderToken = 0;
 
+    function cleanupMermaidOrphans(id) {
+        // Mermaid render appends temporary nodes (id, "d" + id) to <body> and
+        // on syntax error may leave an error SVG behind. Remove anything that
+        // escaped the preview container.
+        const ids = [id, "d" + id, "i" + id];
+        for (const x of ids) {
+            const el = document.getElementById(x);
+            if (el && !preview.contains(el)) el.remove();
+        }
+        document.querySelectorAll("body > svg[id^='mmd-'], body > svg[aria-roledescription='error']").forEach(function (el) {
+            if (!preview.contains(el)) el.remove();
+        });
+    }
+
     async function updatePreview() {
         const token = ++renderToken;
         const md = editor.value;
@@ -392,6 +552,28 @@
         const clean = DOMPurify.sanitize(rawHtml, { ADD_TAGS: ["pre"], ADD_ATTR: ["class"] });
         if (token !== renderToken) return;
         preview.innerHTML = clean;
+
+        // Task list checkboxes are emitted with the `disabled` attribute by
+        // both markdown renderers (read-only, GitHub convention). Chromium
+        // ignores `accent-color` on disabled inputs, which is why styling
+        // diverged between the preview and the PDF. We strip `disabled` here
+        // (interaction is blocked via pointer-events in style.css), so the
+        // browser renders them at full saturation just like the PDF does.
+        preview.querySelectorAll('input[type="checkbox"][disabled]').forEach(function (el) {
+            el.removeAttribute("disabled");
+        });
+
+        // Highlight code blocks. marked v14 dropped the `highlight` setOptions
+        // hook, so we run hljs.highlightElement here — this is what makes the
+        // preview match the PDF's syntax colouring (Pygments runs server-side
+        // for the PDF; both renderers consume the same --syn-* palette).
+        if (window.hljs) {
+            preview.querySelectorAll("pre > code").forEach(function (block) {
+                if (block.classList.contains("language-mermaid")) return;
+                if (block.dataset.highlighted === "yes") return;
+                try { window.hljs.highlightElement(block); } catch (_e) { /* ignore */ }
+            });
+        }
 
         try {
             if (window.renderMathInElement) {
@@ -410,6 +592,21 @@
             for (const block of mermaidBlocks) {
                 const code = block.textContent;
                 const id = "mmd-" + (++mermaidCounter);
+                // Pre-validate so we never invoke render() on broken input —
+                // that's what spawns stray error SVGs in <body>.
+                let parseOk = true;
+                try {
+                    const r = await window.mermaid.parse(code, { suppressErrors: true });
+                    parseOk = r !== false;
+                } catch (_e) { parseOk = false; }
+                if (!parseOk) {
+                    const pre = document.createElement("pre");
+                    pre.className = "mermaid-pending";
+                    pre.textContent = code;
+                    block.replaceWith(pre);
+                    cleanupMermaidOrphans(id);
+                    continue;
+                }
                 try {
                     const { svg } = await window.mermaid.render(id, code);
                     if (token !== renderToken) return;
@@ -418,9 +615,18 @@
                     container.innerHTML = svg;
                     block.replaceWith(container);
                 } catch (err) {
+                    // Keep the original code visible while editing so the user
+                    // can fix syntax. Mark with a class so styles can soften it.
                     const pre = document.createElement("pre");
-                    pre.textContent = "Mermaid error: " + (err && err.message ? err.message : err);
+                    pre.className = "mermaid-pending";
+                    pre.textContent = code;
                     block.replaceWith(pre);
+                } finally {
+                    // Mermaid 11 sometimes leaves orphan nodes in <body> when
+                    // render fails (the temp measurement container and an
+                    // error SVG even with suppressErrorRendering on older
+                    // builds). Sweep them so they don't pile up on screen.
+                    cleanupMermaidOrphans(id);
                 }
             }
         }
@@ -438,17 +644,167 @@
         editorStatsEl.textContent = words + " word" + (words === 1 ? "" : "s") + " · ~" + pages + " page" + (pages === 1 ? "" : "s");
     }
 
-    // ─── Theme handling ────────────────────────────────────────────────
-    async function applyTheme(slug) {
-        if (slug === "custom") {
-            customCssPanel.classList.add("is-open");
-            const css = customCssEditor.value;
-            applyPreviewCss(css ? scopeCustomCss(css) : "");
+    // ─── CSS presets ───────────────────────────────────────────────────
+    // Saved Custom-CSS configurations stored in localStorage. They appear in
+    // the theme dropdown under a "Saved" optgroup with slug "preset:<id>".
+    let cssPresets = [];
+    let activePresetId = null;
+
+    function loadPresets() {
+        try {
+            const raw = localStorage.getItem(CSS_PRESETS_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed)) cssPresets = parsed;
+            }
+        } catch (_e) { /* corrupt JSON — ignore */ }
+    }
+    function savePresets() {
+        localStorage.setItem(CSS_PRESETS_KEY, JSON.stringify(cssPresets));
+    }
+    function findPreset(id) {
+        return cssPresets.find(function (p) { return p.id === id; }) || null;
+    }
+    function presetUid() {
+        return "p-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);
+    }
+
+    function rebuildPresetOptions() {
+        // Remove the old "Saved" optgroup (if any) and re-add it with the
+        // current presets. Preserves the existing server-loaded options.
+        const existing = themeSelect.querySelector('optgroup[data-presets="1"]');
+        if (existing) existing.remove();
+        if (!cssPresets.length) return;
+        const og = document.createElement("optgroup");
+        og.label = "Saved";
+        og.dataset.presets = "1";
+        cssPresets.forEach(function (p) {
+            const opt = document.createElement("option");
+            opt.value = "preset:" + p.id;
+            opt.textContent = p.name;
+            opt.title = "Saved Custom CSS preset";
+            og.appendChild(opt);
+        });
+        themeSelect.appendChild(og);
+    }
+
+    function setPresetBadge(name) {
+        if (!cssPresetBadge) return;
+        if (name) {
+            cssPresetBadge.textContent = name;
+            cssPresetBadge.hidden = false;
+        } else {
+            cssPresetBadge.textContent = "";
+            cssPresetBadge.hidden = true;
+        }
+        if (cssDeletePresetBtn) cssDeletePresetBtn.hidden = !name;
+    }
+
+    async function saveCurrentAsPreset() {
+        const css = customCssEditor.value;
+        if (!css.trim()) {
+            showStatus("Write some CSS before saving a preset", true);
             return;
         }
+        const raw = await customPrompt({
+            title: "Save preset",
+            message: "Give this Custom CSS configuration a name. It will be added to the Theme dropdown under “Saved”.",
+            value: "",
+            placeholder: "New CSS style",
+            okLabel: "Save",
+        });
+        const name = (raw || "").trim();
+        if (!name) return;
+        const preset = { id: presetUid(), name: name, css: css, updatedAt: Date.now() };
+        cssPresets.unshift(preset);
+        savePresets();
+        rebuildPresetOptions();
+        themeSelect.value = "preset:" + preset.id;
+        applyTheme(themeSelect.value);
+        showStatus('Saved preset "' + name + '"');
+    }
+
+    async function deleteActivePreset() {
+        if (!activePresetId) return;
+        const p = findPreset(activePresetId);
+        if (!p) return;
+        const ok = await customConfirm({
+            title: "Delete preset",
+            message: 'Delete the saved preset "' + p.name + '"? This cannot be undone.',
+            okLabel: "Delete",
+            danger: true,
+        });
+        if (!ok) return;
+        cssPresets = cssPresets.filter(function (x) { return x.id !== activePresetId; });
+        savePresets();
+        activePresetId = null;
+        rebuildPresetOptions();
+        themeSelect.value = "custom";
+        applyTheme("custom");
+        showStatus('Deleted preset "' + p.name + '"');
+    }
+
+    // ─── Theme handling ────────────────────────────────────────────────
+    // Cache base.css scoped for the preview. The backend serves it under the
+    // 'custom' slug; we fetch once and reuse so editor keystrokes don't trigger
+    // a network round-trip on every debounce tick.
+    let _baseCssCache = null;
+    async function fetchBasePreviewCss() {
+        if (_baseCssCache !== null) return _baseCssCache;
+        try {
+            const res = await fetch("/api/themes/custom/css?v=10");
+            if (!res.ok) return "";
+            _baseCssCache = await res.text();
+            return _baseCssCache;
+        } catch (_e) { return ""; }
+    }
+
+    async function applyCustomLikePreview(userCss) {
+        // Custom CSS / preset previews now layer the user's CSS on top of
+        // base.css — exactly what the server-side renderer does for the PDF.
+        // This is what makes the preview a faithful reflection of the PDF.
+        const base = await fetchBasePreviewCss();
+        const user = userCss ? scopeCustomCss(userCss) : "";
+        applyPreviewCss(base + (user ? "\n" + user : ""));
+    }
+
+    async function applyTheme(slug) {
+        localStorage.setItem(ACTIVE_THEME_KEY, slug);
+        if (slug && slug.indexOf("preset:") === 0) {
+            const id = slug.slice("preset:".length);
+            const p = findPreset(id);
+            if (!p) {
+                // Stale selection — fall back to custom blank.
+                activePresetId = null;
+                themeSelect.value = "custom";
+                return applyTheme("custom");
+            }
+            activePresetId = id;
+            customCssPanel.classList.add("is-open");
+            customCssEditor.value = p.css;
+            renderOverlay();
+            setPresetBadge(p.name);
+            await applyCustomLikePreview(p.css);
+            return;
+        }
+        if (slug === "custom") {
+            activePresetId = null;
+            setPresetBadge(null);
+            customCssPanel.classList.add("is-open");
+            // Restore the free-form custom buffer when leaving a preset.
+            const saved = localStorage.getItem(CUSTOM_CSS_KEY);
+            if (saved !== null && customCssEditor.value !== saved) {
+                customCssEditor.value = saved;
+                renderOverlay();
+            }
+            await applyCustomLikePreview(customCssEditor.value);
+            return;
+        }
+        activePresetId = null;
+        setPresetBadge(null);
         customCssPanel.classList.remove("is-open");
         try {
-            const res = await fetch("/api/themes/" + encodeURIComponent(slug) + "/css");
+            const res = await fetch("/api/themes/" + encodeURIComponent(slug) + "/css?v=10");
             if (!res.ok) return;
             applyPreviewCss(await res.text());
         } catch (_e) { /* preview still works without theme CSS */ }
@@ -497,12 +853,16 @@
 
     // ─── PDF download ──────────────────────────────────────────────────
     async function downloadPdf() {
+        const isPreset = themeSelect.value.indexOf("preset:") === 0;
+        const isCustomLike = isPreset || themeSelect.value === "custom";
         const body = {
             markdown: editor.value,
-            theme: themeSelect.value,
+            // Saved presets are just labelled custom-CSS bundles; the backend
+            // only knows "custom" + custom_css, so map preset:* → custom.
+            theme: isPreset ? "custom" : themeSelect.value,
             title: titleInput.value || "document",
             include_toc: tocCheckbox.checked,
-            custom_css: themeSelect.value === "custom" ? customCssEditor.value : "",
+            custom_css: isCustomLike ? customCssEditor.value : "",
             scale: readScale() / 100,
         };
         downloadButton.disabled = true;
@@ -636,6 +996,40 @@
         const end = ta.selectionEnd;
         const value = ta.value;
         const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+        const selected = value.slice(start, end);
+        const isMultiLine = selected.indexOf("\n") !== -1;
+        const TAB = "    ";
+
+        // Caret only (or single-line selection): treat Tab as a regular
+        // character insertion so the caret lands AFTER the inserted spaces
+        // instead of selecting the line that just got indented.
+        if (!isMultiLine) {
+            if (outdent) {
+                // Remove up to 4 leading spaces (or 1 tab) from the line.
+                const linePrefix = value.slice(lineStart, start);
+                let removed = 0;
+                if (linePrefix.startsWith("    ")) removed = 4;
+                else if (linePrefix.startsWith("\t")) removed = 1;
+                else {
+                    const m = /^ {1,3}/.exec(linePrefix);
+                    if (m) removed = m[0].length;
+                }
+                if (!removed) return;
+                ta.value = value.slice(0, lineStart) + value.slice(lineStart + removed);
+                const newStart = Math.max(lineStart, start - removed);
+                const newEnd = Math.max(lineStart, end - removed);
+                ta.setSelectionRange(newStart, newEnd);
+            } else {
+                ta.value = value.slice(0, start) + TAB + value.slice(end);
+                const caret = start + TAB.length;
+                ta.setSelectionRange(caret, caret);
+            }
+            ta.dispatchEvent(new Event("input", { bubbles: true }));
+            return;
+        }
+
+        // Multi-line selection: block indent / outdent and keep the selection
+        // so the user can keep tabbing.
         const block = value.slice(lineStart, end);
         const lines = block.split("\n");
         const transformed = lines.map(function (ln) {
@@ -644,7 +1038,7 @@
                 if (ln.startsWith("\t")) return ln.slice(1);
                 return ln.replace(/^ {1,3}/, "");
             }
-            return "    " + ln;
+            return TAB + ln;
         }).join("\n");
         ta.value = value.slice(0, lineStart) + transformed + value.slice(end);
         const delta = transformed.length - block.length;
@@ -717,7 +1111,14 @@
         if (e.target === cssHelpDialog) cssHelpDialog.close();
     });
 
-    shortcutsBtn.addEventListener("click", function () { shortcutsDialog.showModal(); });
+    // Modal so we keep the native blurred ::backdrop and centered layout.
+    // Toggle works because clicks on the backdrop (which sit on top of the ?
+    // button while open) are routed to the close handler below.
+    function toggleShortcuts() {
+        if (shortcutsDialog.open) shortcutsDialog.close();
+        else shortcutsDialog.showModal();
+    }
+    shortcutsBtn.addEventListener("click", toggleShortcuts);
     shortcutsClose.addEventListener("click", function () { shortcutsDialog.close(); });
     shortcutsDialog.addEventListener("click", function (e) {
         if (e.target === shortcutsDialog) shortcutsDialog.close();
@@ -728,11 +1129,27 @@
             customCssPanel.classList.toggle("is-collapsed");
         });
     }
+    const cssPanelBackdrop = document.getElementById("css-panel-backdrop");
+    function setCssPanelMaximized(on) {
+        customCssPanel.classList.toggle("is-maximized", on);
+        if (cssPanelBackdrop) cssPanelBackdrop.classList.toggle("is-visible", on);
+    }
     if (cssMaximizeBtn) {
         cssMaximizeBtn.addEventListener("click", function () {
-            customCssPanel.classList.toggle("is-maximized");
+            setCssPanelMaximized(!customCssPanel.classList.contains("is-maximized"));
         });
     }
+    if (cssPanelBackdrop) {
+        cssPanelBackdrop.addEventListener("click", function () { setCssPanelMaximized(false); });
+    }
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && customCssPanel.classList.contains("is-maximized")) {
+            // Don't fight other Escape handlers (dialogs handle their own).
+            if (promptDialog.open || cssHelpDialog.open || shortcutsDialog.open) return;
+            e.preventDefault();
+            setCssPanelMaximized(false);
+        }
+    });
 
     customCssEditor.addEventListener("keydown", function (e) {
         if (e.key === "Tab") {
@@ -742,9 +1159,24 @@
     });
 
     customCssEditor.addEventListener("input", debounce(function () {
-        localStorage.setItem(CUSTOM_CSS_KEY, customCssEditor.value);
-        applyTheme("custom");
+        if (activePresetId) {
+            // Edits to a saved preset are persisted into that preset, not
+            // the free-form buffer, so each preset stays independent.
+            const p = findPreset(activePresetId);
+            if (p) {
+                p.css = customCssEditor.value;
+                p.updatedAt = Date.now();
+                savePresets();
+            }
+            applyCustomLikePreview(customCssEditor.value);
+        } else {
+            localStorage.setItem(CUSTOM_CSS_KEY, customCssEditor.value);
+            applyCustomLikePreview(customCssEditor.value);
+        }
     }, 300));
+
+    if (cssSavePresetBtn) cssSavePresetBtn.addEventListener("click", saveCurrentAsPreset);
+    if (cssDeletePresetBtn) cssDeletePresetBtn.addEventListener("click", deleteActivePreset);
 
     // ─── CSS color swatches + picker ───────────────────────────────────
     // Tokens are kept simple on purpose: 6-digit hex, 3-digit hex, and
@@ -956,15 +1388,24 @@
             setSidebar(docsSidebar.classList.contains("is-collapsed"));
             return;
         }
+        // Ctrl/Cmd+Alt+N — new document. Avoids browser-reserved Ctrl+N
+        // (new window) and Ctrl+Shift+N (incognito).
+        if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === "n") {
+            e.preventDefault();
+            newDoc();
+            return;
+        }
         if (!inField && e.key === "?") {
             e.preventDefault();
-            shortcutsDialog.showModal();
+            toggleShortcuts();
         }
     });
 
     // ─── Initial load ──────────────────────────────────────────────────
     (async function init() {
         await loadThemes();
+        loadPresets();
+        rebuildPresetOptions();
 
         const savedCss = localStorage.getItem(CUSTOM_CSS_KEY);
         if (savedCss) customCssEditor.value = savedCss;
@@ -987,6 +1428,10 @@
         // Sync-scroll: on by default, restore previous choice.
         setSyncScroll(localStorage.getItem(SYNC_SCROLL_KEY) !== "0");
 
+        const savedTheme = localStorage.getItem(ACTIVE_THEME_KEY);
+        if (savedTheme && Array.from(themeSelect.options).some(function (o) { return o.value === savedTheme; })) {
+            themeSelect.value = savedTheme;
+        }
         await applyTheme(themeSelect.value);
         updatePreview();
         updateStats();

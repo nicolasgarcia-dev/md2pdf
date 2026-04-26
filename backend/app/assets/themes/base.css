@@ -18,6 +18,9 @@ html, body {
 body {
     font-family: "Noto Sans", "Segoe UI", Helvetica, Arial, sans-serif;
     color: #1b1f24;
+    /* Default accent for form controls (mostly task-list checkboxes). A calm
+       blue that reads cleanly on every theme; per-theme files can override. */
+    accent-color: #2563eb;
 }
 
 main.document {
@@ -35,7 +38,7 @@ h2 { font-size: 1.55em; }
 h3 { font-size: 1.25em; }
 h4 { font-size: 1.05em; }
 
-a { color: #0366d6; text-decoration: none; }
+a { color: #0969da; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 ul, ol { padding-left: 1.6em; margin: 0.4em 0 0.9em; }
@@ -69,27 +72,37 @@ table {
 }
 th, td {
     border: 1px solid #d0d7de;
-    padding: 0.45em 0.7em;
+    padding: 0.5em 0.75em;
     text-align: left;
     vertical-align: top;
 }
-th { background: #f6f8fa; }
+th {
+    background: #f6f8fa;
+    font-weight: 600;
+}
 
+/* Inline code chip. Per-theme files restyle this; pre code is reset below
+   so these declarations never bleed into fenced blocks. The default chip
+   reads as code on every background — soft pill with a subtle outline so
+   it never blends into plain text. */
 code {
     font-family: "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
-    font-size: 0.92em;
-    background: #f6f8fa;
-    padding: 0.12em 0.35em;
-    border-radius: 3px;
+    font-size: 0.9em;
+    background: rgba(99, 110, 126, 0.16);
+    color: #1f2328;
+    padding: 0.15em 0.45em;
+    border-radius: 5px;
 }
 
 pre {
     font-family: "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
     font-size: 0.88em;
-    line-height: 1.45;
+    line-height: 1.5;
     background: #f6f8fa;
-    padding: 0.8em 1em;
-    border-radius: 6px;
+    color: #1b1f24;
+    padding: 0.85em 1.05em;
+    border-radius: 8px;
+    border: 1px solid #d8dee4;
     overflow: hidden;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -97,34 +110,77 @@ pre {
 }
 pre code {
     background: transparent;
+    color: inherit;
     padding: 0;
     border-radius: 0;
+    border: 0;
     font-size: inherit;
+}
+
+/* Reset highlight.js's CDN stylesheet (used in the live preview). Without
+   this the inner <code class="hljs"> would paint its own white background
+   over whichever color the active theme picked for <pre>. */
+.hljs, code.hljs {
+    background: transparent;
+    color: inherit;
+    padding: 0;
 }
 
 pre.mermaid {
     background: transparent;
     padding: 0;
+    border: 0;
     display: flex;
     justify-content: center;
 }
 
-.codehilite { background: transparent; padding: 0; page-break-inside: avoid; }
+/* Pygments wraps every fenced block in <div class="codehilite"><pre>…</pre></div>.
+   The wrapper exists only as a hook for Pygments token classes (.codehilite .k
+   etc.); it must never paint anything itself, otherwise it stacks a second box
+   around the visible <pre>. The defensive !important guards against any
+   per-theme or user CSS that might re-introduce a wrapper background, padding
+   or border. Style fenced code blocks via `pre`, never via `.codehilite`. */
+.codehilite {
+    background: transparent !important;
+    padding: 0 !important;
+    border: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+}
 .codehilite pre { margin: 0; }
 
 nav.toc {
     margin: 0 0 1.6em;
-    padding: 0.8em 1em;
+    padding: 0.85em 1.1em;
     background: #f6f8fa;
-    border: 1px solid #d0d7de;
-    border-radius: 6px;
+    border: 1px solid #d8dee4;
+    border-radius: 8px;
     page-break-inside: avoid;
 }
 nav.toc h2 { margin: 0 0 0.5em; font-size: 1.15em; }
 nav.toc ul { padding-left: 1.2em; margin: 0; }
 
 .task-list-item { list-style: none; margin-left: -1.2em; }
-.task-list-item-checkbox { margin-right: 0.4em; }
+
+/* The preview's Markdown renderer (marked) does not add a class to task
+   list checkboxes, while the PDF renderer (markdown-it-py) emits
+   .task-list-item-checkbox. Cover both shapes so spacing matches.
+
+   Both renderers also output <input ... disabled> (task lists are read-only
+   by GitHub convention). Browsers dim disabled inputs on screen, which
+   silently kills accent-color and any custom styling — but only in the
+   preview, since print rendering doesn't apply that dimming. Resetting
+   opacity here makes the preview and the PDF look identical. */
+.task-list-item-checkbox,
+li > input[type="checkbox"] {
+    margin-right: 0.4em;
+}
+
+input[type="checkbox"]:disabled {
+    opacity: 1;
+    cursor: default;
+}
 
 /* KaTeX math blocks — ensure display mode renders as a centred block
    regardless of whether the KaTeX CDN stylesheet has loaded. */
@@ -134,4 +190,86 @@ nav.toc ul { padding-left: 1.2em; margin: 0; }
 /* Ensure emoji glyphs fall back to a color emoji font. */
 body, h1, h2, h3, h4, h5, h6, p, li, td, th, code, pre {
     font-family: inherit, "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* ─── Syntax highlighting palette ───────────────────────────────────────
+   Themes pick the colors via these custom properties; the long token
+   selectors below cover both Pygments (used in the PDF) and highlight.js
+   (used in the live preview), so a single palette keeps both renderers
+   visually identical. */
+
+pre, .codehilite {
+    --syn-keyword: #cf222e;
+    --syn-string:  #0a3069;
+    --syn-comment: #6e7781;
+    --syn-number:  #0550ae;
+    --syn-function:#8250df;
+    --syn-builtin: #0550ae;
+    --syn-operator:#cf222e;
+    --syn-type:    #0550ae;
+    --syn-attr:    #0550ae;
+    --syn-meta:    #8250df;
+}
+
+.codehilite .k,  .codehilite .kd, .codehilite .kn, .codehilite .kr,
+.codehilite .nt,
+.hljs-keyword, .hljs-selector-tag, .hljs-subst, .hljs-tag {
+    color: var(--syn-keyword);
+    font-weight: 600;
+}
+
+.codehilite .s,  .codehilite .s1, .codehilite .s2, .codehilite .sa,
+.codehilite .sb, .codehilite .sc, .codehilite .sd, .codehilite .se,
+.codehilite .sh, .codehilite .si, .codehilite .sx, .codehilite .sr,
+.codehilite .ss,
+.hljs-string, .hljs-symbol {
+    color: var(--syn-string);
+}
+
+.codehilite .c, .codehilite .c1, .codehilite .cm, .codehilite .cs, .codehilite .cp,
+.hljs-comment, .hljs-quote {
+    color: var(--syn-comment);
+    font-style: italic;
+}
+
+.codehilite .m, .codehilite .mi, .codehilite .mf, .codehilite .mh, .codehilite .mo,
+.hljs-number, .hljs-literal {
+    color: var(--syn-number);
+}
+
+.codehilite .nf, .codehilite .nc,
+.hljs-title, .hljs-section, .hljs-name,
+.hljs-selector-id, .hljs-selector-class {
+    color: var(--syn-function);
+    font-weight: 600;
+}
+
+.codehilite .nb, .codehilite .bp, .codehilite .kt,
+.hljs-built_in, .hljs-builtin-name, .hljs-type {
+    color: var(--syn-builtin);
+}
+
+.codehilite .o, .codehilite .ow,
+.hljs-operator {
+    color: var(--syn-operator);
+}
+
+.codehilite .nd,
+.hljs-meta {
+    color: var(--syn-meta);
+}
+
+.codehilite .na, .codehilite .nv,
+.hljs-attr, .hljs-attribute, .hljs-variable {
+    color: var(--syn-attr);
+}
+
+.codehilite .gi, .hljs-addition {
+    color: #116329;
+    background: #dafbe1;
+}
+
+.codehilite .gd, .hljs-deletion {
+    color: #82071e;
+    background: #ffebe9;
 }

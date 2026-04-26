@@ -1,19 +1,71 @@
-/* Elegant theme: warm serif body with contrasting sans-serif headings. */
+/* Elegant theme: warm serif body with contrasting sans-serif headings.
+   Code, tables, blockquotes and the TOC all share the cream/sienna
+   palette so nothing falls back to a clashing default. */
+
 body {
-    font-family: "Source Serif Pro", "Noto Serif", Georgia, serif;
+    font-family: "EB Garamond", "Noto Serif", Georgia, serif;
     color: #2a2522;
     background: #fdfbf7;
+    accent-color: #a0522d;
 }
+
 h1, h2, h3, h4 {
     font-family: "Inter", "Noto Sans", sans-serif;
     color: #3a2f29;
     letter-spacing: -0.01em;
 }
 h1 { border-bottom: 2px solid #c9a47b; padding-bottom: 0.25em; }
-a { color: #a0522d; }
+h2 { border-bottom: 1px solid #eadfce; padding-bottom: 0.18em; }
+
+a { color: #a0522d; text-decoration: none; border-bottom: 1px solid rgba(160, 82, 45, 0.35); }
+a:hover { border-bottom-color: #a0522d; }
+
 blockquote {
-    border-left-color: #c9a47b;
+    border-left: 4px solid #c9a47b;
     background: #f6efe4;
     color: #5a4a3e;
+    font-style: italic;
 }
-pre, .codehilite { background: #f6efe4; border: 1px solid #eadfce; }
+
+hr { border-top: 1px solid #eadfce; }
+
+code {
+    background: #f6efe4;
+    color: #5a3325;
+    border: 1px solid #eadfce;
+    border-radius: 4px;
+    padding: 0.12em 0.4em;
+}
+
+pre {
+    background: #f6efe4;
+    color: #3a2f29;
+    border: 1px solid #eadfce;
+    border-radius: 6px;
+    --syn-keyword: #a0522d;
+    --syn-string:  #5b6b30;
+    --syn-comment: #9c8b75;
+    --syn-number:  #a0522d;
+    --syn-function:#5c4a3e;
+    --syn-builtin: #c47c3c;
+    --syn-operator:#7a6857;
+    --syn-type:    #c47c3c;
+    --syn-attr:    #5b6b30;
+    --syn-meta:    #5c4a3e;
+}
+
+th {
+    background: #eadfce;
+    color: #3a2f29;
+    border-color: #d8c8af;
+    font-weight: 600;
+}
+td { border-color: #eadfce; }
+tbody tr:nth-child(even) td { background: #f9f3e8; }
+
+nav.toc {
+    background: #f6efe4;
+    border: 1px solid #eadfce;
+    border-radius: 6px;
+}
+nav.toc a { color: #3a2f29; border: 0; }

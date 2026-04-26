@@ -804,6 +804,38 @@ kbd {
     justify-content: center;
 }
 
+.preview pre.mermaid-pending {
+    opacity: 0.65;
+}
+
+/* These two resets must apply EVEN in Custom CSS mode (where base.css isn't
+   merged into the preview), so they live in the always-loaded chrome
+   stylesheet. Higher-specificity #preview selectors beat both the hljs CDN
+   stylesheet and any browser default treatment of :disabled checkboxes. */
+
+/* hljs CDN paints a white background + dark text on `code.hljs`, which would
+   hide the theme's `<pre>` background. Make the inner code transparent so
+   `<pre>` shows through. */
+#preview .hljs,
+#preview code.hljs {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+/* Task list checkboxes: Chromium ignores `accent-color` on :disabled inputs,
+   which is why colour overrides worked in the PDF but not in the preview. We
+   strip the `disabled` attribute in app.js after every render (so accent-color
+   actually applies) and block interaction here so they stay read-only as
+   GitHub-style task lists are meant to be. */
+#preview input[type="checkbox"] {
+    pointer-events: none;
+    cursor: default;
+}
+#preview input[type="checkbox"]:disabled {
+    opacity: 1;
+}
+
 /* Wide display math: keep natural scale, no inner scrollbar.
    We don't override overflow here — KaTeX's defaults preserve the vertical
    layout that matrices and tall delimiters rely on. The .preview pane already
@@ -859,8 +891,25 @@ kbd {
     z-index: 100;
     border-radius: var(--radius);
     border: 1px solid var(--border);
-    box-shadow: 0 0 0 100vmax rgba(8, 16, 44, 0.52), var(--sh-lg);
+    box-shadow: var(--sh-lg);
     background: var(--surface-2);
+}
+
+/* Dialog-style backdrop for the maximized Custom CSS panel: blurred, clickable
+   to restore. Hidden by default; toggled in JS in lockstep with .is-maximized. */
+.css-panel-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 16, 44, 0.52);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 99;
+}
+
+.css-panel-backdrop.is-visible {
+    display: block;
+    animation: dialog-in 200ms ease;
 }
 
 .custom-css-panel.is-maximized #css-expand-btn {
@@ -903,6 +952,33 @@ kbd {
     background: var(--accent-soft);
     border-color: color-mix(in srgb, var(--accent) 35%, transparent);
     color: var(--accent);
+}
+
+/* The native [hidden] rule loses against the .css-action-btn display: flex
+   above, so re-assert it here. The trash button only makes sense on a saved
+   preset; plain "Custom CSS" must not show it. */
+.css-action-btn[hidden] {
+    display: none;
+}
+
+.css-action-btn.is-danger:hover {
+    background: rgba(212, 32, 32, 0.1);
+    border-color: color-mix(in srgb, var(--danger) 35%, transparent);
+    color: var(--danger);
+}
+
+.css-preset-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 7px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 999px;
+    vertical-align: 1px;
 }
 
 .custom-css-header {
@@ -1107,6 +1183,87 @@ kbd {
     background: #fbe5e5;
     border-color: #d96363;
     color: #c13b3b;
+}
+
+/* ─── Prompt / confirm dialog ─────────────────────────────────────────── */
+.prompt-dialog {
+    width: min(440px, 92vw);
+}
+
+.prompt-body {
+    gap: 14px;
+    padding: 20px 22px 22px;
+}
+
+.prompt-message {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text);
+}
+
+.prompt-input {
+    font: inherit;
+    font-size: 13px;
+    padding: 8px 11px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color var(--ease), box-shadow var(--ease);
+}
+
+.prompt-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.prompt-dialog.is-confirm .prompt-input {
+    display: none;
+}
+
+.prompt-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 2px;
+}
+
+/* Re-style the toolbar-flavored .button so it reads on the white dialog body
+   (mirrors the approach used in .color-popover #cp-cancel). */
+.prompt-actions .prompt-btn {
+    padding: 7px 14px;
+    font-size: 13px;
+}
+
+.prompt-actions .prompt-btn:not(.primary) {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    box-shadow: none;
+}
+
+.prompt-actions .prompt-btn:not(.primary):hover {
+    background: var(--accent-soft);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    color: var(--accent);
+}
+
+.prompt-actions .prompt-btn.is-danger {
+    background: linear-gradient(135deg, var(--danger) 0%, #ee3a3a 100%);
+    border: 1px solid rgba(255, 255, 255, .15);
+    box-shadow: 0 2px 10px rgba(212, 32, 32, .35),
+        inset 0 1px 0 rgba(255, 255, 255, .18);
+    color: #fff;
+    font-weight: 600;
+}
+
+.prompt-actions .prompt-btn.is-danger:hover {
+    box-shadow: 0 4px 18px rgba(212, 32, 32, .50),
+        inset 0 1px 0 rgba(255, 255, 255, .20);
+    filter: brightness(1.05);
+    color: #fff;
 }
 
 /* ─── Status toast ────────────────────────────────────────────────────── */
@@ -1507,6 +1664,40 @@ kbd {
 
     .docs-backdrop {
         display: none !important;
+    }
+
+    /* Touch-friendly sizing for the document list buttons (rename / delete)
+       and the "+" new-document button. The desktop sizes are too small to
+       hit reliably on phones. */
+    .docs-action {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 7px;
+    }
+
+    .docs-action svg {
+        width: 1.15rem;
+        height: 1.15rem;
+    }
+
+    .docs-item-btn {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 6px;
+    }
+
+    .docs-item-btn svg {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    .docs-item-actions {
+        gap: 4px;
+    }
+
+    .docs-item {
+        padding: 8px 8px;
+        font-size: 13.5px;
     }
 
     /* Custom CSS panel — keep within margins on mobile but keep title +

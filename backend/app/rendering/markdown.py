@@ -27,7 +27,21 @@ _PYGMENTS_FORMATTER = HtmlFormatter(nowrap=False, cssclass="codehilite")
 
 # Pygments stylesheet, inlined into the document head so WeasyPrint and
 # Chromium produce identical output without an extra HTTP round trip.
-PYGMENTS_CSS: str = _PYGMENTS_FORMATTER.get_style_defs(".codehilite")
+#
+# Pygments' default style emits `.codehilite { background: #f8f8f8 }` for the
+# outer <div> wrapper. We strip that declaration entirely: the wrapper exists
+# only as a hook for token classes (.codehilite .k, .codehilite .s …), the
+# visible rectangle is the inner <pre>. Leaving Pygments' background on the
+# wrapper is what produced the "two boxes" effect (theme paints <pre>, the
+# wrapper paints around it). Removing the line at source means nothing — not
+# even legacy/cached layers — can re-introduce it.
+_PYGMENTS_RAW: str = _PYGMENTS_FORMATTER.get_style_defs(".codehilite")
+PYGMENTS_CSS: str = re.sub(
+    r"\.codehilite\s*\{\s*background[^}]*\}\s*",
+    "",
+    _PYGMENTS_RAW,
+    count=1,
+)
 
 
 def _highlight(code: str, name: str, _attrs: object) -> str:

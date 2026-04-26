@@ -83,8 +83,13 @@ async def list_themes() -> list[dict[str, str]]:
 
 @app.get("/api/themes/{slug}/css")
 async def theme_preview_css(slug: str) -> Response:
-    """Return theme CSS scoped to #preview for the live preview pane."""
-    if not is_valid(slug) or slug == "custom":
+    """Return theme CSS scoped to #preview for the live preview pane.
+
+    When slug is 'custom' the response is just base.css scoped — the user's
+    Custom CSS is layered on top client-side, so the preview matches what
+    the server-side renderer concatenates for the PDF (base + custom).
+    """
+    if not is_valid(slug):
         slug = "github"
     css = get_preview_stylesheet(slug)
     return Response(content=css, media_type="text/css",

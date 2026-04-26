@@ -23,6 +23,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         fonts-noto-color-emoji \
         fonts-inter \
         fonts-jetbrains-mono \
+        fonts-ebgaramond \
+        fonts-roboto-slab \
         ca-certificates \
         curl \
     && rm -rf /var/lib/apt/lists/*

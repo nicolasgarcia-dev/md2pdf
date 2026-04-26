@@ -1,13 +1,25 @@
-/* Academic theme: serif body, justified paragraphs, numbered headings. */
+/* Academic theme: serif body, justified paragraphs, numbered headings.
+   All accents — code, tables, links, blockquotes — share a warm earth
+   palette so the document reads as one coherent piece. */
+
 body {
     font-family: "Noto Serif", "Liberation Serif", Georgia, serif;
-    color: #1b1b1b;
+    color: #1b1410;
+    background: #fdfaf3;
+    accent-color: #8b3a1f;
 }
+
 main.document p { text-align: justify; hyphens: auto; }
+
 h1, h2, h3, h4 {
     font-family: "Noto Serif", Georgia, serif;
     font-weight: 700;
+    color: #1b1410;
 }
+
+h1 { border-bottom: 2px solid #c9a47b; padding-bottom: 0.25em; }
+h2 { border-bottom: 1px solid #e6dccb; padding-bottom: 0.18em; }
+
 main.document { counter-reset: h2counter; }
 main.document h2 { counter-reset: h3counter; }
 main.document h2::before {
@@ -18,5 +30,57 @@ main.document h3::before {
     counter-increment: h3counter;
     content: counter(h2counter) "." counter(h3counter) " ";
 }
-a { color: #8b0000; }
-blockquote { font-style: italic; }
+
+a { color: #8b3a1f; text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: #6a2c17; }
+
+blockquote {
+    border-left: 4px solid #c9a47b;
+    background: #f8f1e3;
+    color: #5a4a3e;
+    font-style: italic;
+}
+
+hr { border-top: 1px solid #d8c9b1; }
+
+code {
+    background: #f4ead9;
+    color: #5a3325;
+    border: 1px solid #e8dcc6;
+    border-radius: 4px;
+    padding: 0.12em 0.4em;
+}
+
+pre {
+    background: #f5efe6;
+    color: #2a201a;
+    border: 1px solid #e6dccb;
+    border-radius: 6px;
+    --syn-keyword: #8b3a1f;
+    --syn-string:  #5b6420;
+    --syn-comment: #9b7e5e;
+    --syn-number:  #a14e22;
+    --syn-function:#3e5174;
+    --syn-builtin: #8b3a1f;
+    --syn-operator:#5a4838;
+    --syn-type:    #3e5174;
+    --syn-attr:    #5b6420;
+    --syn-meta:    #3e5174;
+}
+
+table { font-size: 0.96em; }
+th {
+    background: #efe4cf;
+    color: #1b1410;
+    border-color: #d8c9b1;
+    font-weight: 600;
+}
+td { border-color: #e6dccb; }
+tbody tr:nth-child(even) td { background: #faf4e8; }
+
+nav.toc {
+    background: #f8f1e3;
+    border: 1px solid #e6dccb;
+    border-radius: 6px;
+}
+nav.toc a { color: #1b1410; }
