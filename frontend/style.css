@@ -1513,7 +1513,14 @@ kbd {
        hint on the same row so the header stays compact. */
     .custom-css-header {
         padding: 8px 12px;
-        gap: 4px;
+        gap: 8px;
+    }
+
+    /* On phones the hint text doesn't fit on one line and its trailing
+       arrow drops below; the help button (`?`) right next to it conveys
+       the same info, so hide the hint here. */
+    .custom-css-hint {
+        display: none;
     }
 
     .css-actions {
