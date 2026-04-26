@@ -134,21 +134,8 @@ pre.mermaid {
     justify-content: center;
 }
 
-/* Pygments wraps every fenced block in <div class="codehilite"><pre>…</pre></div>.
-   The wrapper exists only as a hook for Pygments token classes (.codehilite .k
-   etc.); it must never paint anything itself, otherwise it stacks a second box
-   around the visible <pre>. The defensive !important guards against any
-   per-theme or user CSS that might re-introduce a wrapper background, padding
-   or border. Style fenced code blocks via `pre`, never via `.codehilite`. */
-.codehilite {
-    background: transparent !important;
-    padding: 0 !important;
-    border: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    page-break-inside: avoid;
-}
-.codehilite pre { margin: 0; }
+/* Fenced code blocks are styled via `pre`.
+   Pygments token classes (.codehilite .k) match spans inside <pre class="codehilite">. */
 
 nav.toc {
     margin: 0 0 1.6em;
@@ -198,7 +185,7 @@ body, h1, h2, h3, h4, h5, h6, p, li, td, th, code, pre {
    (used in the live preview), so a single palette keeps both renderers
    visually identical. */
 
-pre, .codehilite {
+pre {
     --syn-keyword: #cf222e;
     --syn-string:  #0a3069;
     --syn-comment: #6e7781;

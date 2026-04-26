@@ -73,7 +73,7 @@ def get_stylesheet(slug: str, custom_css: str = "") -> str:
 
     When slug is 'custom', base.css is prepended to the caller-supplied CSS.
     """
-    if slug == "custom":
+    if slug == "custom" or slug.startswith("preset:"):
         base = _read(_THEMES_DIR / "base.css")
         if custom_css.strip():
             patched = _inject_page_background(custom_css)

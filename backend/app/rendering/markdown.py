@@ -23,7 +23,7 @@ from pygments.lexers import get_lexer_by_name, guess_lexer
 from pygments.util import ClassNotFound
 
 
-_PYGMENTS_FORMATTER = HtmlFormatter(nowrap=False, cssclass="codehilite")
+_PYGMENTS_FORMATTER = HtmlFormatter(nowrap=True)
 
 # Pygments stylesheet, inlined into the document head so WeasyPrint and
 # Chromium produce identical output without an extra HTTP round trip.
@@ -53,7 +53,9 @@ def _highlight(code: str, name: str, _attrs: object) -> str:
         lexer = get_lexer_by_name(lang) if lang else guess_lexer(code)
     except ClassNotFound:
         return ""  # Fall back to markdown-it default rendering.
-    return highlight(code, lexer, _PYGMENTS_FORMATTER)
+    highlighted = highlight(code, lexer, _PYGMENTS_FORMATTER)
+    lang_class = f'language-{html.escape(lang)}' if lang else ''
+    return f'<pre class="codehilite"><code class="{lang_class}">{highlighted}</code></pre>'
 
 
 def _build_parser() -> MarkdownIt:
