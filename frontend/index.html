@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>md2pdf</title>
-    <link rel="stylesheet" href="/static/style.css?v=37">
+    <link rel="stylesheet" href="/static/style.css?v=39">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <link rel="icon" href="data:,">
@@ -31,48 +31,49 @@
                 <select id="theme"></select>
             </label>
             <div class="controls-compact">
-            <label class="field" title="PDF scale, 60–140% (100% = original size). Any value other than 100% renders via Chromium for full fidelity.">
-                <span>Scale</span>
-                <div class="scale-input">
-                    <input type="number" id="scale" min="60" max="140" step="1" value="100">
-                    <span class="scale-suffix">%</span>
-                </div>
-            </label>
-            <label class="checkbox">
-                <input type="checkbox" id="toc">
-                <span>Table of contents</span>
-            </label>
-            <button id="sync-scroll-btn" class="btn-icon toolbar-toggle is-on" type="button"
-                title="Sync scroll between editor and preview" aria-pressed="true">
-                <svg class="icon-link" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M7 4v16" />
-                    <polyline points="3 16 7 20 11 16" />
-                    <path d="M17 20V4" />
-                    <polyline points="13 8 17 4 21 8" />
-                </svg>
-                <svg class="icon-unlink" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M7 4v16" />
-                    <polyline points="3 16 7 20 11 16" />
-                    <path d="M17 20V4" />
-                    <polyline points="13 8 17 4 21 8" />
-                    <line x1="3" y1="3" x2="21" y2="21" />
-                </svg>
-            </button>
-            <button id="shortcuts-btn" class="btn-icon toolbar-help" type="button" title="Keyboard shortcuts (?)">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                    <line x1="12" y1="17" x2="12.01" y2="17" />
-                </svg>
-            </button>
+                <label class="field"
+                    title="PDF scale, 60–140% (100% = original size). Any value other than 100% renders via Chromium for full fidelity.">
+                    <span>Scale</span>
+                    <div class="scale-input">
+                        <input type="number" id="scale" min="60" max="140" step="1" value="100">
+                        <span class="scale-suffix">%</span>
+                    </div>
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" id="toc">
+                    <span>Table of contents</span>
+                </label>
+                <button id="sync-scroll-btn" class="btn-icon toolbar-toggle is-on" type="button"
+                    title="Sync scroll between editor and preview" aria-pressed="true">
+                    <svg class="icon-link" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 4v16" />
+                        <polyline points="3 16 7 20 11 16" />
+                        <path d="M17 20V4" />
+                        <polyline points="13 8 17 4 21 8" />
+                    </svg>
+                    <svg class="icon-unlink" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 4v16" />
+                        <polyline points="3 16 7 20 11 16" />
+                        <path d="M17 20V4" />
+                        <polyline points="13 8 17 4 21 8" />
+                        <line x1="3" y1="3" x2="21" y2="21" />
+                    </svg>
+                </button>
+                <button id="shortcuts-btn" class="btn-icon toolbar-help" type="button" title="Keyboard shortcuts (?)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                </button>
             </div>
             <div class="controls-actions">
-            <label class="button" for="upload">Upload .md</label>
-            <input type="file" id="upload" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden>
-            <button id="download" class="button primary">Download PDF</button>
+                <label class="button" for="upload">Upload .md</label>
+                <input type="file" id="upload" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden>
+                <button id="download" class="button primary">Download PDF</button>
             </div>
         </div>
     </header>
@@ -115,13 +116,15 @@
                     <span>Custom CSS<span id="css-preset-badge" class="css-preset-badge" hidden></span></span>
                     <span class="custom-css-hint">You can find more info in the <code>help button -></code>.</span>
                     <div class="css-actions">
-                        <button id="css-save-preset-btn" class="css-action-btn" type="button" title="Save as preset (adds it to themes)">
+                        <button id="css-save-preset-btn" class="css-action-btn" type="button"
+                            title="Save as preset (adds it to themes)">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
                             </svg>
                         </button>
-                        <button id="css-delete-preset-btn" class="css-action-btn is-danger" type="button" title="Delete this preset" hidden>
+                        <button id="css-delete-preset-btn" class="css-action-btn is-danger" type="button"
+                            title="Delete this preset" hidden>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="3 6 5 6 21 6" />
@@ -156,9 +159,10 @@
                                 <line x1="3" y1="21" x2="10" y2="14"></line>
                             </svg>
                         </button>
-                        <button id="css-help-btn" class="css-action-btn" type="button" title="Learn more about Custom CSS">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                                stroke-linecap="round" stroke-linejoin="round">
+                        <button id="css-help-btn" class="css-action-btn" type="button"
+                            title="Learn more about Custom CSS">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10" />
                                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                                 <line x1="12" y1="17" x2="12.01" y2="17" />
@@ -180,7 +184,8 @@
                         <span>Editor</span>
                         <span class="pane-stats" id="editor-stats" aria-live="polite"></span>
                     </div>
-                    <textarea id="editor" spellcheck="false" placeholder="Write or paste Markdown here, or drop a .md file..."></textarea>
+                    <textarea id="editor" spellcheck="false"
+                        placeholder="Write or paste Markdown here, or drop a .md file..."></textarea>
                 </section>
                 <section class="pane preview-pane">
                     <div class="pane-header">Preview</div>
@@ -251,7 +256,9 @@
                         <tbody>
                             <tr>
                                 <td><code>html, body</code></td>
-                                <td>Font family, text colour, page background (use with <code>@page { background-color }</code> for full coverage)</td>
+                                <td>Font family, text colour, page background (use with
+                                    <code>@page { background-color }</code> for full coverage)
+                                </td>
                             </tr>
                             <tr>
                                 <td><code>h1 – h4</code></td>
@@ -326,7 +333,9 @@
                 <section class="help-section">
                     <h3>Example — full page background colour</h3>
                     <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        One rule is enough — the server automatically extends the colour to the margin area so the entire page (including gutters) gets the same fill. No need to write an <code>@page</code> rule yourself.
+                        One rule is enough — the server automatically extends the colour to the margin area so the
+                        entire page (including gutters) gets the same fill. No need to write an <code>@page</code> rule
+                        yourself.
                     </p>
                     <pre class="help-code">/* Warm cream paper — keep code, tables and quotes
    on the same warm palette so nothing falls back
@@ -401,7 +410,9 @@ nav.toc { background: #fdf0e0; border: 1px solid #f0dabb; }</pre>
                 <section class="help-section">
                     <h3>Task list checkboxes</h3>
                     <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        Use <code>- [ ]</code> and <code>- [x]</code> in your Markdown to render checkboxes. The single-line CSS below recolours them and works the same in the live preview and the downloaded PDF.
+                        Use <code>- [ ]</code> and <code>- [x]</code> in your Markdown to render checkboxes. The
+                        single-line CSS below recolours them and works the same in the live preview and the downloaded
+                        PDF.
                     </p>
                     <pre class="help-code">/* One-liner — recolours the native check */
 input[type="checkbox"] { accent-color: #16a34a; }
@@ -418,7 +429,9 @@ input[type="checkbox"] {
                     <h3>Tips</h3>
                     <ul class="help-tips">
                         <li>Changes apply to the preview in real time. The PDF is only generated on download.</li>
-                        <li>To colour the full page background, write <code>html, body { background: #colour; }</code> — the server automatically fills the margin area with the same colour so the entire page looks uniform.</li>
+                        <li>To colour the full page background, write <code>html, body { background: #colour; }</code> —
+                            the server automatically fills the margin area with the same colour so the entire page looks
+                            uniform.</li>
                         <li>Your CSS is saved automatically in the browser between sessions.</li>
                     </ul>
                 </section>
@@ -426,7 +439,10 @@ input[type="checkbox"] {
                 <section class="help-section">
                     <h3>Styling code blocks</h3>
                     <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        Fenced code blocks render as <code>&lt;div class="codehilite"&gt;&lt;pre&gt;…&lt;/pre&gt;&lt;/div&gt;</code> when a language is recognised, or just <code>&lt;pre&gt;&lt;code&gt;…&lt;/code&gt;&lt;/pre&gt;</code> otherwise. Style both <code>pre</code> and <code>.codehilite</code> together to be safe.
+                        Fenced code blocks render as
+                        <code>&lt;div class="codehilite"&gt;&lt;pre&gt;…&lt;/pre&gt;&lt;/div&gt;</code> when a language
+                        is recognised, or just <code>&lt;pre&gt;&lt;code&gt;…&lt;/code&gt;&lt;/pre&gt;</code> otherwise.
+                        Style both <code>pre</code> and <code>.codehilite</code> together to be safe.
                     </p>
                     <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Recreate the default boxed look</h4>
                     <pre class="help-code">pre, .codehilite {
@@ -443,7 +459,8 @@ pre {
     border-radius: 6px;
 }
 pre { padding: 0.8em 1em; }</pre>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Dark code block (with readable tokens)</h4>
+                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Dark code block (with readable
+                        tokens)</h4>
                     <pre class="help-code">pre, .codehilite {
     background: #1e1e2e;
     color: #cdd6f4;
@@ -473,9 +490,12 @@ pre { padding: 0.9em 1.1em; }</pre>
                 <section class="help-section">
                     <h3>Syntax highlighting</h3>
                     <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        The fastest way to recolor highlighted code is to set the palette variables on <code>pre, .codehilite</code>. They drive both the live preview (highlight.js) and the downloaded PDF (Pygments) at once, so you don't need to write two sets of rules.
+                        The fastest way to recolor highlighted code is to set the palette variables on
+                        <code>pre, .codehilite</code>. They drive both the live preview (highlight.js) and the
+                        downloaded PDF (Pygments) at once, so you don't need to write two sets of rules.
                     </p>
-                    <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Recommended — set the palette variables</h4>
+                    <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Recommended — set the palette
+                        variables</h4>
                     <pre class="help-code">pre, .codehilite {
     --syn-keyword:  #cf222e;
     --syn-string:   #0a3069;
@@ -489,7 +509,9 @@ pre { padding: 0.9em 1.1em; }</pre>
     --syn-meta:     #8250df;
 }</pre>
                     <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
-                        If you need finer control you can still target individual Pygments classes directly. Each token is wrapped in a <code>&lt;span&gt;</code> with a short class — always scope rules with <code>.codehilite</code> so they don't leak elsewhere.
+                        If you need finer control you can still target individual Pygments classes directly. Each token
+                        is wrapped in a <code>&lt;span&gt;</code> with a short class — always scope rules with
+                        <code>.codehilite</code> so they don't leak elsewhere.
                     </p>
                     <table class="help-table">
                         <thead>
@@ -499,26 +521,78 @@ pre { padding: 0.9em 1.1em; }</pre>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td><code>.k .kd .kn .kr</code></td><td>Keywords (<code>def</code>, <code>class</code>, <code>import</code>…)</td></tr>
-                            <tr><td><code>.kt</code></td><td>Built-in types (<code>int</code>, <code>string</code>)</td></tr>
-                            <tr><td><code>.s .s1 .s2</code></td><td>Strings (<code>'…'</code>, <code>"…"</code>)</td></tr>
-                            <tr><td><code>.se</code></td><td>String escapes (<code>\n</code>)</td></tr>
-                            <tr><td><code>.c .c1 .cm</code></td><td>Comments (line / block)</td></tr>
-                            <tr><td><code>.cp</code></td><td>Preprocessor directives</td></tr>
-                            <tr><td><code>.nf</code></td><td>Function names</td></tr>
-                            <tr><td><code>.nc</code></td><td>Class names</td></tr>
-                            <tr><td><code>.nb</code></td><td>Built-ins (<code>print</code>, <code>len</code>)</td></tr>
-                            <tr><td><code>.nv</code></td><td>Variables</td></tr>
-                            <tr><td><code>.nd</code></td><td>Decorators (<code>@foo</code>)</td></tr>
-                            <tr><td><code>.nt</code></td><td>HTML / XML tags</td></tr>
-                            <tr><td><code>.na</code></td><td>Attributes</td></tr>
-                            <tr><td><code>.o .ow</code></td><td>Operators (<code>+</code>, <code>and</code>)</td></tr>
-                            <tr><td><code>.m .mi .mf</code></td><td>Numbers (int / float)</td></tr>
-                            <tr><td><code>.p</code></td><td>Punctuation</td></tr>
-                            <tr><td><code>.gi .gd</code></td><td>Diff added / removed lines</td></tr>
+                            <tr>
+                                <td><code>.k .kd .kn .kr</code></td>
+                                <td>Keywords (<code>def</code>, <code>class</code>, <code>import</code>…)</td>
+                            </tr>
+                            <tr>
+                                <td><code>.kt</code></td>
+                                <td>Built-in types (<code>int</code>, <code>string</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><code>.s .s1 .s2</code></td>
+                                <td>Strings (<code>'…'</code>, <code>"…"</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><code>.se</code></td>
+                                <td>String escapes (<code>\n</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><code>.c .c1 .cm</code></td>
+                                <td>Comments (line / block)</td>
+                            </tr>
+                            <tr>
+                                <td><code>.cp</code></td>
+                                <td>Preprocessor directives</td>
+                            </tr>
+                            <tr>
+                                <td><code>.nf</code></td>
+                                <td>Function names</td>
+                            </tr>
+                            <tr>
+                                <td><code>.nc</code></td>
+                                <td>Class names</td>
+                            </tr>
+                            <tr>
+                                <td><code>.nb</code></td>
+                                <td>Built-ins (<code>print</code>, <code>len</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><code>.nv</code></td>
+                                <td>Variables</td>
+                            </tr>
+                            <tr>
+                                <td><code>.nd</code></td>
+                                <td>Decorators (<code>@foo</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><code>.nt</code></td>
+                                <td>HTML / XML tags</td>
+                            </tr>
+                            <tr>
+                                <td><code>.na</code></td>
+                                <td>Attributes</td>
+                            </tr>
+                            <tr>
+                                <td><code>.o .ow</code></td>
+                                <td>Operators (<code>+</code>, <code>and</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><code>.m .mi .mf</code></td>
+                                <td>Numbers (int / float)</td>
+                            </tr>
+                            <tr>
+                                <td><code>.p</code></td>
+                                <td>Punctuation</td>
+                            </tr>
+                            <tr>
+                                <td><code>.gi .gd</code></td>
+                                <td>Diff added / removed lines</td>
+                            </tr>
                         </tbody>
                     </table>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Example — Catppuccin Mocha-flavored block</h4>
+                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Example — Catppuccin Mocha-flavored
+                        block</h4>
                     <pre class="help-code">pre, .codehilite {
     background: #1e1e2e;
     color: #cdd6f4;
@@ -552,21 +626,68 @@ pre { padding: 0.9em 1.1em; }</pre>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td><code>h1::before</code>, <code>h2::before</code></td><td>Add numbering or ornaments before headings (e.g. <code>content: counter(h2) ". "</code>)</td></tr>
-                            <tr><td><code>ul, ol, li</code></td><td>List spacing, custom bullets via <code>list-style</code></td></tr>
-                            <tr><td><code>li::marker</code></td><td>Bullet / number colour and size</td></tr>
-                            <tr><td><code>hr</code></td><td>Horizontal rule colour and thickness</td></tr>
-                            <tr><td><code>img</code></td><td>Image max-width, borders, drop shadow</td></tr>
-                            <tr><td><code>figure, figcaption</code></td><td>Image captions</td></tr>
-                            <tr><td><code>table tr:nth-child(even)</code></td><td>Zebra-striped table rows</td></tr>
-                            <tr><td><code>thead th</code></td><td>Table header background and colour</td></tr>
-                            <tr><td><code>nav.toc a</code></td><td>Links inside the table of contents</td></tr>
-                            <tr><td><code>nav.toc ul ul</code></td><td>Nested TOC indentation</td></tr>
-                            <tr><td><code>.footnote</code></td><td>Footnote section at the end of the document</td></tr>
-                            <tr><td><code>sup.footnote-ref</code></td><td>Footnote reference superscripts</td></tr>
-                            <tr><td><code>.task-list-item</code></td><td>GitHub-style checkbox list items</td></tr>
-                            <tr><td><code>.math.inline</code>, <code>.math.block</code></td><td>KaTeX-rendered math (inline / display)</td></tr>
-                            <tr><td><code>pre.mermaid</code></td><td>Mermaid diagram container</td></tr>
+                            <tr>
+                                <td><code>h1::before</code>, <code>h2::before</code></td>
+                                <td>Add numbering or ornaments before headings (e.g.
+                                    <code>content: counter(h2) ". "</code>)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>ul, ol, li</code></td>
+                                <td>List spacing, custom bullets via <code>list-style</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>li::marker</code></td>
+                                <td>Bullet / number colour and size</td>
+                            </tr>
+                            <tr>
+                                <td><code>hr</code></td>
+                                <td>Horizontal rule colour and thickness</td>
+                            </tr>
+                            <tr>
+                                <td><code>img</code></td>
+                                <td>Image max-width, borders, drop shadow</td>
+                            </tr>
+                            <tr>
+                                <td><code>figure, figcaption</code></td>
+                                <td>Image captions</td>
+                            </tr>
+                            <tr>
+                                <td><code>table tr:nth-child(even)</code></td>
+                                <td>Zebra-striped table rows</td>
+                            </tr>
+                            <tr>
+                                <td><code>thead th</code></td>
+                                <td>Table header background and colour</td>
+                            </tr>
+                            <tr>
+                                <td><code>nav.toc a</code></td>
+                                <td>Links inside the table of contents</td>
+                            </tr>
+                            <tr>
+                                <td><code>nav.toc ul ul</code></td>
+                                <td>Nested TOC indentation</td>
+                            </tr>
+                            <tr>
+                                <td><code>.footnote</code></td>
+                                <td>Footnote section at the end of the document</td>
+                            </tr>
+                            <tr>
+                                <td><code>sup.footnote-ref</code></td>
+                                <td>Footnote reference superscripts</td>
+                            </tr>
+                            <tr>
+                                <td><code>.task-list-item</code></td>
+                                <td>GitHub-style checkbox list items</td>
+                            </tr>
+                            <tr>
+                                <td><code>.math.inline</code>, <code>.math.block</code></td>
+                                <td>KaTeX-rendered math (inline / display)</td>
+                            </tr>
+                            <tr>
+                                <td><code>pre.mermaid</code></td>
+                                <td>Mermaid diagram container</td>
+                            </tr>
                         </tbody>
                     </table>
                 </section>
@@ -581,13 +702,36 @@ pre { padding: 0.9em 1.1em; }</pre>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td><code>@page { size: A4; margin: 18mm 16mm; }</code></td><td>Override page size and margins (also <code>Letter</code>, <code>Legal</code>, <code>landscape</code>)</td></tr>
-                            <tr><td><code>@page { background-color: #colour; }</code></td><td>Fill the entire page including margin gutters</td></tr>
-                            <tr><td><code>@page :first { … }</code></td><td>Style only the first page (e.g. cover)</td></tr>
-                            <tr><td><code>page-break-before: always</code></td><td>Force a new page before the element</td></tr>
-                            <tr><td><code>page-break-after: avoid</code></td><td>Keep the next block on the same page (great for headings)</td></tr>
-                            <tr><td><code>page-break-inside: avoid</code></td><td>Keep the element together on one page</td></tr>
-                            <tr><td><code>orphans: 3; widows: 3;</code></td><td>Minimum lines kept together at page breaks</td></tr>
+                            <tr>
+                                <td><code>@page { size: A4; margin: 18mm 16mm; }</code></td>
+                                <td>Override page size and margins (also <code>Letter</code>, <code>Legal</code>,
+                                    <code>landscape</code>)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>@page { background-color: #colour; }</code></td>
+                                <td>Fill the entire page including margin gutters</td>
+                            </tr>
+                            <tr>
+                                <td><code>@page :first { … }</code></td>
+                                <td>Style only the first page (e.g. cover)</td>
+                            </tr>
+                            <tr>
+                                <td><code>page-break-before: always</code></td>
+                                <td>Force a new page before the element</td>
+                            </tr>
+                            <tr>
+                                <td><code>page-break-after: avoid</code></td>
+                                <td>Keep the next block on the same page (great for headings)</td>
+                            </tr>
+                            <tr>
+                                <td><code>page-break-inside: avoid</code></td>
+                                <td>Keep the element together on one page</td>
+                            </tr>
+                            <tr>
+                                <td><code>orphans: 3; widows: 3;</code></td>
+                                <td>Minimum lines kept together at page breaks</td>
+                            </tr>
                         </tbody>
                     </table>
                 </section>
@@ -595,7 +739,10 @@ pre { padding: 0.9em 1.1em; }</pre>
                 <section class="help-section">
                     <h3>Auto-numbered headings</h3>
                     <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        CSS counters can prefix every heading with a numeric label automatically — this is how the <em>Academic</em> theme produces output like <code>1.</code>, <code>1.1</code>, <code>1.2</code>. You can drop the snippet below into Custom CSS to get the same effect on any other theme. Works identically in the preview and the PDF.
+                        CSS counters can prefix every heading with a numeric label automatically — this is how the
+                        <em>Academic</em> theme produces output like <code>1.</code>, <code>1.1</code>,
+                        <code>1.2</code>. You can drop the snippet below into Custom CSS to get the same effect on any
+                        other theme. Works identically in the preview and the PDF.
                     </p>
                     <pre class="help-code">/* Reset the counter on the document root,
    then re-reset h3 every time h2 changes. */
@@ -612,14 +759,19 @@ main.document h3::before {
     content: counter(h2counter) "." counter(h3counter) " ";
 }</pre>
                     <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
-                        Add an <code>h4</code> level the same way, or drop the <code>h3</code> rule if you only want top-level numbering. <code>::before</code> is what places the number; the <code>counter-reset</code> on <code>h2</code> ensures every section restarts its sub-counter.
+                        Add an <code>h4</code> level the same way, or drop the <code>h3</code> rule if you only want
+                        top-level numbering. <code>::before</code> is what places the number; the
+                        <code>counter-reset</code> on <code>h2</code> ensures every section restarts its sub-counter.
                     </p>
                 </section>
 
                 <section class="help-section">
                     <h3>Page numbers</h3>
                     <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        CSS Paged Media defines <code>@page</code> margin boxes (<code>@top-left</code>, <code>@bottom-center</code>, …) with the <code>counter(page)</code> and <code>counter(pages)</code> counters. These rules only render in the PDF (not the live preview, which has no notion of pages):
+                        CSS Paged Media defines <code>@page</code> margin boxes (<code>@top-left</code>,
+                        <code>@bottom-center</code>, …) with the <code>counter(page)</code> and
+                        <code>counter(pages)</code> counters. These rules only render in the PDF (not the live preview,
+                        which has no notion of pages):
                     </p>
                     <pre class="help-code">@page {
     @bottom-center {
@@ -640,18 +792,30 @@ main.document h3::before {
     @top-right { content: counter(page); font-size: 9pt; color: #888; }
 }</pre>
                     <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
-                        <strong>Engine support:</strong> the WeasyPrint fallback honours these rules in full. The primary Chromium renderer has only partial support — depending on the document, page numbers via <code>@page</code> margin boxes may or may not appear. The simplest way to test it: paste the snippet, download the PDF, and check the corner of every page.
+                        <strong>Engine support:</strong> the WeasyPrint fallback honours these rules in full. The
+                        primary Chromium renderer has only partial support — depending on the document, page numbers via
+                        <code>@page</code> margin boxes may or may not appear. The simplest way to test it: paste the
+                        snippet, download the PDF, and check the corner of every page.
                     </p>
                 </section>
 
                 <section class="help-section">
                     <h3>Specificity &amp; cascade tips</h3>
                     <ul class="help-tips">
-                        <li>Your CSS loads after the built-in styles and the syntax-highlighting stylesheet, so plain selectors like <code>pre { … }</code> usually win.</li>
-                        <li>If a default rule still wins, it&apos;s because of higher specificity. Match it: replace <code>pre</code> with <code>pre, .codehilite</code> or use <code>.codehilite pre</code>.</li>
-                        <li>As a last resort, append <code>!important</code> to a single declaration — but try a more specific selector first.</li>
-                        <li>Use any web-safe CSS unit: <code>px</code>, <code>em</code>, <code>rem</code>, <code>%</code>, plus print units <code>mm</code>, <code>cm</code>, <code>pt</code>, <code>in</code>.</li>
-                        <li>CSS custom properties work too: define them on <code>html</code> and reuse with <code>var(--name)</code>.</li>
+                        <li>Your CSS loads after the built-in styles and the syntax-highlighting stylesheet, so plain
+                            selectors like <code>pre { … }</code> usually win.</li>
+                        <li>If a default rule still wins, it&apos;s because of higher specificity. Match it: replace
+                            <code>pre</code> with <code>pre, .codehilite</code> or use <code>.codehilite pre</code>.
+                        </li>
+                        <li>As a last resort, append <code>!important</code> to a single declaration — but try a more
+                            specific selector first.</li>
+                        <li>Use any web-safe CSS unit: <code>px</code>, <code>em</code>, <code>rem</code>,
+                            <code>%</code>, plus print units <code>mm</code>, <code>cm</code>, <code>pt</code>,
+                            <code>in</code>.
+                        </li>
+                        <li>CSS custom properties work too: define them on <code>html</code> and reuse with
+                            <code>var(--name)</code>.
+                        </li>
                     </ul>
                 </section>
             </div>
@@ -664,8 +828,8 @@ main.document h3::before {
             <div class="help-dialog-header">
                 <h2>Keyboard shortcuts</h2>
                 <button id="shortcuts-close" class="btn-icon" type="button" title="Close">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <line x1="18" y1="6" x2="6" y2="18" />
                         <line x1="6" y1="6" x2="18" y2="18" />
                     </svg>
@@ -674,24 +838,68 @@ main.document h3::before {
             <div class="help-dialog-body">
                 <table class="help-table shortcuts-table">
                     <tbody>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>S</kbd></td><td>Download PDF</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>N</kbd></td><td>New document</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td><td>Undo</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></td><td>Redo</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>B</kbd></td><td>Bold selection</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>I</kbd></td><td>Italic selection</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>K</kbd></td><td>Wrap selection in a link</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>A</kbd></td><td>Select all</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>C</kbd></td><td>Copy selection</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>X</kbd></td><td>Cut selection</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>V</kbd></td><td>Paste from clipboard</td></tr>
-                        <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd></td><td>Toggle documents sidebar</td></tr>
-                        <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Indent / outdent in editor</td></tr>
-                        <tr><td><kbd>?</kbd></td><td>Toggle this help (only when the editor isn't focused)</td></tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>S</kbd></td>
+                            <td>Download PDF</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>N</kbd></td>
+                            <td>New document</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td>
+                            <td>Undo</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></td>
+                            <td>Redo</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>B</kbd></td>
+                            <td>Bold selection</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>I</kbd></td>
+                            <td>Italic selection</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>K</kbd></td>
+                            <td>Wrap selection in a link</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>A</kbd></td>
+                            <td>Select all</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>C</kbd></td>
+                            <td>Copy selection</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>X</kbd></td>
+                            <td>Cut selection</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>V</kbd></td>
+                            <td>Paste from clipboard</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>`</kbd></td>
+                            <td>Toggle documents sidebar</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td>
+                            <td>Indent / outdent in editor</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>?</kbd></td>
+                            <td>Toggle this help (only when the editor isn't focused)</td>
+                        </tr>
                     </tbody>
                 </table>
                 <p class="help-lead" style="font-size:13px;color:var(--text-muted);margin-top:6px">
-                    Note: the <kbd>?</kbd> shortcut only opens this panel when your cursor isn't inside a text field — while you're typing in the editor or any input, <kbd>?</kbd> just types the character. Click outside first (or use the <kbd>?</kbd> button in the toolbar, which also toggles this panel).
+                    Note: the <kbd>?</kbd> shortcut only opens this panel when your cursor isn't inside a text field —
+                    while you're typing in the editor or any input, <kbd>?</kbd> just types the character. Click outside
+                    first (or use the <kbd>?</kbd> button in the toolbar, which also toggles this panel).
                 </p>
                 <p class="help-lead" style="font-size:13px;color:var(--text-muted);margin-top:2px">
                     Tip: drop a <code>.md</code> file anywhere on the editor to load it.
@@ -707,8 +915,8 @@ main.document h3::before {
             <div class="help-dialog-header">
                 <h2 id="prompt-title">Title</h2>
                 <button id="prompt-close" class="btn-icon" type="button" title="Close">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <line x1="18" y1="6" x2="6" y2="18" />
                         <line x1="6" y1="6" x2="18" y2="18" />
                     </svg>

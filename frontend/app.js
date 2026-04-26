@@ -804,7 +804,7 @@
         setPresetBadge(null);
         customCssPanel.classList.remove("is-open");
         try {
-            const res = await fetch("/api/themes/" + encodeURIComponent(slug) + "/css?v=12");
+            const res = await fetch("/api/themes/" + encodeURIComponent(slug) + "/css?v=14");
             if (!res.ok) return;
             applyPreviewCss(await res.text());
         } catch (_e) { /* preview still works without theme CSS */ }
