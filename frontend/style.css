@@ -1513,7 +1513,7 @@ kbd {
        hint on the same row so the header stays compact. */
     .custom-css-header {
         padding: 8px 12px;
-        gap: 8px;
+        gap: 4px;
     }
 
     .css-actions {
