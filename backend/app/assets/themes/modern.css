@@ -4,6 +4,12 @@
 body {
     font-family: "Inter", "Noto Sans", "Segoe UI", sans-serif;
     color: #0f172a;
+
+    /* Theme Mermaid overrides */
+    --mermaid-fill: #eff6ff;
+    --mermaid-stroke: #c7d2fe;
+    --mermaid-text: #0f172a;
+    --mermaid-edge: #64748b;
 }
 
 h1, h2, h3, h4 { color: #1d4ed8; letter-spacing: -0.015em; }

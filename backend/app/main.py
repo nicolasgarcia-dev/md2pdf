@@ -93,7 +93,7 @@ async def theme_preview_css(slug: str) -> Response:
         slug = "github"
     css = get_preview_stylesheet(slug)
     return Response(content=css, media_type="text/css",
-                    headers={"Cache-Control": "public, max-age=3600"})
+                    headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"})
 
 
 @app.post("/api/render", dependencies=[Depends(enforce)])

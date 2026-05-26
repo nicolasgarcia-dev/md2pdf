@@ -11,6 +11,12 @@ body {
     color: #1a1a1a;
     font-size: 10.5pt;
     line-height: 1.65;
+
+    /* Theme Mermaid overrides */
+    --mermaid-fill: #fafafa;
+    --mermaid-stroke: #ccc;
+    --mermaid-text: #1a1a1a;
+    --mermaid-edge: #767676;
 }
 
 h1,

@@ -7,6 +7,12 @@ body {
     color: #1b1410;
     background: #fdfaf3;
     accent-color: #8b3a1f;
+
+    /* Theme Mermaid overrides */
+    --mermaid-fill: #f8f1e3;
+    --mermaid-stroke: #eadccb;
+    --mermaid-text: #1b1410;
+    --mermaid-edge: #9b7e5e;
 }
 
 main.document p { text-align: justify; hyphens: auto; }

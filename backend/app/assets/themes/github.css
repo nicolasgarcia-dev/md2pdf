@@ -5,6 +5,12 @@
 body {
     font-family: "Noto Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
     color: #24292f;
+
+    /* Theme Mermaid overrides */
+    --mermaid-fill: #f6f8fa;
+    --mermaid-stroke: #d0d7de;
+    --mermaid-text: #24292f;
+    --mermaid-edge: #6e7781;
 }
 
 h1, h2 { border-bottom: 2px solid #d0d7de; padding-bottom: 0.3em; }

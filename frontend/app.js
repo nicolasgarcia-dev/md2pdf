@@ -589,6 +589,19 @@
 
         const mermaidBlocks = preview.querySelectorAll("pre.mermaid");
         if (mermaidBlocks.length && window.mermaid) {
+            // Dynamically initialize Mermaid with the computed font-family of the preview area
+            // so Mermaid's text layout and box sizing match the theme/custom-CSS font perfectly.
+            const computedFont = window.getComputedStyle(preview).fontFamily || "Inter, sans-serif";
+            window.mermaid.initialize({
+                startOnLoad: false,
+                securityLevel: "strict",
+                suppressErrorRendering: true,
+                theme: "base",
+                themeVariables: {
+                    fontFamily: computedFont
+                }
+            });
+
             for (const block of mermaidBlocks) {
                 const code = block.textContent;
                 const id = "mmd-" + (++mermaidCounter);
@@ -613,6 +626,11 @@
                     const container = document.createElement("div");
                     container.className = "mermaid";
                     container.innerHTML = svg;
+
+                    // Strip the <style> element from the rendered SVG so our external styles can take effect
+                    const styleEl = container.querySelector("svg style");
+                    if (styleEl) styleEl.remove();
+
                     block.replaceWith(container);
                 } catch (err) {
                     // Keep the original code visible while editing so the user
@@ -752,7 +770,7 @@
     async function fetchBasePreviewCss() {
         if (_baseCssCache !== null) return _baseCssCache;
         try {
-            const res = await fetch("/api/themes/custom/css?v=16");
+            const res = await fetch("/api/themes/custom/css?v=50");
             if (!res.ok) return "";
             _baseCssCache = await res.text();
             return _baseCssCache;
@@ -804,7 +822,7 @@
         setPresetBadge(null);
         customCssPanel.classList.remove("is-open");
         try {
-            const res = await fetch("/api/themes/" + encodeURIComponent(slug) + "/css?v=16");
+            const res = await fetch("/api/themes/" + encodeURIComponent(slug) + "/css?v=50");
             if (!res.ok) return;
             applyPreviewCss(await res.text());
         } catch (_e) { /* preview still works without theme CSS */ }

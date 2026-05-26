@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>md2pdf</title>
-    <link rel="stylesheet" href="/static/style.css?v=41">
+    <link rel="stylesheet" href="/static/style.css?v=60">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <link rel="icon" href="data:,">
@@ -489,6 +489,41 @@ pre { padding: 0.9em 1.1em; }</pre>
                 </section>
 
                 <section class="help-section">
+                    <h3>Styling Mermaid diagrams</h3>
+                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
+                        Mermaid diagrams render as inline SVGs. Their default styles are stripped, allowing you to completely style all elements (nodes, edges, markers, labels) using standard CSS, both in the preview and the PDF.
+                    </p>
+                    <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Customizing nodes and text</h4>
+                    <pre class="help-code">/* Custom rounded boxes with a colored border */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon {
+    fill: #f0fdf4;
+    stroke: #16a34a;
+    stroke-width: 2px;
+}
+
+/* Adjust diagram font family & color */
+.mermaid text,
+.mermaid .label {
+    font-family: "JetBrains Mono", monospace !important;
+    fill: #14532d !important;
+}</pre>
+                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Customizing connectors and arrows</h4>
+                    <pre class="help-code">/* Change edge path line color and thickness */
+.mermaid .edgePath path {
+    stroke: #16a34a;
+    stroke-width: 2.5px;
+}
+
+/* Match arrowhead color */
+.mermaid .marker,
+.mermaid .arrowheadPath {
+    fill: #16a34a !important;
+}</pre>
+                </section>
+
+                <section class="help-section">
                     <h3>Syntax highlighting</h3>
                     <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
                         The fastest way to recolor highlighted code is to set the palette variables on
@@ -944,7 +979,7 @@ main.document h3::before {
         window.mermaid = mermaid;
         mermaid.initialize({ startOnLoad: false, securityLevel: "strict", suppressErrorRendering: true });
     </script>
-    <script src="/static/app.js?v=35" defer></script>
+    <script src="/static/app.js?v=50" defer></script>
 </body>
 
 </html>

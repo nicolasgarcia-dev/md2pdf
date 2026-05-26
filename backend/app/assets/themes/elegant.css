@@ -7,6 +7,12 @@ body {
     color: #2a2522;
     background: #fdfbf7;
     accent-color: #a0522d;
+
+    /* Theme Mermaid overrides */
+    --mermaid-fill: #f6efe4;
+    --mermaid-stroke: #eadfce;
+    --mermaid-text: #3a2f29;
+    --mermaid-edge: #9c8b75;
 }
 
 h1, h2, h3, h4 {

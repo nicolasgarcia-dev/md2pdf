@@ -74,9 +74,19 @@ def build_html(rendered: Rendered, options: BuildOptions) -> str:
         )
         scripts.append(f'<script type="module">'
                        f"import mermaid from '{_MERMAID_JS_CDN.replace('.min.js','.esm.min.mjs')}';"
-                       "mermaid.initialize({startOnLoad:false,securityLevel:'strict'});"
-                       "(async()=>{try{await mermaid.run({querySelector:'pre.mermaid'});}catch(_){}"
-                       "window.__mermaidReady=true;})();"
+                       "const computedFont = window.getComputedStyle(document.body).fontFamily;"
+                       "mermaid.initialize({"
+                       "  startOnLoad: false,"
+                       "  securityLevel: 'strict',"
+                       "  theme: 'base',"
+                       "  themeVariables: { fontFamily: computedFont }"
+                       "});"
+                       "(async()=>{"
+                       "  try {"
+                       "    await mermaid.run({querySelector:'pre.mermaid'});"
+                       "  } catch(_){}"
+                       "  window.__mermaidReady=true;"
+                       "})();"
                        "</script>")
 
     return (

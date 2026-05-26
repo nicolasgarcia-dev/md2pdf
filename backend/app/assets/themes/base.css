@@ -21,6 +21,14 @@ body {
     /* Default accent for form controls (mostly task-list checkboxes). A calm
        blue that reads cleanly on every theme; per-theme files can override. */
     accent-color: #2563eb;
+
+    /* Mermaid defaults */
+    --mermaid-fill: #f6f8fa;
+    --mermaid-stroke: #d0d7de;
+    --mermaid-text: #24292f;
+    --mermaid-edge: #57606a;
+    --mermaid-node-border-radius: 6px;
+    --mermaid-font-size: 10pt;
 }
 
 main.document {
@@ -260,3 +268,101 @@ pre {
     color: #82071e;
     background: #ffebe9;
 }
+
+/* ─── Mermaid Diagrams ────────────────────────────────────────────────── */
+.mermaid {
+    margin: 1.5em 0;
+    display: flex;
+    justify-content: center;
+    background: var(--mermaid-bg, transparent);
+    font-family: inherit;
+}
+
+/* Ensure svg scales nicely and isn't cut off */
+.mermaid svg {
+    max-width: 100%;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+/* Ensure nested g/foreignObject don't clip text */
+.mermaid foreignObject,
+.mermaid foreignObject div {
+    overflow: visible !important;
+    background: transparent !important;
+}
+
+/* Essential structural resets - MUST apply so lines and arrowheads render correctly */
+.mermaid .edgePath path,
+.mermaid .edgePaths path,
+.mermaid .edge-path,
+.mermaid .transition,
+.mermaid path.flowchart-link {
+    fill: none !important;
+    stroke: var(--mermaid-edge, #57606a);
+    stroke-width: 1.5px;
+}
+
+/* Default styling for node/box shapes */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon,
+.mermaid .node ellipse,
+.mermaid .node path,
+.mermaid .node .node-container {
+    fill: var(--mermaid-fill, #f6f8fa);
+    stroke: var(--mermaid-stroke, #d0d7de);
+    stroke-width: 1.5px;
+    rx: var(--mermaid-node-border-radius, 6px);
+    ry: var(--mermaid-node-border-radius, 6px);
+}
+
+/* Subgraphs / Clusters styling */
+.mermaid .cluster rect,
+.mermaid .subgraph-border {
+    fill: var(--mermaid-fill, #f6f8fa);
+    stroke: var(--mermaid-stroke, #d0d7de);
+    stroke-width: 1.5px;
+    stroke-dasharray: 3 3;
+    opacity: 0.8;
+}
+
+/* Text and Label styling */
+.mermaid .label,
+.mermaid .node .label,
+.mermaid .edgeLabel,
+.mermaid .edgeLabel span,
+.mermaid .cluster-label span,
+.mermaid text,
+.mermaid text.nodeLabel,
+.mermaid .nodeText {
+    font-family: inherit !important;
+    font-size: var(--mermaid-font-size, 10pt);
+    fill: var(--mermaid-text, #24292f) !important;
+    color: var(--mermaid-text, #24292f) !important;
+}
+
+/* Clean up transparent backgrounds on foreignObject text divs */
+.mermaid foreignObject div,
+.mermaid foreignObject span {
+    font-family: inherit !important;
+    color: var(--mermaid-text, #24292f) !important;
+    line-height: 1.4;
+    text-align: center;
+}
+
+/* Sequence diagram specific styles */
+.mermaid .actor {
+    stroke: var(--mermaid-stroke, #d0d7de);
+    fill: var(--mermaid-fill, #f6f8fa);
+}
+.mermaid .actor-line {
+    stroke: var(--mermaid-stroke, #d0d7de);
+    stroke-dasharray: 4 4;
+}
+.mermaid .messageLine0,
+.mermaid .messageLine1 {
+    stroke: var(--mermaid-edge, #57606a);
+    stroke-width: 1.5px;
+}
+

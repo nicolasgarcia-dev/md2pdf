@@ -53,6 +53,10 @@ class ChromiumRenderer:
             if wait_for_mermaid:
                 try:
                     await page.wait_for_function("window.__mermaidReady === true", timeout=20000)
+                    # Strip/clean the generated SVG style elements so that the document CSS rules apply!
+                    await page.evaluate("""() => {
+                        document.querySelectorAll('.mermaid svg style, svg[id^="mermaid-"] style, svg[id^="mmd-"] style').forEach(style => style.remove());
+                    }""")
                 except Exception:
                     pass  # mermaid CDN unreachable — render PDF without diagrams
             return await page.pdf(
