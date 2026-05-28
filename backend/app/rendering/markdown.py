@@ -62,6 +62,13 @@ def _build_parser() -> MarkdownIt:
     md = (
         MarkdownIt("commonmark", {"html": False, "linkify": True, "typographer": True, "highlight": _highlight})
         .enable(["table", "strikethrough"])
+        # Disable setext-style headings so `Text\n---` is parsed as <p>+<hr>
+        # instead of <h2>Text</h2>. Casual users overwhelmingly expect `---`
+        # to be a divider; CommonMark's setext rule silently swallowed it as
+        # an H2 underline, which made themed <hr> styling appear broken. The
+        # ATX syntax (`#`, `##`, …) covers every heading level, so the only
+        # casualty is `Text\n===` for H1 — a rarely used legacy form.
+        .disable("lheading")
         .use(anchors_plugin, min_level=1, max_level=4, permalink=False, slug_func=_slugify)
         .use(footnote_plugin)
         .use(tasklists_plugin, enabled=True)
