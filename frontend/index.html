@@ -226,7 +226,7 @@
     <dialog id="css-help-dialog" class="help-dialog">
         <div class="help-dialog-inner">
             <div class="help-dialog-header">
-                <h2>Custom CSS — How it works</h2>
+                <h2>Guía Integral y Showcase de Custom CSS</h2>
                 <button id="css-help-close" class="btn-icon" type="button" title="Close">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -237,13 +237,29 @@
             </div>
 
             <div class="help-dialog-body">
+                <!-- Barra de Navegación Rápida Sticky -->
+                <div class="doc-quick-nav">
+                    <a href="#doc-fundamentos" class="nav-chip">📑 Fundamentos</a>
+                    <a href="#doc-pdf-layout" class="nav-chip">📄 Maquetación PDF</a>
+                    <a href="#doc-effects" class="nav-chip">🎨 Efectos CSS</a>
+                    <a href="#doc-typography" class="nav-chip">✍️ Tipografía</a>
+                    <a href="#doc-code" class="nav-chip">💻 Código y Sintaxis</a>
+                    <a href="#doc-katex" class="nav-chip">📐 LaTeX (KaTeX)</a>
+                    <a href="#doc-mermaid" class="nav-chip">🧜‍♀️ Mermaid (SVG)</a>
+                </div>
+
                 <p class="help-lead">
-                    Your CSS is loaded <strong>after</strong> the default styles, so you can override
-                    anything. It applies to both the live preview and the downloaded PDF.
+                    Tu CSS personalizado se carga <strong>después</strong> de los estilos base de la aplicación. Esto te permite sobreescribir cualquier elemento tanto en la vista previa interactiva como en el PDF descargable final.
                 </p>
 
-                <section class="help-section">
-                    <h3>Available fonts (pre-installed on the server)</h3>
+                <!-- 1. FUNDAMENTOS Y SELECTORES -->
+                <section class="help-section" id="doc-fundamentos">
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">📑 1. Fundamentos y Selectores Clave</h3>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Controla los cimientos de tu tema estableciendo la tipografía, colores del cuerpo y comprendiendo cómo se estructura el documento de arriba a abajo.
+                    </p>
+                    
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Fuentes tipográficas preinstaladas en el Servidor</h4>
                     <div class="help-font-list">
                         <span style="font-family:'Noto Sans',sans-serif">Noto Sans</span>
                         <span style="font-family:'Noto Serif',serif">Noto Serif</span>
@@ -252,426 +268,372 @@
                         <span style="font-family:'Roboto Slab',serif">Roboto Slab</span>
                         <span style="font-family:'JetBrains Mono',monospace">JetBrains Mono</span>
                     </div>
-                </section>
 
-                <section class="help-section">
-                    <h3>Key selectors</h3>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Selectores fundamentales de la aplicación</h4>
                     <table class="help-table">
                         <thead>
                             <tr>
                                 <th>Selector</th>
-                                <th>What it controls</th>
+                                <th>Elemento que controla</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><code>html, body</code></td>
-                                <td>Font family, text colour, page background (use with
-                                    <code>@page { background-color }</code> for full coverage)
-                                </td>
+                                <td>Familia de fuentes, color general del texto y fondo de la página.</td>
                             </tr>
                             <tr>
                                 <td><code>h1 – h4</code></td>
-                                <td>Heading size, weight, colour, border</td>
+                                <td>Tamaño, peso, color y bordes decorativos de los encabezados.</td>
                             </tr>
                             <tr>
                                 <td><code>a</code></td>
-                                <td>Link colour and decoration</td>
+                                <td>Estilo y color de los hipervínculos, incluyendo el estado interactivo <code>a:hover</code>.</td>
                             </tr>
                             <tr>
                                 <td><code>p</code></td>
-                                <td>Paragraph spacing and alignment</td>
+                                <td>Cuerpo del texto, espaciados y alineación de los párrafos.</td>
                             </tr>
                             <tr>
                                 <td><code>blockquote</code></td>
-                                <td>Quote block border, background, italic</td>
+                                <td>Cajas de citas (bordes izquierdos, colores de fondo y estilo cursiva).</td>
                             </tr>
                             <tr>
                                 <td><code>pre, .codehilite</code></td>
-                                <td>Code block background and font</td>
+                                <td>Fondo, bordes y fuentes de los bloques de código con sintaxis.</td>
                             </tr>
                             <tr>
                                 <td><code>code</code></td>
-                                <td>Inline code chip colour</td>
+                                <td>Chips o fragmentos de código en línea.</td>
                             </tr>
                             <tr>
                                 <td><code>table, th, td</code></td>
-                                <td>Table borders and cell padding</td>
+                                <td>Bordes, fondos de cabeceras y márgenes de celdas en tablas.</td>
                             </tr>
                             <tr>
                                 <td><code>nav.toc</code></td>
-                                <td>Table of contents box</td>
+                                <td>Caja flotante del Índice / Tabla de Contenidos.</td>
                             </tr>
                             <tr>
                                 <td><code>main.document</code></td>
-                                <td>Main content wrapper</td>
+                                <td>El contenedor principal que envuelve todo tu documento Markdown.</td>
                             </tr>
                         </tbody>
                     </table>
-                </section>
 
-                <section class="help-section">
-                    <h3>Useful PDF-specific properties</h3>
-                    <table class="help-table">
-                        <thead>
-                            <tr>
-                                <th>Property</th>
-                                <th>Effect</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>body { padding: … }</code></td>
-                                <td>Page margins (e.g. <code>15mm 20mm</code>) — default is <code>20mm 18mm</code></td>
-                            </tr>
-                            <tr>
-                                <td><code>page-break-inside: avoid</code></td>
-                                <td>Keeps an element on one page</td>
-                            </tr>
-                            <tr>
-                                <td><code>page-break-after: avoid</code></td>
-                                <td>Prevents a page break after the element</td>
-                            </tr>
-                            <tr>
-                                <td><code>text-align: justify</code></td>
-                                <td>Justified paragraph text</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-
-                <section class="help-section">
-                    <h3>Example — full page background colour</h3>
-                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        One rule is enough — the server automatically extends the colour to the margin area so the
-                        entire page (including gutters) gets the same fill. No need to write an <code>@page</code> rule
-                        yourself.
-                    </p>
-                    <pre class="help-code">/* Warm cream paper — keep code, tables and quotes
-   on the same warm palette so nothing falls back
-   to the default light-blue defaults. */
-html, body { background: #fdf6e3; color: #2a2a2a; }
-a { color: #b58900; }
-blockquote { border-left-color: #d8c98c; background: #faecc6; color: #5a4d22; }
-code { background: #faecc6; color: #5a4d22; border: 1px solid #ead49a; }
-pre, .codehilite {
-    background: #faecc6;
-    color: #2a2a2a;
-    border: 1px solid #ead49a;
-}
-th { background: #faecc6; color: #2a2a2a; }</pre>
-
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Example — Slate dark page</h4>
-                    <pre class="help-code">/* Slate dark page — recolor every neighbouring
-   surface so the page reads as one block. */
-html, body { background: #1e1e2e; color: #cdd6f4; }
-h1, h2, h3 { color: #89b4fa; }
-a { color: #89dceb; }
-blockquote { border-left-color: #585b70; background: #2a2b3c; color: #cdd6f4; }
-code { background: #2a2b3c; color: #f5c2e7; border: 1px solid #45475a; }
-pre, .codehilite {
-    background: #181825;
-    color: #cdd6f4;
-    border: 1px solid #313244;
-}
-th { background: #2a2b3c; color: #cdd6f4; border-color: #45475a; }
-td { border-color: #313244; }
-hr { border-top: 1px solid #313244; }</pre>
-                </section>
-
-                <section class="help-section">
-                    <h3>Example — dark academia style</h3>
-                    <pre class="help-code">body {
-    font-family: "Noto Serif", Georgia, serif;
-    color: #1c1410;
-    background: #fdf8f0;
-}
-
-h1, h2, h3 {
-    font-family: "Inter", sans-serif;
-    color: #7b2d00;
-    letter-spacing: -0.02em;
-}
-
-h1 { border-bottom: 2px solid #c9834a; }
-
-a { color: #7b2d00; text-decoration: underline; }
-
-blockquote {
-    border-left: 4px solid #c9834a;
-    background: #fdf0e0;
-    font-style: italic;
-}
-
-/* Match the warm palette in code, tables and the TOC. */
-code {
-    background: #fdf0e0;
-    color: #5a3325;
-    border: 1px solid #f0dabb;
-}
-pre, .codehilite {
-    background: #fbf2e1;
-    color: #2a201a;
-    border: 1px solid #f0dabb;
-}
-th { background: #f4e3c4; color: #1c1410; border-color: #d8b58a; }
-nav.toc { background: #fdf0e0; border: 1px solid #f0dabb; }</pre>
-                </section>
-
-                <section class="help-section">
-                    <h3>Task list checkboxes</h3>
-                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        Use <code>- [ ]</code> and <code>- [x]</code> in your Markdown to render checkboxes. The
-                        single-line CSS below recolours them and works the same in the live preview and the downloaded
-                        PDF.
-                    </p>
-                    <pre class="help-code">/* One-liner — recolours the native check */
-input[type="checkbox"] { accent-color: #16a34a; }
-
-/* Slightly bigger and a touch of breathing room */
-input[type="checkbox"] {
-    accent-color: #2563eb;
-    transform: scale(1.15);
-    margin-right: 0.55em;
-}</pre>
-                </section>
-
-                <section class="help-section">
-                    <h3>Tips</h3>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">💡 Reglas de Especificidad y Cascada</h4>
                     <ul class="help-tips">
-                        <li>Changes apply to the preview in real time. The PDF is only generated on download.</li>
-                        <li>To colour the full page background, write <code>html, body { background: #colour; }</code> —
-                            the server automatically fills the margin area with the same colour so the entire page looks
-                            uniform.</li>
-                        <li>Your CSS is saved automatically in the browser between sessions.</li>
+                        <li><strong>Orden de Carga:</strong> Al cargarse al final, los selectores simples como <code>pre { ... }</code> suelen ganar. Si no aplican, es por especificidad de los temas base.</li>
+                        <li><strong>Evita !important:</strong> En lugar de forzar con <code>!important</code>, aumenta la especificidad: usa <code>.codehilite pre</code> en lugar de <code>pre</code>, o <code>main.document h1</code> en lugar de <code>h1</code>.</li>
+                        <li><strong>Unidades admitidas:</strong> Puedes usar cualquier unidad CSS estándar como <code>px</code>, <code>em</code>, <code>rem</code>, <code>%</code>, así como unidades físicas de impresión: <code>mm</code>, <code>cm</code>, <code>pt</code>, <code>in</code>.</li>
                     </ul>
                 </section>
 
-                <section class="help-section">
-                    <h3>Styling code blocks</h3>
-                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        Fenced code blocks render as
-                        <code>&lt;div class="codehilite"&gt;&lt;pre&gt;…&lt;/pre&gt;&lt;/div&gt;</code> when a language
-                        is recognised, or just <code>&lt;pre&gt;&lt;code&gt;…&lt;/code&gt;&lt;/pre&gt;</code> otherwise.
-                        Style both <code>pre</code> and <code>.codehilite</code> together to be safe.
+                <!-- 2. MAQUETACIÓN Y CONTROL DE PDF -->
+                <section class="help-section" id="doc-pdf-layout">
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">📄 2. Maquetación y Control de PDF (@page)</h3>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Ajusta de forma milimétrica el comportamiento de la hoja impresa física, configurando márgenes, controlando cortes no deseados y maquetando folios de manera elegante.
                     </p>
-                    <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Recreate the default boxed look</h4>
-                    <pre class="help-code">pre, .codehilite {
-    background: #f6f8fa;
-    border-radius: 6px;
-}
-pre {
-    padding: 0.8em 1em;
-}</pre>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Boxed code with a border</h4>
-                    <pre class="help-code">pre, .codehilite {
-    background: #fafafa;
-    border: 1px solid #e2e2e2;
-    border-radius: 6px;
-}
-pre { padding: 0.8em 1em; }</pre>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Dark code block (with readable
-                        tokens)</h4>
-                    <pre class="help-code">pre, .codehilite {
-    background: #1e1e2e;
-    color: #cdd6f4;
-    border: 1px solid #313244;
-    border-radius: 6px;
-    /* Override the syntax palette so red/blue tokens
-       don't disappear against the dark background. */
-    --syn-keyword: #cba6f7;
-    --syn-string:  #a6e3a1;
-    --syn-comment: #7f849c;
-    --syn-number:  #fab387;
-    --syn-function:#89b4fa;
-    --syn-builtin: #f9e2af;
-    --syn-operator:#94e2d5;
-}
-pre { padding: 0.9em 1.1em; }</pre>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Inline <code>`code`</code> chips</h4>
-                    <pre class="help-code">code {
-    background: #eef2ff;
-    color: #3730a3;
-    padding: 0.1em 0.35em;
-    border-radius: 3px;
-    font-size: 0.92em;
-}</pre>
-                </section>
 
-                <section class="help-section">
-                    <h3>Styling Mermaid diagrams</h3>
-                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        Mermaid diagrams render as inline SVGs. Their default styles are stripped, allowing you to completely style all elements (nodes, edges, markers, labels) using standard CSS, both in the preview and the PDF.
-                    </p>
-                    <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Customizing nodes and text</h4>
-                    <pre class="help-code">/* Custom rounded boxes with a colored border */
-.mermaid .node rect,
-.mermaid .node circle,
-.mermaid .node polygon {
-    fill: #f0fdf4;
-    stroke: #16a34a;
-    stroke-width: 2px;
-}
-
-/* Adjust diagram font family & color */
-.mermaid text,
-.mermaid .label {
-    font-family: "JetBrains Mono", monospace !important;
-    fill: #14532d !important;
-}</pre>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Customizing connectors and arrows</h4>
-                    <pre class="help-code">/* Change edge path line color and thickness */
-.mermaid .edgePath path {
-    stroke: #16a34a;
-    stroke-width: 2.5px;
-}
-
-/* Match arrowhead color */
-.mermaid .marker,
-.mermaid .arrowheadPath {
-    fill: #16a34a !important;
-}</pre>
-                </section>
-
-                <section class="help-section">
-                    <h3>Styling LaTeX Equations</h3>
-                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        LaTeX math formulas are compiled into standard semantic HTML using KaTeX. This allows you to style block and inline equations, modify their color, font size, or wrap display math in highly aesthetic callout blocks.
-                    </p>
-                    <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Customizing math color & size</h4>
-                    <pre class="help-code">/* Highlight all equations in a soft blue */
-.katex {
-    color: #2563eb;
-    font-size: 1.05em;
-}
-
-/* Color specific math variables */
-.katex .mathnormal {
-    color: #1d4ed8;
-}</pre>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Equation display callouts</h4>
-                    <pre class="help-code">/* Wrap display/block equations in a rustic panel */
-.katex-display {
-    background: #f8fafc;
-    border-left: 4px solid #3b82f6;
-    padding: 12px 18px;
-    border-radius: 6px;
-    margin: 1.5em 0;
-}</pre>
-                </section>
-
-                <section class="help-section">
-                    <h3>Syntax highlighting</h3>
-                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        The fastest way to recolor highlighted code is to set the palette variables on
-                        <code>pre, .codehilite</code>. They drive both the live preview (highlight.js) and the
-                        downloaded PDF (Pygments) at once, so you don't need to write two sets of rules.
-                    </p>
-                    <h4 style="font-size:12px;margin:10px 0 4px;color:var(--text)">Recommended — set the palette
-                        variables</h4>
-                    <pre class="help-code">pre, .codehilite {
-    --syn-keyword:  #cf222e;
-    --syn-string:   #0a3069;
-    --syn-comment:  #6e7781;
-    --syn-number:   #0550ae;
-    --syn-function: #8250df;
-    --syn-builtin:  #0550ae;
-    --syn-operator: #cf222e;
-    --syn-type:     #0550ae;
-    --syn-attr:     #0550ae;
-    --syn-meta:     #8250df;
-}</pre>
-                    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
-                        If you need finer control you can still target individual Pygments classes directly. Each token
-                        is wrapped in a <code>&lt;span&gt;</code> with a short class — always scope rules with
-                        <code>.codehilite</code> so they don't leak elsewhere.
-                    </p>
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Dimensiones y saltos de página del motor de renderizado</h4>
                     <table class="help-table">
                         <thead>
                             <tr>
-                                <th>Class</th>
-                                <th>Token</th>
+                                <th>Propiedad / Regla</th>
+                                <th>Efecto e Impresión</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><code>.k .kd .kn .kr</code></td>
-                                <td>Keywords (<code>def</code>, <code>class</code>, <code>import</code>…)</td>
+                                <td><code>@page { size: A4; margin: 18mm; }</code></td>
+                                <td>Define el tamaño del papel (<code>A4</code>, <code>Letter</code>, <code>landscape</code>...) y sus márgenes globales de impresión.</td>
                             </tr>
                             <tr>
-                                <td><code>.kt</code></td>
-                                <td>Built-in types (<code>int</code>, <code>string</code>)</td>
+                                <td><code>body { padding: 15mm 20mm; }</code></td>
+                                <td>Ajusta la caja de contenido interna del documento. El margen predeterminado es <code>20mm 18mm</code>.</td>
                             </tr>
                             <tr>
-                                <td><code>.s .s1 .s2</code></td>
-                                <td>Strings (<code>'…'</code>, <code>"…"</code>)</td>
+                                <td><code>page-break-before: always</code></td>
+                                <td>Fuerza un salto de página inmediato antes del elemento (ideal para iniciar capítulos).</td>
                             </tr>
                             <tr>
-                                <td><code>.se</code></td>
-                                <td>String escapes (<code>\n</code>)</td>
+                                <td><code>page-break-inside: avoid</code></td>
+                                <td>Evita que un elemento (como una tabla o bloque de código) se divida a la mitad entre dos páginas.</td>
                             </tr>
                             <tr>
-                                <td><code>.c .c1 .cm</code></td>
-                                <td>Comments (line / block)</td>
+                                <td><code>page-break-after: avoid</code></td>
+                                <td>Impide que ocurra un salto de página inmediatamente después (esencial para títulos y evitar cabeceras huérfanas).</td>
                             </tr>
                             <tr>
-                                <td><code>.cp</code></td>
-                                <td>Preprocessor directives</td>
-                            </tr>
-                            <tr>
-                                <td><code>.nf</code></td>
-                                <td>Function names</td>
-                            </tr>
-                            <tr>
-                                <td><code>.nc</code></td>
-                                <td>Class names</td>
-                            </tr>
-                            <tr>
-                                <td><code>.nb</code></td>
-                                <td>Built-ins (<code>print</code>, <code>len</code>)</td>
-                            </tr>
-                            <tr>
-                                <td><code>.nv</code></td>
-                                <td>Variables</td>
-                            </tr>
-                            <tr>
-                                <td><code>.nd</code></td>
-                                <td>Decorators (<code>@foo</code>)</td>
-                            </tr>
-                            <tr>
-                                <td><code>.nt</code></td>
-                                <td>HTML / XML tags</td>
-                            </tr>
-                            <tr>
-                                <td><code>.na</code></td>
-                                <td>Attributes</td>
-                            </tr>
-                            <tr>
-                                <td><code>.o .ow</code></td>
-                                <td>Operators (<code>+</code>, <code>and</code>)</td>
-                            </tr>
-                            <tr>
-                                <td><code>.m .mi .mf</code></td>
-                                <td>Numbers (int / float)</td>
-                            </tr>
-                            <tr>
-                                <td><code>.p</code></td>
-                                <td>Punctuation</td>
-                            </tr>
-                            <tr>
-                                <td><code>.gi .gd</code></td>
-                                <td>Diff added / removed lines</td>
+                                <td><code>orphans: 3; widows: 3;</code></td>
+                                <td>Define la cantidad mínima de líneas de un párrafo que deben permanecer juntas al final o inicio de una página.</td>
                             </tr>
                         </tbody>
                     </table>
-                    <h4 style="font-size:12px;margin:14px 0 4px;color:var(--text)">Example — Catppuccin Mocha-flavored
-                        block</h4>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Cajas de Margen Avanzadas (Folios, Cabeceras y Portadas)</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        CSS Paged Media permite posicionar contenidos dinámicos en las esquinas mediante cajas de margen externas (<code>@top-left</code>, <code>@bottom-center</code>, <code>@bottom-left</code>, <code>@bottom-right</code>, etc.). Estas solo se renderizan en el PDF final:
+                    </p>
+                    <pre class="help-code">/* Folio de páginas dinámico y título en pies de página opuestos (Swiss Modernism) */
+@page {
+    @bottom-left {
+        content: "Pág. " counter(page) " de " counter(pages);
+        font-family: "Inter", sans-serif;
+        font-size: 8.5pt;
+        color: #888;
+    }
+    @bottom-right {
+        content: "Capítulo 1: Introducción";
+        font-family: "Inter", sans-serif;
+        font-size: 8.5pt;
+        color: #cf222e;
+        font-weight: bold;
+    }
+}
+
+/* Patrón Crítico: Suprimir folios o cabeceras decorativas en la Portada */
+@page :first {
+    @bottom-left { content: ""; }
+    @bottom-right { content: ""; }
+}</pre>
+                </section>
+
+                <!-- 3. EFECTOS Y ESTILOS VISUALES -->
+                <section class="help-section" id="doc-effects">
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">🎨 3. Efectos y Estilos Visuales Avanzados</h3>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Descubre cómo implementar la estética única de los temas del programa: texturas vectoriales, sombras sofisticadas, glows, filtros vintage y redondeados avanzados.
+                    </p>
+
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">1. Patrones de fondo SVG inline (Data-URIs)</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Puedes inyectar imágenes e iconos vectoriales como patrones de fondo directamente en el CSS del fondo de página. El motor los expandirá de forma nítida en el papel impreso:
+                    </p>
+                    <pre class="help-code">/* Cuadrícula técnica de fondo (Smog Asphalt) */
+html, body, @page {
+    background-color: #1a1a24;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M0 40L40 40M40 0L40 40' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-attachment: fixed;
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">2. Degradados Fluidos (Gradients)</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Crea transiciones de color vibrantes en divisores <code>&lt;hr&gt;</code> o patrones a rayas:
+                    </p>
+                    <pre class="help-code">/* Regla divisora (hr) con gradiente neón vaporwave */
+hr {
+    border: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff007f 0%, #7f00ff 50%, #00f0ff 100%);
+}
+
+/* Patrón de líneas de peligro repetidas a rayas (Cyberpunk / Construction) */
+.danger-bar {
+    height: 12px;
+    background: repeating-linear-gradient(
+        -45deg,
+        #facc15, #facc15 10px,
+        #000000 10px, #000000 20px
+    );
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">3. Sombras de caja (Flat, Inset y Multicapa)</h4>
+                    <pre class="help-code">/* Sombra plana desplazada y dura (Neo-brutalismo / Memphis Pop) */
+h1 {
+    box-shadow: 8px 8px 0px #000000;
+    border: 3px solid #000000;
+}
+
+/* Sombra interior metálica / retro (CRT Amber / Steampunk) */
+blockquote {
+    box-shadow: inset 3px 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Efecto translúcido Aero brillante de múltiples capas (Y2K Glossy) */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">4. Sombras de Texto (Efecto Neón, Aberración Cromática y Bloom)</h4>
+                    <pre class="help-code">/* Resplandor neón retro-futurista (Cyberpunk / Vaporwave) */
+h1 {
+    color: #fff;
+    text-shadow: 0 0 8px #ff0055, 0 0 20px #ff0055;
+}
+
+/* Aberración cromática RGB dura (Estilo Glitchcore) */
+h2 {
+    text-shadow: 3px -1px 0 #ff0055, -3px 1.5px 0 #00ffff;
+}
+
+/* Brillo difuminado analógico fósforo (CRT terminal) */
+pre {
+    text-shadow: 0 0 4px rgba(255, 176, 0, 0.7);
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">5. Filtros de imagen artísticos (Filter)</h4>
+                    <pre class="help-code">/* Tono sepia vintage envejecido (Steampunk / Grimorio Alquimista) */
+img {
+    filter: sepia(0.85) contrast(1.1) brightness(0.95);
+}
+
+/* Blanco y negro dramático suizo de alto contraste */
+img.swiss-mode {
+    filter: grayscale(1) contrast(1.4);
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">6. Esquinas Redondeadas en Tablas (Truco de Maquetación)</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        <strong>Truco de oro:</strong> El estándar <code>border-collapse: collapse</code> inhabilita las esquinas redondeadas en tablas. Para forzar el redondeado de bordes en el PDF, separa los bordes y elimina el desbordamiento:
+                    </p>
+                    <pre class="help-code">table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden; /* Corta el desbordamiento de las esquinas internas */
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">7. Bordes Dobles y Decorativos</h4>
+                    <pre class="help-code">/* Marco arquitectónico doble (Art Deco / Bioshock / Gótico) */
+blockquote {
+    outline: 2px solid #c9834a;
+    outline-offset: -6px;
+    border: 1px solid #c9834a;
+}</pre>
+                </section>
+
+                <!-- 4. TIPOGRAFÍA Y LISTAS -->
+                <section class="help-section" id="doc-typography">
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">✍️ 4. Tipografía, Sangrías y Listas</h3>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Diseña maquetaciones de texto inspiradas en manuscritos antiguos, periódicos impresos o revistas de diseño modernista utilizando selectores tipográficos avanzados.
+                    </p>
+
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">1. Letras Capitulares (Drop Caps) con Wrap de Texto</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Consigue que la primera letra del párrafo sea gigante y el texto la envuelva elegantemente. El secreto técnico es combinar <code>float: left</code> y un <code>line-height</code> reducido:
+                    </p>
+                    <pre class="help-code">/* Variante A: Solo en el primer párrafo del documento entero */
+main.document > p:first-of-type::first-letter {
+    font-size: 3.5em;
+    float: left;
+    line-height: 0.8;
+    margin-right: 8px;
+    font-weight: bold;
+    color: #3f5e4d;
+}
+
+/* Variante B: En el primer párrafo que siga inmediatamente a un H1 (inicio de capítulo) */
+h1 + p::first-letter {
+    font-family: "EB Garamond", serif;
+    font-size: 3.4em;
+    font-weight: 700;
+    float: left;
+    line-height: 0.85;
+    margin: 0.05em 0.08em 0 0;
+    color: #6b1d2c;
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">2. Sangrías Profesionales de Párrafo (Estilo Novela Impresa)</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        En las novelas, los párrafos llevan sangría inicial excepto el primero que va justo después de un título. El combinador adyacente (<code>+</code>) permite realizar este reset tipográfico con perfección:
+                    </p>
+                    <pre class="help-code">/* Aplicar sangría inicial a todos los párrafos de texto */
+p {
+    text-indent: 1.5em;
+    margin-bottom: 0; /* reduce espaciado vertical entre párrafos */
+}
+
+/* Resetear la sangría en párrafos iniciales o después de bloques decorativos */
+h1 + p, h2 + p, h3 + p, blockquote + p, pre + p {
+    text-indent: 0;
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">3. Encabezados-Chip y Tipografía Decorativa</h4>
+                    <pre class="help-code">/* Encabezado compacto (solo ocupa el ancho de su texto) */
+h2 {
+    display: inline-block; /* o display: table */
+    padding: 4px 12px;
+    background: #000;
+    color: #fff;
+}
+
+/* Subrayado tipográfico ornamentado con offset */
+a {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: #89b4fa;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1.5px;
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">4. Viñetas Personalizadas (Glyphs &amp; SVGs en Listas)</h4>
+                    <pre class="help-code">/* Método directo: Reemplazar el glifo nativo de la lista */
+li::marker {
+    content: "🌱 ";
+    font-size: 1.1em;
+}
+
+/* Método avanzado: Reemplazo vectorial completo con icono SVG */
+li {
+    list-style: none; /* Elimina la viñeta por defecto */
+    position: relative;
+    padding-left: 1.5em;
+}
+li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35em;
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3C/svg%3E") no-repeat center;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3C/svg%3E") no-repeat center;
+}</pre>
+                </section>
+
+                <!-- 5. BLOQUES DE CÓDIGO Y SINTAXIS -->
+                <section class="help-section" id="doc-code">
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">💻 5. Bloques de Código y Sintaxis</h3>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        La aplicación renderiza el código con formato. Puedes estilar la caja del bloque, los chips en línea y personalizar la paleta entera de colores del coloreador de sintaxis.
+                    </p>
+
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Variables de Colores de Sintaxis Unificados</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        <strong>Ahorra tiempo:</strong> No necesitas escribir reglas duplicadas para la web (highlight.js) y el PDF (Pygments). Personalizando las siguientes variables en <code>pre, .codehilite</code>, ambos motores asimilarán tu esquema de colores:
+                    </p>
+                    <pre class="help-code">pre, .codehilite {
+    --syn-keyword:  #cba6f7; /* Palabras clave (def, class, if...) */
+    --syn-string:   #a6e3a1; /* Cadenas / Textos ("...") */
+    --syn-comment:  #7f849c; /* Comentarios (# / //) */
+    --syn-number:   #fab387; /* Números (42, 3.14) */
+    --syn-function: #89b4fa; /* Nombres de funciones */
+    --syn-builtin:  #f9e2af; /* Funciones del sistema (print, len...) */
+    --syn-operator: #94e2d5; /* Operadores (+, -, =, and...) */
+    --syn-type:     #f9e2af; /* Tipos (int, string) */
+    --syn-attr:     #fab387; /* Atributos */
+    --syn-meta:     #cba6f7; /* Decoradores / Metadatos */
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Showcase — Caja de Código Estilo Catppuccin Mocha</h4>
                     <pre class="help-code">pre, .codehilite {
     background: #1e1e2e;
     color: #cdd6f4;
     border: 1px solid #313244;
-    border-radius: 6px;
-    padding: 0.9em 1.1em;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12.5px;
     --syn-keyword:  #cba6f7;
     --syn-string:   #a6e3a1;
     --syn-comment:  #7f849c;
@@ -683,213 +645,95 @@ pre { padding: 0.9em 1.1em; }</pre>
     --syn-attr:     #fab387;
     --syn-meta:     #cba6f7;
 }</pre>
-                    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
-                        Need to nudge only one token? Layer a single rule on top, e.g.
-                        <code>.codehilite .c1 { color: #888; font-style: italic; }</code>.
-                    </p>
-                </section>
 
-                <section class="help-section">
-                    <h3>More selectors</h3>
-                    <table class="help-table">
-                        <thead>
-                            <tr>
-                                <th>Selector</th>
-                                <th>What it controls</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>h1::before</code>, <code>h2::before</code></td>
-                                <td>Add numbering or ornaments before headings (e.g.
-                                    <code>content: counter(h2) ". "</code>)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><code>ul, ol, li</code></td>
-                                <td>List spacing, custom bullets via <code>list-style</code></td>
-                            </tr>
-                            <tr>
-                                <td><code>li::marker</code></td>
-                                <td>Bullet / number colour and size</td>
-                            </tr>
-                            <tr>
-                                <td><code>hr</code></td>
-                                <td>Horizontal rule colour and thickness</td>
-                            </tr>
-                            <tr>
-                                <td><code>img</code></td>
-                                <td>Image max-width, borders, drop shadow</td>
-                            </tr>
-                            <tr>
-                                <td><code>figure, figcaption</code></td>
-                                <td>Image captions</td>
-                            </tr>
-                            <tr>
-                                <td><code>table tr:nth-child(even)</code></td>
-                                <td>Zebra-striped table rows</td>
-                            </tr>
-                            <tr>
-                                <td><code>thead th</code></td>
-                                <td>Table header background and colour</td>
-                            </tr>
-                            <tr>
-                                <td><code>nav.toc a</code></td>
-                                <td>Links inside the table of contents</td>
-                            </tr>
-                            <tr>
-                                <td><code>nav.toc ul ul</code></td>
-                                <td>Nested TOC indentation</td>
-                            </tr>
-                            <tr>
-                                <td><code>.footnote</code></td>
-                                <td>Footnote section at the end of the document</td>
-                            </tr>
-                            <tr>
-                                <td><code>sup.footnote-ref</code></td>
-                                <td>Footnote reference superscripts</td>
-                            </tr>
-                            <tr>
-                                <td><code>.task-list-item</code></td>
-                                <td>GitHub-style checkbox list items</td>
-                            </tr>
-                            <tr>
-                                <td><code>.math.inline</code>, <code>.math.block</code></td>
-                                <td>KaTeX-rendered math (inline / display)</td>
-                            </tr>
-                            <tr>
-                                <td><code>pre.mermaid</code></td>
-                                <td>Mermaid diagram container</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-
-                <section class="help-section">
-                    <h3>Page layout &amp; print control</h3>
-                    <table class="help-table">
-                        <thead>
-                            <tr>
-                                <th>Rule</th>
-                                <th>Effect</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>@page { size: A4; margin: 18mm 16mm; }</code></td>
-                                <td>Override page size and margins (also <code>Letter</code>, <code>Legal</code>,
-                                    <code>landscape</code>)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><code>@page { background-color: #colour; }</code></td>
-                                <td>Fill the entire page including margin gutters</td>
-                            </tr>
-                            <tr>
-                                <td><code>@page :first { … }</code></td>
-                                <td>Style only the first page (e.g. cover)</td>
-                            </tr>
-                            <tr>
-                                <td><code>page-break-before: always</code></td>
-                                <td>Force a new page before the element</td>
-                            </tr>
-                            <tr>
-                                <td><code>page-break-after: avoid</code></td>
-                                <td>Keep the next block on the same page (great for headings)</td>
-                            </tr>
-                            <tr>
-                                <td><code>page-break-inside: avoid</code></td>
-                                <td>Keep the element together on one page</td>
-                            </tr>
-                            <tr>
-                                <td><code>orphans: 3; widows: 3;</code></td>
-                                <td>Minimum lines kept together at page breaks</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-
-                <section class="help-section">
-                    <h3>Auto-numbered headings</h3>
-                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        CSS counters can prefix every heading with a numeric label automatically — this is how the
-                        <em>Academic</em> theme produces output like <code>1.</code>, <code>1.1</code>,
-                        <code>1.2</code>. You can drop the snippet below into Custom CSS to get the same effect on any
-                        other theme. Works identically in the preview and the PDF.
-                    </p>
-                    <pre class="help-code">/* Reset the counter on the document root,
-   then re-reset h3 every time h2 changes. */
-main.document               { counter-reset: h2counter; }
-main.document h2            { counter-reset: h3counter; }
-
-main.document h2::before {
-    counter-increment: h2counter;
-    content: counter(h2counter) ". ";
-}
-
-main.document h3::before {
-    counter-increment: h3counter;
-    content: counter(h2counter) "." counter(h3counter) " ";
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Estilo de fragmentos de código en línea</h4>
+                    <pre class="help-code">code {
+    background: #eef2ff;
+    color: #3730a3;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #e0e7ff;
+    font-size: 0.9em;
 }</pre>
-                    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
-                        Add an <code>h4</code> level the same way, or drop the <code>h3</code> rule if you only want
-                        top-level numbering. <code>::before</code> is what places the number; the
-                        <code>counter-reset</code> on <code>h2</code> ensures every section restarts its sub-counter.
-                    </p>
                 </section>
 
-                <section class="help-section">
-                    <h3>Page numbers</h3>
-                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">
-                        CSS Paged Media defines <code>@page</code> margin boxes (<code>@top-left</code>,
-                        <code>@bottom-center</code>, …) with the <code>counter(page)</code> and
-                        <code>counter(pages)</code> counters. These rules only render in the PDF (not the live preview,
-                        which has no notion of pages):
+                <!-- 6. FORMULAS LATEX (KATEX) -->
+                <section class="help-section" id="doc-katex">
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">📐 6. Ecuaciones LaTeX (KaTeX)</h3>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Las ecuaciones matemáticas en línea (<code>$...$</code>) y en bloque (<code>$$...$$</code>) se compilan en HTML semántico con KaTeX. Puedes cambiar el tamaño, color, o encapsularlas en paneles destacados.
                     </p>
-                    <pre class="help-code">@page {
-    @bottom-center {
-        content: "Page " counter(page) " of " counter(pages);
-        font-family: "Inter", sans-serif;
-        font-size: 9pt;
-        color: #888;
-    }
+
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Personalización tipográfica y tonal de ecuaciones</h4>
+                    <pre class="help-code">/* Aplicar un tono de color y escala a todas las ecuaciones */
+.katex {
+    color: #1d4ed8;
+    font-size: 1.04em;
 }
 
-/* No numbers on the cover page (optional) */
-@page :first {
-    @bottom-center { content: ""; }
-}
-
-/* Different positions are also valid */
-@page {
-    @top-right { content: counter(page); font-size: 9pt; color: #888; }
+/* Colorear específicamente variables matemáticas */
+.katex .mathnormal {
+    color: #2563eb;
 }</pre>
-                    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">
-                        <strong>Engine support:</strong> the WeasyPrint fallback honours these rules in full. The
-                        primary Chromium renderer has only partial support — depending on the document, page numbers via
-                        <code>@page</code> margin boxes may or may not appear. The simplest way to test it: paste the
-                        snippet, download the PDF, and check the corner of every page.
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Cajas de llamada (Callouts) para fórmulas en Bloque</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Puedes enmarcar las ecuaciones principales que van centradas en bloque (<code>.katex-display</code>) dentro de un panel destacado, ideal para teoremas o fórmulas complejas:
                     </p>
+                    <pre class="help-code">.katex-display {
+    background: #f8fafc;
+    border-left: 4px solid #2563eb;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 1.5em 0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+}</pre>
                 </section>
 
-                <section class="help-section">
-                    <h3>Specificity &amp; cascade tips</h3>
-                    <ul class="help-tips">
-                        <li>Your CSS loads after the built-in styles and the syntax-highlighting stylesheet, so plain
-                            selectors like <code>pre { … }</code> usually win.</li>
-                        <li>If a default rule still wins, it&apos;s because of higher specificity. Match it: replace
-                            <code>pre</code> with <code>pre, .codehilite</code> or use <code>.codehilite pre</code>.
-                        </li>
-                        <li>As a last resort, append <code>!important</code> to a single declaration — but try a more
-                            specific selector first.</li>
-                        <li>Use any web-safe CSS unit: <code>px</code>, <code>em</code>, <code>rem</code>,
-                            <code>%</code>, plus print units <code>mm</code>, <code>cm</code>, <code>pt</code>,
-                            <code>in</code>.
-                        </li>
-                        <li>CSS custom properties work too: define them on <code>html</code> and reuse with
-                            <code>var(--name)</code>.
-                        </li>
-                    </ul>
+                <!-- 7. DIAGRAMAS MERMAID (SVG) -->
+                <section class="help-section" id="doc-mermaid">
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">🧜‍♀️ 7. Diagramas Mermaid (SVG)</h3>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Los diagramas Mermaid se inyectan en tu vista previa y PDF como gráficos SVG puros. Tienes a tu disposición dos métodos de personalización estilística.
+                    </p>
+
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Método A: Variables nativas de Mermaid (Recomendado y Ultra-Simple)</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Mermaid y el motor de PDF procesan un conjunto de variables declaradas en la raíz del diagrama. Configurando estas variables, estilizas nodos, bordes, textos y conectores de forma unificada:
+                    </p>
+                    <pre class="help-code">pre.mermaid {
+    --mermaid-fill: #f0fdf4;               /* Color de fondo de las cajas de nodos */
+    --mermaid-stroke: #16a34a;             /* Color del borde de los nodos */
+    --mermaid-text: #14532d;               /* Color del texto del diagrama */
+    --mermaid-edge: #16a34a;               /* Color de las líneas conectoras y flechas */
+    --mermaid-node-border-radius: 6px;     /* Redondeado de esquinas de los nodos */
+    --mermaid-font-size: 12px;             /* Tamaño de la fuente del diagrama */
+}</pre>
+
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Método B: Estilización Avanzada vía Selectores Vectoriales Directos</h4>
+                    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
+                        Para personalizar quirúrgicamente elementos del SVG, puedes apuntar directamente a las clases internas de Mermaid:
+                    </p>
+                    <pre class="help-code">/* Estilo personalizado de cajas y polígonos del diagrama */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon {
+    fill: #fffbeb !important;
+    stroke: #d97706 !important;
+    stroke-width: 2px !important;
+}
+
+/* Grosor y color de los conectores de líneas de flujo */
+.mermaid .edgePath path {
+    stroke: #d97706 !important;
+    stroke-width: 2.5px !important;
+}
+
+/* Cambiar color de las puntas de flecha de conectores */
+.mermaid .marker,
+.mermaid .arrowheadPath {
+    fill: #d97706 !important;
+}</pre>
                 </section>
             </div>
         </div>
