@@ -68,7 +68,99 @@ def _inject_page_background(custom_css: str) -> str:
     return custom_css
 
 
-def get_stylesheet(slug: str, custom_css: str = "") -> str:
+def apply_continuous_fusion(css: str) -> str:
+    """Preprocess CSS to implement 'Fusión Continua' (Continuous Fusion).
+
+    1. Extract background declarations from html/body selectors.
+    2. Clean/sanitize them:
+       - Exclude background-attachment: fixed or any background-attachment properties.
+       - Strip '!important' priority modifiers.
+    3. Inject these clean properties into the @page rule.
+    4. Force html/body to have an absolute transparent background.
+    """
+    # Selector pattern matching blocks like:
+    # html, body { ... }
+    # body { ... }
+    # html { ... }
+    # taking into account whitespace and linebreaks.
+    selector_pattern = re.compile(
+        r'(?:^|(?<=[\}\s]))((?:html|body)(?:\s*,\s*(?:html|body))*)\s*\{([^}]+)\}',
+        re.IGNORECASE | re.DOTALL
+    )
+
+    extracted_backgrounds = {}
+
+    def split_declarations(content: str) -> list[str]:
+        decls = []
+        current = []
+        in_parens = 0
+        in_single_quote = False
+        in_double_quote = False
+        for char in content:
+            if char == "'" and not in_double_quote:
+                in_single_quote = not in_single_quote
+            elif char == '"' and not in_single_quote:
+                in_double_quote = not in_double_quote
+            elif char == '(' and not in_single_quote and not in_double_quote:
+                in_parens += 1
+            elif char == ')' and not in_single_quote and not in_double_quote:
+                in_parens -= 1
+            
+            if char == ';' and in_parens == 0 and not in_single_quote and not in_double_quote:
+                decls.append("".join(current).strip())
+                current = []
+            else:
+                current.append(char)
+        if current:
+            decls.append("".join(current).strip())
+        return [d for d in decls if d]
+
+    for match in selector_pattern.finditer(css):
+        block_content = match.group(2)
+        decls = split_declarations(block_content)
+        for decl in decls:
+            parts = decl.split(":", 1)
+            if len(parts) == 2:
+                prop = parts[0].strip().lower()
+                val = parts[1].strip()
+                if prop.startswith("background"):
+                    # Check for incompatibility: background-attachment or fixed values
+                    if prop == "background-attachment" or "fixed" in val.lower():
+                        continue
+                    # Remove !important if present
+                    val_sanitized = re.sub(r'\s*!\s*important\b', '', val, flags=re.IGNORECASE).strip()
+                    extracted_backgrounds[prop] = val_sanitized
+
+    if extracted_backgrounds:
+        # Build the background declarations string to inject
+        bg_lines = []
+        for prop, val in extracted_backgrounds.items():
+            bg_lines.append(f"    {prop}: {val};")
+        bg_css = "\n".join(bg_lines) + "\n"
+
+        # Now let's inject bg_css into the first @page rule.
+        page_match = re.search(r'@page\s*\{', css)
+        if page_match:
+            idx = page_match.end()
+            css = css[:idx] + "\n" + bg_css + css[idx:]
+        else:
+            # Prepend a new @page rule if none existed
+            css = f"@page {{\n{bg_css}}}\n" + css
+
+    # Step B: Inject transparency with highest priority at the end of CSS
+    transparency_rule = """
+/* Continuous Fusion Background Fix */
+html, body, html body {
+    background: transparent !important;
+    background-image: none !important;
+    background-color: transparent !important;
+}
+"""
+    css += transparency_rule
+    return css
+
+
+def get_stylesheet(slug: str, custom_css: str = "", for_preview: bool = False) -> str:
     """Return the concatenated CSS for a theme.
 
     When slug is 'custom', base.css is prepended to the caller-supplied CSS.
@@ -77,13 +169,20 @@ def get_stylesheet(slug: str, custom_css: str = "") -> str:
         base = _read(_THEMES_DIR / "base.css")
         if custom_css.strip():
             patched = _inject_page_background(custom_css)
-            return f"{base}\n{patched}"
-        return base
-    if not is_valid(slug):
-        slug = "github"
-    base = _read(_THEMES_DIR / "base.css")
-    theme = _read(_THEMES_DIR / f"{slug}.css")
-    return f"{base}\n{theme}"
+            full_css = f"{base}\n{patched}"
+        else:
+            full_css = base
+    else:
+        if not is_valid(slug):
+            slug = "github"
+        base = _read(_THEMES_DIR / "base.css")
+        theme = _read(_THEMES_DIR / f"{slug}.css")
+        full_css = f"{base}\n{theme}"
+
+    if not for_preview:
+        full_css = apply_continuous_fusion(full_css)
+
+    return full_css
 
 
 def _scope_selector(selector: str) -> str:
@@ -113,7 +212,7 @@ def get_preview_stylesheet(slug: str, custom_css: str = "") -> str:
     @page rules are removed (print-only) and all selectors are prefixed with
     #preview so the theme does not bleed into the editor or toolbar.
     """
-    full_css = get_stylesheet(slug, custom_css)
+    full_css = get_stylesheet(slug, custom_css, for_preview=True)
 
     # Remove @page blocks (print geometry is irrelevant on screen)
     full_css = re.sub(r"@page\s*\{[^}]*\}", "", full_css, flags=re.DOTALL)
