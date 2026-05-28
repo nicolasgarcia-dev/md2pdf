@@ -138,14 +138,15 @@ def apply_continuous_fusion(css: str) -> str:
             bg_lines.append(f"    {prop}: {val};")
         bg_css = "\n".join(bg_lines) + "\n"
 
-        # Now let's inject bg_css into the first @page rule.
-        page_match = re.search(r'@page\s*\{', css)
-        if page_match:
-            idx = page_match.end()
-            css = css[:idx] + "\n" + bg_css + css[idx:]
-        else:
-            # Prepend a new @page rule if none existed
-            css = f"@page {{\n{bg_css}}}\n" + css
+        # Append a NEW @page rule at the end of the CSS rather than injecting
+        # into the first existing one. Among @page rules with equal specificity
+        # the later wins, so this guarantees the html/body background — the
+        # user's primary visual intent — overrides any background-image they
+        # may have written inside their own @page rule. Otherwise their @page
+        # bg (often a simpler/incomplete fallback) silently clobbers the real
+        # body pattern. @page :first / :left / :right keep their higher
+        # specificity, so per-side rules still work.
+        css = css + f"\n@page {{\n{bg_css}}}\n"
 
     # Step B: Inject transparency with highest priority at the end of CSS
     transparency_rule = """
