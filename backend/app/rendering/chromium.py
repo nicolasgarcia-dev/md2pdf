@@ -47,6 +47,15 @@ class ChromiumRenderer:
         try:
             page = await context.new_page()
             await page.set_content(html_document, wait_until="networkidle", timeout=30000)
+            # Wait for the SVG-background up-resolver to finish patching the
+            # CSSOM. The script is always injected (it short-circuits when
+            # there are no SVG backgrounds), so we always wait — but bound it
+            # generously and swallow timeouts so a slow canvas never blocks
+            # the PDF.
+            try:
+                await page.wait_for_function("window.__svgBgsReady === true", timeout=15000)
+            except Exception:
+                pass
             # Wait for asynchronous rendering signals emitted by the document.
             if wait_for_math:
                 await page.wait_for_function("window.__mathReady === true", timeout=15000)

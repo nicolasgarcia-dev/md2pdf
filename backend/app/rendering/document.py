@@ -24,6 +24,84 @@ _KATEX_JS_CDN = "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
 _MERMAID_JS_CDN = "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"
 
 
+# Repaint every CSS `background-image: url("data:image/svg+xml,...")` as a
+# high-resolution PNG via canvas, then patch the rule with `background-size`
+# set to the SVG's natural size so the visual tiling stays identical. Chrome's
+# PDF generation rasterizes background SVGs at ~CSS-pixel resolution (≈96 DPI),
+# but it embeds PNGs at their native pixel count — so swapping in an 8×-larger
+# PNG buys roughly an 8× sharper background in print without any change to
+# Mermaid or KaTeX (those use inline <svg> / HTML, not CSS backgrounds).
+_SVG_BG_UPRES_JS = """
+(() => {
+  const run = async () => {
+  const SCALE = 8;
+  const SVG_RE = /url\\(\\s*(?:"(data:image\\/svg\\+xml[^"]*)"|'(data:image\\/svg\\+xml[^']*)'|(data:image\\/svg\\+xml[^)\\s]*))\\s*\\)/i;
+
+  function rasterize(svgUri) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const w = img.naturalWidth || 40;
+        const h = img.naturalHeight || 40;
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(w * SCALE);
+        canvas.height = Math.round(h * SCALE);
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        try { resolve({ png: canvas.toDataURL('image/png'), w, h }); }
+        catch (_) { resolve(null); }
+      };
+      img.onerror = () => resolve(null);
+      img.src = svgUri;
+    });
+  }
+
+  const cache = new Map();
+  async function get(uri) {
+    if (!cache.has(uri)) cache.set(uri, await rasterize(uri));
+    return cache.get(uri);
+  }
+
+  async function patchRule(rule) {
+    if (!rule.style) return;
+    const bg = rule.style.backgroundImage || '';
+    if (!bg.includes('data:image/svg+xml')) return;
+    const m = bg.match(SVG_RE);
+    if (!m) return;
+    const uri = m[1] || m[2] || m[3];
+    const r = await get(uri);
+    if (!r) return;
+    try {
+      rule.style.backgroundImage = `url("${r.png}")`;
+      // Preserve original tile dimensions so a 40×40 pattern stays a 40×40
+      // pattern visually — only the source bitmap is denser.
+      rule.style.backgroundSize = `${r.w}px ${r.h}px`;
+    } catch (_) {}
+  }
+
+  async function walk(rules) {
+    for (const rule of rules) {
+      await patchRule(rule);
+      if (rule.cssRules) await walk(rule.cssRules);
+    }
+  }
+
+  try {
+    for (const sheet of document.styleSheets) {
+      try { await walk(sheet.cssRules || []); } catch (_) {}
+    }
+  } finally {
+    window.__svgBgsReady = true;
+  }
+  };
+  if (document.readyState === 'complete') run();
+  else window.addEventListener('load', run, { once: true });
+})();
+"""
+
+
 def build_html(rendered: Rendered, options: BuildOptions) -> str:
     """Assemble a full HTML document for PDF rendering.
 
@@ -47,7 +125,7 @@ def build_html(rendered: Rendered, options: BuildOptions) -> str:
         body_parts.append(rendered.toc_html)
     body_parts.append(f'<main class="document">{rendered.html_body}</main>')
 
-    scripts: list[str] = []
+    scripts: list[str] = [f"<script>{_SVG_BG_UPRES_JS}</script>"]
     if options.enable_math:
         scripts.append(f'<script defer src="{_KATEX_JS_CDN}"></script>')
         # dollarmath_plugin converts $...$ → <span class="math math-inline"> and
