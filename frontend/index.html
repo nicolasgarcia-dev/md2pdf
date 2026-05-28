@@ -226,7 +226,7 @@
     <dialog id="css-help-dialog" class="help-dialog">
         <div class="help-dialog-inner">
             <div class="help-dialog-header">
-                <h2>Guía Integral y Showcase de Custom CSS</h2>
+                <h2>Custom CSS Guide &amp; Showcase</h2>
                 <button id="css-help-close" class="btn-icon" type="button" title="Close">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -237,29 +237,29 @@
             </div>
 
             <div class="help-dialog-body">
-                <!-- Barra de Navegación Rápida Sticky -->
+                <!-- Sticky Quick Navigation Bar -->
                 <div class="doc-quick-nav">
-                    <a href="#doc-fundamentos" class="nav-chip">📑 Fundamentos</a>
-                    <a href="#doc-pdf-layout" class="nav-chip">📄 Maquetación PDF</a>
-                    <a href="#doc-effects" class="nav-chip">🎨 Efectos CSS</a>
-                    <a href="#doc-typography" class="nav-chip">✍️ Tipografía</a>
-                    <a href="#doc-code" class="nav-chip">💻 Código y Sintaxis</a>
-                    <a href="#doc-katex" class="nav-chip">📐 LaTeX (KaTeX)</a>
-                    <a href="#doc-mermaid" class="nav-chip">🧜‍♀️ Mermaid (SVG)</a>
+                    <a href="#doc-fundamentos" class="nav-chip">📑 Core Basics</a>
+                    <a href="#doc-pdf-layout" class="nav-chip">📄 Page Layout</a>
+                    <a href="#doc-effects" class="nav-chip">🎨 Visual Effects</a>
+                    <a href="#doc-typography" class="nav-chip">✍️ Typography</a>
+                    <a href="#doc-code" class="nav-chip">💻 Code Blocks</a>
+                    <a href="#doc-katex" class="nav-chip">📐 LaTeX Math</a>
+                    <a href="#doc-mermaid" class="nav-chip">🧜‍♀️ Mermaid SVG</a>
                 </div>
 
                 <p class="help-lead">
-                    Tu CSS personalizado se carga <strong>después</strong> de los estilos base de la aplicación. Esto te permite sobreescribir cualquier elemento tanto en la vista previa interactiva como en el PDF descargable final.
+                    Your custom CSS is loaded <strong>after</strong> the application's base styles. This allows you to override any element in both the interactive live preview and the final downloaded PDF.
                 </p>
 
-                <!-- 1. FUNDAMENTOS Y SELECTORES -->
+                <!-- 1. CORE BASICS & KEY SELECTORS -->
                 <section class="help-section" id="doc-fundamentos">
-                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">📑 1. Fundamentos y Selectores Clave</h3>
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">📑 1. Core &amp; Typography Basics</h3>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Controla los cimientos de tu tema estableciendo la tipografía, colores del cuerpo y comprendiendo cómo se estructura el documento de arriba a abajo.
+                        Control the foundations of your custom theme by establishing typography, body colors, and understanding how the document hierarchy is structured.
                     </p>
                     
-                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Fuentes tipográficas preinstaladas en el Servidor</h4>
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Pre-installed Fonts (Available on the Server)</h4>
                     <div class="help-font-list">
                         <span style="font-family:'Noto Sans',sans-serif">Noto Sans</span>
                         <span style="font-family:'Noto Serif',serif">Noto Serif</span>
@@ -267,125 +267,127 @@
                         <span style="font-family:'EB Garamond',serif">EB Garamond</span>
                         <span style="font-family:'Roboto Slab',serif">Roboto Slab</span>
                         <span style="font-family:'JetBrains Mono',monospace">JetBrains Mono</span>
+                        <span style="font-family:'Press Start 2P',cursive; font-size:10px">Press Start 2P</span>
+                        <span style="font-family:'VT323',monospace; font-size:15px">VT323</span>
                     </div>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Selectores fundamentales de la aplicación</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Fundamental Selectors</h4>
                     <table class="help-table">
                         <thead>
                             <tr>
                                 <th>Selector</th>
-                                <th>Elemento que controla</th>
+                                <th>Controlled Element / Interface Part</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><code>html, body</code></td>
-                                <td>Familia de fuentes, color general del texto y fondo de la página.</td>
+                                <td>Font family, general text color, and overall page background.</td>
                             </tr>
                             <tr>
                                 <td><code>h1 – h4</code></td>
-                                <td>Tamaño, peso, color y bordes decorativos de los encabezados.</td>
+                                <td>Size, weight, color, and decorative borders of headings.</td>
                             </tr>
                             <tr>
                                 <td><code>a</code></td>
-                                <td>Estilo y color de los hipervínculos, incluyendo el estado interactivo <code>a:hover</code>.</td>
+                                <td>Hyperlink decoration and color, including its interactive hover state (a:hover).</td>
                             </tr>
                             <tr>
                                 <td><code>p</code></td>
-                                <td>Cuerpo del texto, espaciados y alineación de los párrafos.</td>
+                                <td>Body text, paragraph margins, line height, and alignment.</td>
                             </tr>
                             <tr>
                                 <td><code>blockquote</code></td>
-                                <td>Cajas de citas (bordes izquierdos, colores de fondo y estilo cursiva).</td>
+                                <td>Quote block style (left borders, background color, and italic styling).</td>
                             </tr>
                             <tr>
                                 <td><code>pre, .codehilite</code></td>
-                                <td>Fondo, bordes y fuentes de los bloques de código con sintaxis.</td>
+                                <td>Background, margins, and typography of syntax-highlighted code blocks.</td>
                             </tr>
                             <tr>
                                 <td><code>code</code></td>
-                                <td>Chips o fragmentos de código en línea.</td>
+                                <td>Inline code chips or snippets.</td>
                             </tr>
                             <tr>
                                 <td><code>table, th, td</code></td>
-                                <td>Bordes, fondos de cabeceras y márgenes de celdas en tablas.</td>
+                                <td>Borders, header backgrounds, and cell paddings in tables.</td>
                             </tr>
                             <tr>
                                 <td><code>nav.toc</code></td>
-                                <td>Caja flotante del Índice / Tabla de Contenidos.</td>
+                                <td>Floating Table of Contents (TOC) box.</td>
                             </tr>
                             <tr>
                                 <td><code>main.document</code></td>
-                                <td>El contenedor principal que envuelve todo tu documento Markdown.</td>
+                                <td>The primary wrapper containing your entire compiled Markdown document.</td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">💡 Reglas de Especificidad y Cascada</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">💡 Specificity &amp; Cascade Rules</h4>
                     <ul class="help-tips">
-                        <li><strong>Orden de Carga:</strong> Al cargarse al final, los selectores simples como <code>pre { ... }</code> suelen ganar. Si no aplican, es por especificidad de los temas base.</li>
-                        <li><strong>Evita !important:</strong> En lugar de forzar con <code>!important</code>, aumenta la especificidad: usa <code>.codehilite pre</code> en lugar de <code>pre</code>, o <code>main.document h1</code> en lugar de <code>h1</code>.</li>
-                        <li><strong>Unidades admitidas:</strong> Puedes usar cualquier unidad CSS estándar como <code>px</code>, <code>em</code>, <code>rem</code>, <code>%</code>, así como unidades físicas de impresión: <code>mm</code>, <code>cm</code>, <code>pt</code>, <code>in</code>.</li>
+                        <li><strong>Loading Order:</strong> Being loaded at the very end of the page, simple selectors like <code>pre { ... }</code> usually win. If they are not applying, it is due to base theme specificity.</li>
+                        <li><strong>Avoid !important:</strong> Instead of forcing styles with <code>!important</code>, increase your selector's specificity: use <code>.codehilite pre</code> instead of <code>pre</code>, or <code>main.document h1</code> instead of <code>h1</code>.</li>
+                        <li><strong>Supported Units:</strong> You can use any standard CSS unit such as <code>px</code>, <code>em</code>, <code>rem</code>, <code>%</code>, as well as physical print units: <code>mm</code>, <code>cm</code>, <code>pt</code>, <code>in</code>.</li>
                     </ul>
                 </section>
 
-                <!-- 2. MAQUETACIÓN Y CONTROL DE PDF -->
+                <!-- 2. PAGE LAYOUT & PRINT CONTROL -->
                 <section class="help-section" id="doc-pdf-layout">
-                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">📄 2. Maquetación y Control de PDF (@page)</h3>
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">📄 2. Page Layout &amp; Print Control (@page)</h3>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Ajusta de forma milimétrica el comportamiento de la hoja impresa física, configurando márgenes, controlando cortes no deseados y maquetando folios de manera elegante.
+                        Configure page-by-page dimensions, margins, prevent unwanted page breaks, and manage cover pages or running headers/footers with high precision.
                     </p>
 
-                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Dimensiones y saltos de página del motor de renderizado</h4>
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Dimensions and Page Breaks (PDF Rendering Engine)</h4>
                     <table class="help-table">
                         <thead>
                             <tr>
-                                <th>Propiedad / Regla</th>
-                                <th>Efecto e Impresión</th>
+                                <th>Property / Rule</th>
+                                <th>Effect &amp; PDF Rendering</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><code>@page { size: A4; margin: 18mm; }</code></td>
-                                <td>Define el tamaño del papel (<code>A4</code>, <code>Letter</code>, <code>landscape</code>...) y sus márgenes globales de impresión.</td>
+                                <td>Defines the physical paper size (<code>A4</code>, <code>Letter</code>, <code>landscape</code>...) and global margin gutters.</td>
                             </tr>
                             <tr>
                                 <td><code>body { padding: 15mm 20mm; }</code></td>
-                                <td>Ajusta la caja de contenido interna del documento. El margen predeterminado es <code>20mm 18mm</code>.</td>
+                                <td>Adjusts the document's internal text margins. Default is <code>20mm 18mm</code>.</td>
                             </tr>
                             <tr>
                                 <td><code>page-break-before: always</code></td>
-                                <td>Fuerza un salto de página inmediato antes del elemento (ideal para iniciar capítulos).</td>
+                                <td>Forces a page break immediately before the selected element (perfect for starting new chapters).</td>
                             </tr>
                             <tr>
                                 <td><code>page-break-inside: avoid</code></td>
-                                <td>Evita que un elemento (como una tabla o bloque de código) se divida a la mitad entre dos páginas.</td>
+                                <td>Prevents an element (such as a table, image, or code block) from being split across two pages.</td>
                             </tr>
                             <tr>
                                 <td><code>page-break-after: avoid</code></td>
-                                <td>Impide que ocurra un salto de página inmediatamente después (esencial para títulos y evitar cabeceras huérfanas).</td>
+                                <td>Prevents a page break from occurring immediately after the element (vital to keep headings with their paragraphs).</td>
                             </tr>
                             <tr>
                                 <td><code>orphans: 3; widows: 3;</code></td>
-                                <td>Define la cantidad mínima de líneas de un párrafo que deben permanecer juntas al final o inicio de una página.</td>
+                                <td>Specifies the minimum number of lines of a paragraph that must stay together at the bottom or top of a page.</td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Cajas de Margen Avanzadas (Folios, Cabeceras y Portadas)</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Advanced Margin Boxes (Running Headers, Footers, and Covers)</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        CSS Paged Media permite posicionar contenidos dinámicos en las esquinas mediante cajas de margen externas (<code>@top-left</code>, <code>@bottom-center</code>, <code>@bottom-left</code>, <code>@bottom-right</code>, etc.). Estas solo se renderizan en el PDF final:
+                        CSS Paged Media allows you to place dynamic content inside margins via margin boxes (<code>@top-left</code>, <code>@bottom-center</code>, <code>@bottom-left</code>, <code>@bottom-right</code>, etc.). These only appear in the final printed PDF:
                     </p>
-                    <pre class="help-code">/* Folio de páginas dinámico y título en pies de página opuestos (Swiss Modernism) */
+                    <pre class="help-code">/* Dynamic page numbering and opposite footer titles (Swiss Modernism style) */
 @page {
     @bottom-left {
-        content: "Pág. " counter(page) " de " counter(pages);
+        content: "Page " counter(page) " of " counter(pages);
         font-family: "Inter", sans-serif;
         font-size: 8.5pt;
         color: #888;
     }
     @bottom-right {
-        content: "Capítulo 1: Introducción";
+        content: "Chapter 1: Introduction";
         font-family: "Inter", sans-serif;
         font-size: 8.5pt;
         color: #cf222e;
@@ -393,25 +395,25 @@
     }
 }
 
-/* Patrón Crítico: Suprimir folios o cabeceras decorativas en la Portada */
+/* Critical Pattern: Suppress running headers/footers on the cover page */
 @page :first {
     @bottom-left { content: ""; }
     @bottom-right { content: ""; }
 }</pre>
                 </section>
 
-                <!-- 3. EFECTOS Y ESTILOS VISUALES -->
+                <!-- 3. VISUAL EFFECTS -->
                 <section class="help-section" id="doc-effects">
-                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">🎨 3. Efectos y Estilos Visuales Avanzados</h3>
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">🎨 3. Advanced Visual Effects</h3>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Descubre cómo implementar la estética única de los temas del programa: texturas vectoriales, sombras sofisticadas, glows, filtros vintage y redondeados avanzados.
+                        Elevate your document aesthetics by applying inline SVG background patterns, multi-layer shadows, text aberration, gradients, and advanced borders that render beautifully to PDF.
                     </p>
 
-                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">1. Patrones de fondo SVG inline (Data-URIs)</h4>
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">1. Inline SVG Background Patterns (Data-URIs)</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Puedes inyectar imágenes e iconos vectoriales como patrones de fondo directamente en el CSS del fondo de página. El motor los expandirá de forma nítida en el papel impreso:
+                        You can inject vector-based patterns directly as page background images. The renderer draws them sharp at any print resolution:
                     </p>
-                    <pre class="help-code">/* Cuadrícula técnica de fondo (Smog Asphalt) */
+                    <pre class="help-code">/* Technical background grid (Smog Asphalt) */
 html, body, @page {
     background-color: #1a1a24;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M0 40L40 40M40 0L40 40' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3C/svg%3E");
@@ -419,18 +421,18 @@ html, body, @page {
     background-attachment: fixed;
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">2. Degradados Fluidos (Gradients)</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">2. Fluid Gradients</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Crea transiciones de color vibrantes en divisores <code>&lt;hr&gt;</code> o patrones a rayas:
+                        Create smooth transitions for horizontal rules (<code>&lt;hr&gt;</code>) or danger-striped alerts:
                     </p>
-                    <pre class="help-code">/* Regla divisora (hr) con gradiente neón vaporwave */
+                    <pre class="help-code">/* Neon vaporwave horizontal rule */
 hr {
     border: 0;
     height: 3px;
     background: linear-gradient(90deg, #ff007f 0%, #7f00ff 50%, #00f0ff 100%);
 }
 
-/* Patrón de líneas de peligro repetidas a rayas (Cyberpunk / Construction) */
+/* Danger striped hazard pattern (Cyberpunk / Under Construction) */
 .danger-bar {
     height: 12px;
     background: repeating-linear-gradient(
@@ -440,19 +442,19 @@ hr {
     );
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">3. Sombras de caja (Flat, Inset y Multicapa)</h4>
-                    <pre class="help-code">/* Sombra plana desplazada y dura (Neo-brutalismo / Memphis Pop) */
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">3. Box Shadows (Flat, Inset, and Multi-layer)</h4>
+                    <pre class="help-code">/* Hard flat shadow offset (Neo-Brutalist / Memphis Pop) */
 h1 {
     box-shadow: 8px 8px 0px #000000;
     border: 3px solid #000000;
 }
 
-/* Sombra interior metálica / retro (CRT Amber / Steampunk) */
+/* Inset metallic/retro shadow (CRT Amber / Steampunk) */
 blockquote {
     box-shadow: inset 3px 3px 10px rgba(0, 0, 0, 0.25);
 }
 
-/* Efecto translúcido Aero brillante de múltiples capas (Y2K Glossy) */
+/* Multi-layer translucent glassmorphism (Y2K Glossy) */
 .glass-panel {
     background: rgba(255, 255, 255, 0.4);
     box-shadow: 
@@ -461,48 +463,48 @@ blockquote {
     backdrop-filter: blur(8px);
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">4. Sombras de Texto (Efecto Neón, Aberración Cromática y Bloom)</h4>
-                    <pre class="help-code">/* Resplandor neón retro-futurista (Cyberpunk / Vaporwave) */
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">4. Text Shadows (Neon Glow, Chromatic Aberration, and Bloom)</h4>
+                    <pre class="help-code">/* Cyberpunk neon text glow */
 h1 {
     color: #fff;
     text-shadow: 0 0 8px #ff0055, 0 0 20px #ff0055;
 }
 
-/* Aberración cromática RGB dura (Estilo Glitchcore) */
+/* Hard RGB chromatic aberration (Glitchcore style) */
 h2 {
     text-shadow: 3px -1px 0 #ff0055, -3px 1.5px 0 #00ffff;
 }
 
-/* Brillo difuminado analógico fósforo (CRT terminal) */
+/* Analog phosphor screen bloom (CRT terminal style) */
 pre {
     text-shadow: 0 0 4px rgba(255, 176, 0, 0.7);
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">5. Filtros de imagen artísticos (Filter)</h4>
-                    <pre class="help-code">/* Tono sepia vintage envejecido (Steampunk / Grimorio Alquimista) */
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">5. Artistic Image Filters</h4>
+                    <pre class="help-code">/* Vintage sepia tone filter (Steampunk / Alchemist Grimoire) */
 img {
     filter: sepia(0.85) contrast(1.1) brightness(0.95);
 }
 
-/* Blanco y negro dramático suizo de alto contraste */
+/* Dramatic high-contrast black and white Swiss styling */
 img.swiss-mode {
     filter: grayscale(1) contrast(1.4);
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">6. Esquinas Redondeadas en Tablas (Truco de Maquetación)</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">6. Table Border Radius Hack (WeasyPrint / Chrome Support)</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        <strong>Truco de oro:</strong> El estándar <code>border-collapse: collapse</code> inhabilita las esquinas redondeadas en tablas. Para forzar el redondeado de bordes en el PDF, separa los bordes y elimina el desbordamiento:
+                        <strong>Golden Trick:</strong> The default <code>border-collapse: collapse</code> disables rounded corners on tables. To force a beautiful border-radius in your PDF, separate the borders and crop the overflow:
                     </p>
                     <pre class="help-code">table {
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 8px;
     border: 1px solid var(--border);
-    overflow: hidden; /* Corta el desbordamiento de las esquinas internas */
+    overflow: hidden; /* Clip internal cell corners cleanly */
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">7. Bordes Dobles y Decorativos</h4>
-                    <pre class="help-code">/* Marco arquitectónico doble (Art Deco / Bioshock / Gótico) */
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">7. Double and Decorative Borders</h4>
+                    <pre class="help-code">/* Ornate double architectural frame (Art Deco / Bioshock style) */
 blockquote {
     outline: 2px solid #c9834a;
     outline-offset: -6px;
@@ -510,18 +512,18 @@ blockquote {
 }</pre>
                 </section>
 
-                <!-- 4. TIPOGRAFÍA Y LISTAS -->
+                <!-- 4. TYPOGRAPHY AND LISTS -->
                 <section class="help-section" id="doc-typography">
-                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">✍️ 4. Tipografía, Sangrías y Listas</h3>
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">✍️ 4. Typography, Indentation &amp; Lists</h3>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Diseña maquetaciones de texto inspiradas en manuscritos antiguos, periódicos impresos o revistas de diseño modernista utilizando selectores tipográficos avanzados.
+                        Style your document body with layouts inspired by old medieval manuscripts, classic print novels, or modern design magazines.
                     </p>
 
-                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">1. Letras Capitulares (Drop Caps) con Wrap de Texto</h4>
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">1. Drop Caps (First Letter Floating &amp; Wrapping)</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Consigue que la primera letra del párrafo sea gigante y el texto la envuelva elegantemente. El secreto técnico es combinar <code>float: left</code> y un <code>line-height</code> reducido:
+                        Make the first letter of a paragraph float elegantly with surrounding text wrapping it. The secret is combining float and a snug line height:
                     </p>
-                    <pre class="help-code">/* Variante A: Solo en el primer párrafo del documento entero */
+                    <pre class="help-code">/* Variant A: Only on the very first paragraph of the entire document */
 main.document > p:first-of-type::first-letter {
     font-size: 3.5em;
     float: left;
@@ -531,7 +533,7 @@ main.document > p:first-of-type::first-letter {
     color: #3f5e4d;
 }
 
-/* Variante B: En el primer párrafo que siga inmediatamente a un H1 (inicio de capítulo) */
+/* Variant B: On the first paragraph immediately following an H1 (chapter starts) */
 h1 + p::first-letter {
     font-family: "EB Garamond", serif;
     font-size: 3.4em;
@@ -542,31 +544,31 @@ h1 + p::first-letter {
     color: #6b1d2c;
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">2. Sangrías Profesionales de Párrafo (Estilo Novela Impresa)</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">2. Novel-Style Paragraph Indentation</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        En las novelas, los párrafos llevan sangría inicial excepto el primero que va justo después de un título. El combinador adyacente (<code>+</code>) permite realizar este reset tipográfico con perfección:
+                        Traditional novels indent every paragraph except the first one following a heading. The adjacent sibling combinator (<code>+</code>) lets you achieve this perfect typographic reset:
                     </p>
-                    <pre class="help-code">/* Aplicar sangría inicial a todos los párrafos de texto */
+                    <pre class="help-code">/* Indent every body paragraph */
 p {
     text-indent: 1.5em;
-    margin-bottom: 0; /* reduce espaciado vertical entre párrafos */
+    margin-bottom: 0; /* reset spacing between consecutive paragraphs */
 }
 
-/* Resetear la sangría en párrafos iniciales o después de bloques decorativos */
+/* Reset indentation on opening paragraphs */
 h1 + p, h2 + p, h3 + p, blockquote + p, pre + p {
     text-indent: 0;
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">3. Encabezados-Chip y Tipografía Decorativa</h4>
-                    <pre class="help-code">/* Encabezado compacto (solo ocupa el ancho de su texto) */
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">3. Header Chips &amp; Sublines</h4>
+                    <pre class="help-code">/* Compact header (only occupies the width of its text) */
 h2 {
-    display: inline-block; /* o display: table */
+    display: inline-block; /* or display: table */
     padding: 4px 12px;
     background: #000;
     color: #fff;
 }
 
-/* Subrayado tipográfico ornamentado con offset */
+/* Ornate wavy hyperlink underline with vertical offset */
 a {
     text-decoration: underline;
     text-decoration-style: wavy;
@@ -575,16 +577,16 @@ a {
     text-decoration-thickness: 1.5px;
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">4. Viñetas Personalizadas (Glyphs &amp; SVGs en Listas)</h4>
-                    <pre class="help-code">/* Método directo: Reemplazar el glifo nativo de la lista */
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">4. Custom List Bullets (Glyphs &amp; SVGs)</h4>
+                    <pre class="help-code">/* Simple approach: Replace the default bullet glyph */
 li::marker {
     content: "🌱 ";
     font-size: 1.1em;
 }
 
-/* Método avanzado: Reemplazo vectorial completo con icono SVG */
+/* Advanced approach: Vector SVG icon bullet injection */
 li {
-    list-style: none; /* Elimina la viñeta por defecto */
+    list-style: none; /* Remove default marker */
     position: relative;
     padding-left: 1.5em;
 }
@@ -601,31 +603,31 @@ li::before {
 }</pre>
                 </section>
 
-                <!-- 5. BLOQUES DE CÓDIGO Y SINTAXIS -->
+                <!-- 5. CODE BLOCKS AND SYNTAX -->
                 <section class="help-section" id="doc-code">
-                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">💻 5. Bloques de Código y Sintaxis</h3>
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">💻 5. Code Blocks &amp; Syntax Highlighting</h3>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        La aplicación renderiza el código con formato. Puedes estilar la caja del bloque, los chips en línea y personalizar la paleta entera de colores del coloreador de sintaxis.
+                        Customize the block containers, inline tags, and fully control the color palette of the syntax highlighter.
                     </p>
 
-                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Variables de Colores de Sintaxis Unificados</h4>
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Unified Syntax Palette Variables</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        <strong>Ahorra tiempo:</strong> No necesitas escribir reglas duplicadas para la web (highlight.js) y el PDF (Pygments). Personalizando las siguientes variables en <code>pre, .codehilite</code>, ambos motores asimilarán tu esquema de colores:
+                        <strong>Save time:</strong> You don't need to write separate rules for the live preview (highlight.js) and the PDF generator (Pygments). Setting these CSS variables on <code>pre, .codehilite</code> styles both simultaneously:
                     </p>
                     <pre class="help-code">pre, .codehilite {
-    --syn-keyword:  #cba6f7; /* Palabras clave (def, class, if...) */
-    --syn-string:   #a6e3a1; /* Cadenas / Textos ("...") */
-    --syn-comment:  #7f849c; /* Comentarios (# / //) */
-    --syn-number:   #fab387; /* Números (42, 3.14) */
-    --syn-function: #89b4fa; /* Nombres de funciones */
-    --syn-builtin:  #f9e2af; /* Funciones del sistema (print, len...) */
-    --syn-operator: #94e2d5; /* Operadores (+, -, =, and...) */
-    --syn-type:     #f9e2af; /* Tipos (int, string) */
-    --syn-attr:     #fab387; /* Atributos */
-    --syn-meta:     #cba6f7; /* Decoradores / Metadatos */
+    --syn-keyword:  #cba6f7; /* Keywords (def, class, if...) */
+    --syn-string:   #a6e3a1; /* Strings ("...") */
+    --syn-comment:  #7f849c; /* Comments (# or //) */
+    --syn-number:   #fab387; /* Numbers (42, 3.14) */
+    --syn-function: #89b4fa; /* Function names */
+    --syn-builtin:  #f9e2af; /* System built-ins */
+    --syn-operator: #94e2d5; /* Operators (+, -, =) */
+    --syn-type:     #f9e2af; /* Built-in types */
+    --syn-attr:     #fab387; /* Attributes */
+    --syn-meta:     #cba6f7; /* Decorators / Metadata */
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Showcase — Caja de Código Estilo Catppuccin Mocha</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Showcase — Catppuccin Mocha Fenced Code Block</h4>
                     <pre class="help-code">pre, .codehilite {
     background: #1e1e2e;
     color: #cdd6f4;
@@ -646,7 +648,7 @@ li::before {
     --syn-meta:     #cba6f7;
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Estilo de fragmentos de código en línea</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Inline Code Chips Style</h4>
                     <pre class="help-code">code {
     background: #eef2ff;
     color: #3730a3;
@@ -659,26 +661,26 @@ li::before {
 
                 <!-- 6. FORMULAS LATEX (KATEX) -->
                 <section class="help-section" id="doc-katex">
-                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">📐 6. Ecuaciones LaTeX (KaTeX)</h3>
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">📐 6. LaTeX Equations (KaTeX)</h3>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Las ecuaciones matemáticas en línea (<code>$...$</code>) y en bloque (<code>$$...$$</code>) se compilan en HTML semántico con KaTeX. Puedes cambiar el tamaño, color, o encapsularlas en paneles destacados.
+                        Inline (<code>$...$</code>) and display (<code>$$...$$</code>) math formulas are rendered as semantic HTML by KaTeX. You can scale them, change their colors, or place them in elegant callout frames.
                     </p>
 
-                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Personalización tipográfica y tonal de ecuaciones</h4>
-                    <pre class="help-code">/* Aplicar un tono de color y escala a todas las ecuaciones */
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Math Typography &amp; Coloring</h4>
+                    <pre class="help-code">/* Soft blue highlight for all equations */
 .katex {
     color: #1d4ed8;
     font-size: 1.04em;
 }
 
-/* Colorear específicamente variables matemáticas */
+/* Color specific mathematical variables */
 .katex .mathnormal {
     color: #2563eb;
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Cajas de llamada (Callouts) para fórmulas en Bloque</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Display Equation Callout Boxes</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Puedes enmarcar las ecuaciones principales que van centradas en bloque (<code>.katex-display</code>) dentro de un panel destacado, ideal para teoremas o fórmulas complejas:
+                        Highlight block equations (<code>.katex-display</code>) within a beautiful callout panel, ideal for theorems and proofs:
                     </p>
                     <pre class="help-code">.katex-display {
     background: #f8fafc;
@@ -690,31 +692,31 @@ li::before {
 }</pre>
                 </section>
 
-                <!-- 7. DIAGRAMAS MERMAID (SVG) -->
+                <!-- 7. DIAGRAMS MERMAID (SVG) -->
                 <section class="help-section" id="doc-mermaid">
-                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">🧜‍♀️ 7. Diagramas Mermaid (SVG)</h3>
+                    <h3 style="color:var(--accent); font-size:14px; margin-bottom: 4px;">🧜‍♀️ 7. Mermaid Diagrams (SVG)</h3>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Los diagramas Mermaid se inyectan en tu vista previa y PDF como gráficos SVG puros. Tienes a tu disposición dos métodos de personalización estilística.
+                        Mermaid diagrams are injected as vector SVG elements. You can customize them using two different styling methods.
                     </p>
 
-                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Método A: Variables nativas de Mermaid (Recomendado y Ultra-Simple)</h4>
+                    <h4 style="font-size:12.5px; margin: 10px 0 4px; color:var(--text)">Method A: Native Mermaid Variables (Recommended &amp; Super-Simple)</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Mermaid y el motor de PDF procesan un conjunto de variables declaradas en la raíz del diagrama. Configurando estas variables, estilizas nodos, bordes, textos y conectores de forma unificada:
+                        Mermaid and the PDF compiler process custom CSS variables declared on the diagram container. Set these variables to style nodes, edges, texts, and borders at once:
                     </p>
                     <pre class="help-code">pre.mermaid {
-    --mermaid-fill: #f0fdf4;               /* Color de fondo de las cajas de nodos */
-    --mermaid-stroke: #16a34a;             /* Color del borde de los nodos */
-    --mermaid-text: #14532d;               /* Color del texto del diagrama */
-    --mermaid-edge: #16a34a;               /* Color de las líneas conectoras y flechas */
-    --mermaid-node-border-radius: 6px;     /* Redondeado de esquinas de los nodos */
-    --mermaid-font-size: 12px;             /* Tamaño de la fuente del diagrama */
+    --mermaid-fill: #f0fdf4;               /* Node background fill color */
+    --mermaid-stroke: #16a34a;             /* Node border outline color */
+    --mermaid-text: #14532d;               /* Diagram text color */
+    --mermaid-edge: #16a34a;               /* Connectors, lines, and arrowhead paths */
+    --mermaid-node-border-radius: 6px;     /* Node border radius */
+    --mermaid-font-size: 12px;             /* Diagram typography size */
 }</pre>
 
-                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Método B: Estilización Avanzada vía Selectores Vectoriales Directos</h4>
+                    <h4 style="font-size:12.5px; margin: 14px 0 4px; color:var(--text)">Method B: Advanced Vector Selector Styling</h4>
                     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 8px">
-                        Para personalizar quirúrgicamente elementos del SVG, puedes apuntar directamente a las clases internas de Mermaid:
+                        Target individual SVG shapes and lines for granular, surgical styling:
                     </p>
-                    <pre class="help-code">/* Estilo personalizado de cajas y polígonos del diagrama */
+                    <pre class="help-code">/* Custom fill for nodes, circles, and polygons */
 .mermaid .node rect,
 .mermaid .node circle,
 .mermaid .node polygon {
@@ -723,13 +725,13 @@ li::before {
     stroke-width: 2px !important;
 }
 
-/* Grosor y color de los conectores de líneas de flujo */
+/* Stroke width and color for connector paths */
 .mermaid .edgePath path {
     stroke: #d97706 !important;
     stroke-width: 2.5px !important;
 }
 
-/* Cambiar color de las puntas de flecha de conectores */
+/* Match arrowhead markers */
 .mermaid .marker,
 .mermaid .arrowheadPath {
     fill: #d97706 !important;
@@ -819,7 +821,10 @@ li::before {
                     first (or use the <kbd>?</kbd> button in the toolbar, which also toggles this panel).
                 </p>
                 <p class="help-lead" style="font-size:13px;color:var(--text-muted);margin-top:2px">
-                    Tip: drop a <code>.md</code> file anywhere on the editor to load it.
+                    <strong>Tip:</strong> Drop a <code>.md</code> or <code>.txt</code> file directly onto either the editor or the live preview to load it.
+                </p>
+                <p class="help-lead" style="font-size:13px;color:var(--text-muted);margin-top:2px">
+                    <strong>Custom CSS Tip:</strong> When the Custom CSS panel is open, you can drop a <code>.css</code> file onto the stylesheet editor to overwrite it (undo with <kbd>Ctrl</kbd>+<kbd>Z</kbd>), even if editing a saved preset. If <em>Custom CSS</em> is selected, you can also drop a <code>.zip</code> theme pack containing CSS files in its root folder to import them all as saved presets.
                 </p>
             </div>
         </div>

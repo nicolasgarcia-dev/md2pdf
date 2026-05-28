@@ -40,6 +40,11 @@ RUN python -m playwright install --with-deps chromium
 COPY backend /app/backend
 COPY frontend /app/frontend
 
+# Register custom fonts in the system font cache for PDF rendering engines
+RUN mkdir -p /usr/share/fonts/truetype/custom \
+    && cp /app/frontend/fonts/*.ttf /usr/share/fonts/truetype/custom/ \
+    && fc-cache -fv
+
 RUN useradd --create-home --uid 10001 app \
     && chown -R app:app /app /ms-playwright
 USER app

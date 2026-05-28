@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('fonts/PressStart2P-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'VT323';
+    src: url('fonts/VT323-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* ─── Design tokens ──────────────────────────────────────────────────── */
 :root {
     /* Workspace */
@@ -1759,11 +1773,26 @@ kbd {
     justify-content: flex-start;
 }
 
+.help-dialog-body a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color var(--ease);
+}
+
+.help-dialog-body a:visited {
+    color: var(--accent);
+}
+
+.help-dialog-body a:hover {
+    color: var(--accent-mid);
+    text-decoration: underline;
+}
+
 .nav-chip {
     padding: 6px 12px;
     font-size: 12.5px;
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--text-muted) !important;
     background: var(--surface-2);
     border: 1px solid var(--border);
     border-radius: 20px;
@@ -1774,9 +1803,14 @@ kbd {
     gap: 4px;
 }
 
+.nav-chip:visited {
+    color: var(--text-muted) !important;
+}
+
 .nav-chip:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-    background: var(--accent-soft);
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    background: var(--accent-soft) !important;
     transform: translateY(-1px);
+    text-decoration: none !important;
 }

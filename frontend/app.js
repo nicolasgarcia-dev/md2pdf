@@ -72,6 +72,7 @@
         "",
         "- **Live preview** with GitHub-flavored Markdown",
         "- Upload your own **`.md`** with *Upload .md* or grab the result as PDF with *Download PDF* — both buttons live in the top-right of the toolbar",
+        "- **Drag & drop** support: drop `.md` or `.txt` files onto either the editor or the live preview to load them, drop `.css` files onto the Custom CSS panel when open, or drop `.zip` theme packs when *Custom CSS* is active",
         "- Toggle the **table of contents** checkbox to auto-build an index from your headings",
         "- Pick a **theme**, tweak the **scale** (60 % – 140 %), and lock or unlock **scroll sync** between the editor and the preview — all from the same toolbar",
         "- Press **`?`** any time for the keyboard shortcuts, including **`Ctrl + Alt + N`** to drop a fresh document and see this welcome again",
@@ -95,6 +96,14 @@
         "| Sync scroll | Toolbar (link icon) | Click to detach editor / preview scrolling |",
         "| Table of contents | Toolbar checkbox | Generates an index from your headings |",
         "| Documents | Sidebar (top-left) | Keep multiple docs side by side, autosaved |",
+        "",
+        "## Drag & drop convenience",
+        "",
+        "We love shortcuts, so we built deep drag-and-drop support straight into the workspace:",
+        "",
+        "- **Markdown & Text Files:** Have an existing document? Drag and drop any `.md` or `.txt` file directly onto either the text editor or the live preview area to load its content instantly.",
+        "- **Custom CSS Stylesheets:** Drop a `.css` file directly onto the Custom CSS editor anytime the panel is open (whether on *Custom CSS* or editing a saved preset) to overwrite it (don't worry about accidents — native undo history is fully preserved, so you can press **`Ctrl + Z`** to undo the drop at any time!).",
+        "- **Theme Packs (.zip):** When *Custom CSS* is selected in the Theme dropdown, you can drop a `.zip` archive containing CSS themes directly onto the Custom CSS stylesheet editor. The application will safely extract and import all `.css` files located in the root directory of the ZIP as saved presets. Underscores in filenames are automatically replaced with spaces to generate clean preset names (e.g., `My_Custom_Theme.css` becomes a preset named `My Custom Theme`) and imported without overwriting any of your existing custom themes.",
         "",
         "## Code, math and diagrams",
         "",
@@ -973,7 +982,7 @@
     }
     syncScrollBtn.addEventListener("click", function () { setSyncScroll(!syncEnabled); });
 
-    // ─── Drag & drop .md onto editor ───────────────────────────────────
+    // ─── Drag & drop .md or .txt onto editor/preview ───────────────────
     function isMdFile(f) {
         if (!f) return false;
         const n = (f.name || "").toLowerCase();
@@ -987,21 +996,26 @@
     });
 
     ["dragenter", "dragover"].forEach(function (ev) {
-        editor.addEventListener(ev, function (e) {
-            if (e.dataTransfer && Array.from(e.dataTransfer.items || []).some(it => it.kind === "file")) {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = "copy";
+        window.addEventListener(ev, function (e) {
+            if (editor && preview && (editor.contains(e.target) || preview.contains(e.target))) {
+                if (e.dataTransfer && Array.from(e.dataTransfer.items || []).some(it => it.kind === "file")) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = "copy";
+                }
             }
-        });
+        }, false);
     });
-    editor.addEventListener("drop", function (e) {
-        const files = e.dataTransfer && e.dataTransfer.files;
-        if (!files || !files.length) return;
-        e.preventDefault();
-        const f = files[0];
-        if (isMdFile(f)) handleUpload(f);
-        else showStatus("Drop a .md / .markdown / .txt file", true);
-    });
+
+    window.addEventListener("drop", function (e) {
+        if (editor && preview && (editor.contains(e.target) || preview.contains(e.target))) {
+            const files = e.dataTransfer && e.dataTransfer.files;
+            if (!files || !files.length) return;
+            e.preventDefault();
+            const f = files[0];
+            if (isMdFile(f)) handleUpload(f);
+            else showStatus("Drop a .md, .markdown or .txt file", true);
+        }
+    }, false);
 
     // ─── Drag & drop and Upload for Custom CSS (.css / .zip) ───────────
     async function handleCssOrZipUpload(file) {
