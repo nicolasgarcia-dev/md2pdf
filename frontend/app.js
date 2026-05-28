@@ -28,6 +28,8 @@
     const cssExpandBtn = document.getElementById("css-expand-btn");
     const cssMaximizeBtn = document.getElementById("css-maximize-btn");
     const cssSavePresetBtn = document.getElementById("css-save-preset-btn");
+    const cssUploadBtn = document.getElementById("css-upload-btn");
+    const cssUploadInput = document.getElementById("css-upload-input");
     const cssDeletePresetBtn = document.getElementById("css-delete-preset-btn");
     const cssPresetBadge = document.getElementById("css-preset-badge");
     const cssHelpDialog = document.getElementById("css-help-dialog");
@@ -977,6 +979,13 @@
         const n = (f.name || "").toLowerCase();
         return /\.(md|markdown|txt)$/.test(n) || f.type === "text/markdown" || f.type === "text/plain";
     }
+    // Prevents the browser from opening/navigating to files dropped outside our valid drop zones.
+    ["dragover", "drop"].forEach(function (ev) {
+        window.addEventListener(ev, function (e) {
+            e.preventDefault();
+        }, false);
+    });
+
     ["dragenter", "dragover"].forEach(function (ev) {
         editor.addEventListener(ev, function (e) {
             if (e.dataTransfer && Array.from(e.dataTransfer.items || []).some(it => it.kind === "file")) {
@@ -993,6 +1002,145 @@
         if (isMdFile(f)) handleUpload(f);
         else showStatus("Drop a .md / .markdown / .txt file", true);
     });
+
+    // ─── Drag & drop and Upload for Custom CSS (.css / .zip) ───────────
+    async function handleCssOrZipUpload(file) {
+        if (!file) return;
+        const name = (file.name || "").toLowerCase();
+
+        if (name.endsWith(".css")) {
+            try {
+                const text = await file.text();
+
+                // Select all current content in the textarea so that replacing it
+                // keeps the native browser undo/redo history (Ctrl+Z) intact.
+                customCssEditor.focus();
+                customCssEditor.select();
+
+                let success = false;
+                try {
+                    success = document.execCommand("insertText", false, text);
+                } catch (e) {
+                    success = false;
+                }
+
+                if (!success) {
+                    customCssEditor.value = text;
+                }
+
+                // Trigger input event to re-render overlay, auto-save, and apply style
+                customCssEditor.dispatchEvent(new Event("input", { bubbles: true }));
+                showStatus("Loaded CSS from " + file.name);
+            } catch (err) {
+                showStatus("Error reading CSS file: " + err.message, true);
+            }
+        } else if (name.endsWith(".zip")) {
+            // Protect against unexpected states: must be strictly with "Custom CSS" selected
+            if (themeSelect.value !== "custom") {
+                showStatus("Please select 'Custom CSS' to import themes from ZIP", true);
+                return;
+            }
+
+            try {
+                if (!window.JSZip) {
+                    throw new Error("JSZip library is not loaded yet.");
+                }
+                const zip = new window.JSZip();
+                const loadedZip = await zip.loadAsync(file);
+
+                const cssFiles = [];
+                for (const [filename, fileObj] of Object.entries(loadedZip.files)) {
+                    if (fileObj.dir) continue;
+                    // Strict root check: must be in the root directory (no slashes) and end with .css
+                    const isRoot = !filename.includes('/') && !filename.includes('\\');
+                    const isCss = filename.toLowerCase().endsWith('.css');
+                    if (isRoot && isCss) {
+                        cssFiles.push({ filename, fileObj });
+                    }
+                }
+
+                if (cssFiles.length === 0) {
+                    showStatus("No CSS files found in the root of the ZIP", true);
+                    return;
+                }
+
+                // Re-load presets from localStorage first to ensure we don't overwrite/delete any existing ones
+                loadPresets();
+
+                let importCount = 0;
+                for (const item of cssFiles) {
+                    const cssContent = await item.fileObj.async("string");
+                    const presetName = item.filename
+                        .replace(/\.css$/i, '')
+                        .replace(/_/g, ' ');
+
+                    // Check if preset with the exact same name already exists to avoid overwriting
+                    let uniqueName = presetName;
+                    let counter = 2;
+                    while (cssPresets.some(p => p.name === uniqueName)) {
+                        uniqueName = presetName + " " + counter;
+                        counter++;
+                    }
+
+                    const preset = {
+                        id: presetUid(),
+                        name: uniqueName,
+                        css: cssContent,
+                        updatedAt: Date.now()
+                    };
+                    cssPresets.unshift(preset);
+                    importCount++;
+                }
+
+                savePresets();
+                rebuildPresetOptions();
+                showStatus("Imported " + importCount + " CSS presets from ZIP!");
+            } catch (err) {
+                showStatus("Error reading ZIP file: " + err.message, true);
+            }
+        } else {
+            showStatus("Unsupported file. Drop/upload a .css or .zip file", true);
+        }
+    }
+
+    const cssEditorStack = document.querySelector(".css-editor-stack");
+
+    if (cssEditorStack) {
+        ["dragenter", "dragover"].forEach(function (ev) {
+            cssEditorStack.addEventListener(ev, function (e) {
+                if (e.dataTransfer && Array.from(e.dataTransfer.items || []).some(it => it.kind === "file")) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = "copy";
+                    cssEditorStack.classList.add("drag-over");
+                }
+            });
+        });
+
+        ["dragleave", "drop"].forEach(function (ev) {
+            cssEditorStack.addEventListener(ev, function () {
+                cssEditorStack.classList.remove("drag-over");
+            });
+        });
+
+        cssEditorStack.addEventListener("drop", function (e) {
+            const files = e.dataTransfer && e.dataTransfer.files;
+            if (!files || !files.length) return;
+            e.preventDefault();
+            const f = files[0];
+            handleCssOrZipUpload(f);
+        });
+    }
+
+    if (cssUploadBtn && cssUploadInput) {
+        cssUploadBtn.addEventListener("click", function () {
+            cssUploadInput.click();
+        });
+        cssUploadInput.addEventListener("change", function () {
+            const f = cssUploadInput.files && cssUploadInput.files[0];
+            if (f) handleCssOrZipUpload(f);
+            cssUploadInput.value = "";
+        });
+    }
 
     // ─── Markdown shortcuts in editor ──────────────────────────────────
     function wrapSelection(before, after, placeholder) {
